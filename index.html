@@ -191,7 +191,6 @@
             #dateDisplay { font-size: 0.8rem; }
         }
 
-        /* หน้าจอตอนสิทธิ์เต็ม */
         .full-access-screen {
             height: 100vh;
             width: 100vw;
@@ -238,16 +237,17 @@
 </div>
 
 <script>
-    // --- ระบบตรวจสอบสิทธิ์ผ่าน Google Apps Script ---
-    // ใช้ลิงก์ที่คุณระบุมาจาก Apps Script ของคุณโดยตรง
-    const scriptURL = "https://script.google.com/macros/s/AKfycbzzbZoIuv1gRyGTGfob8Oee1ojf62WWARvgBgBwrLC6e7e0J-kyD0fLRnoSQtC_5MgH/exec";
+    // --- ส่วนที่ 1: ระบบตรวจสอบสิทธิ์พร้อมป้องกันการนับซ้ำ (Session Storage) ---
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwT4w5QXnFZ78ynuiElrTjaJL-yGdjRgJor0sJMovfKUoXHWfJdqubUwW3hfbC5PL-n/exec";
 
     function checkAccess() {
-        fetch(scriptURL)
+        const hasVisited = sessionStorage.getItem("alreadyCounted");
+        const finalURL = hasVisited ? `${scriptURL}?mode=check` : scriptURL;
+
+        fetch(finalURL)
         .then(response => response.json())
         .then(data => {
             if (data.status === "full") {
-                // หากจำนวนสแกนใน B1 >= E1 ให้ล็อคหน้าเว็บ
                 document.body.innerHTML = `
                     <div class="full-access-screen">
                         <h1 style="color: #ff4757; font-size: 3rem; margin:0; font-weight:900;">ขออภัย!</h1>
@@ -257,20 +257,18 @@
                     </div>`;
                 document.body.style.display = "flex";
             } else {
-                // หากยังไม่เต็ม ให้แสดงหน้าเว็บมหาเฮงตามปกติ
+                sessionStorage.setItem("alreadyCounted", "true");
                 document.body.style.display = "flex";
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            // กรณีระบบขัดข้อง ให้เข้าใช้งานได้ตามปกติเพื่อไม่ให้หน้าขาวค้างไว้
             document.body.style.display = "flex"; 
         });
     }
-    
-    checkAccess(); // เริ่มตรวจสิทธิ์ทันทีที่โหลดหน้า
-    // ---------------------------------------
+    checkAccess();
 
+    // --- ส่วนที่ 2: ฟังก์ชันเดิมของ มหาเฮง 99 (ห้ามเอาออก) ---
     const grid = document.getElementById("grid");
     const dateInput = document.getElementById("lottoDate");
     const dateDisplay = document.getElementById("dateDisplay");
@@ -347,4 +345,3 @@
 
 </body>
 </html>
-
