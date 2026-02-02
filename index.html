@@ -26,9 +26,8 @@
             align-items: center;
             min-height: 100vh;
             padding-bottom: 50px;
-            /* เพิ่ม opacity เพื่อรอการตรวจสอบ */
-            opacity: 0; 
-            transition: opacity 0.5s;
+            /* ซ่อนหน้าเว็บไว้ก่อนเพื่อรอการตรวจสิทธิ์ */
+            display: none; 
         }
 
         .wrapper {
@@ -191,6 +190,18 @@
             .num span.label { font-size: 7.5px; }
             #dateDisplay { font-size: 0.8rem; }
         }
+
+        /* สไตล์สำหรับหน้าจอตอนสิทธิ์เต็ม */
+        .full-access-screen {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #fdf2ad;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -227,7 +238,7 @@
 </div>
 
 <script>
-    // --- ส่วนที่เพิ่มเข้ามาเพื่อจำกัดจำนวนสแกน ---
+    // --- ระบบตรวจสอบสิทธิ์ (อัปเดตลิงก์ใหม่แล้ว) ---
     const scriptURL = "https://script.google.com/macros/s/AKfycbwLrGX0B0UdRPYW13iS-QYI5RyfpJkmnN0nWT3XpFpUVZ_53TkiMu2mAn40NBUfME_2/exec";
 
     function checkAccess() {
@@ -235,25 +246,27 @@
         .then(response => response.json())
         .then(data => {
             if (data.status === "full") {
+                // ถ้าสิทธิ์เต็ม ให้เปลี่ยนหน้าตา
                 document.body.innerHTML = `
-                    <div style="height: 100vh; width:100vw; display: flex; flex-direction: column; justify-content: center; align-items: center; font-family: 'Kanit', sans-serif; background-color: #fdf2ad;">
+                    <div class="full-access-screen">
                         <h1 style="color: #ff4757; font-size: 3rem; margin:0;">ขออภัย!</h1>
                         <h2 style="color: #2f3542;">สิทธิ์การเข้าถึงเต็มแล้ว</h2>
-                        <p style="color: #747d8c;">จำนวนสแกนในงวดนี้ครบตามที่กำหนด</p>
+                        <p style="color: #747d8c;">ยอดสแกนงวดนี้ครบกำหนดแล้วครับ</p>
                         <div style="font-size: 80px;">🚫</div>
                     </div>`;
-                document.body.style.opacity = "1";
+                document.body.style.display = "flex";
             } else {
-                document.body.style.opacity = "1";
+                // ถ้ายังไม่เต็ม ให้แสดงหน้าเว็บปกติ
+                document.body.style.display = "flex";
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            document.body.style.opacity = "1"; // ถ้าผิดพลาดให้เข้าใช้งานปกติ
+            document.body.style.display = "flex"; // กันพลาด ถ้า API มีปัญหาให้เข้าได้ก่อน
         });
     }
-    // เรียกใช้การเช็คสิทธิ์
-    checkAccess();
+    
+    checkAccess(); // เริ่มการตรวจสอบทันที
     // ---------------------------------------
 
     const grid = document.getElementById("grid");
