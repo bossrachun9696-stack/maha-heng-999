@@ -239,6 +239,7 @@
 
 <script>
     // --- ระบบตรวจสอบสิทธิ์ผ่าน Google Apps Script ---
+    // ใช้ลิงก์ที่คุณระบุมาจาก Apps Script ของคุณโดยตรง
     const scriptURL = "https://script.google.com/macros/s/AKfycbwLrGX0B0UdRPYW13iS-QYI5RyfpJkmnN0nWT3XpFpUVZ_53TkiMu2mAn40NBUfME_2/exec";
 
     function checkAccess() {
@@ -246,6 +247,7 @@
         .then(response => response.json())
         .then(data => {
             if (data.status === "full") {
+                // หากจำนวนสแกนใน B1 >= E1 ให้ล็อคหน้าเว็บ
                 document.body.innerHTML = `
                     <div class="full-access-screen">
                         <h1 style="color: #ff4757; font-size: 3rem; margin:0; font-weight:900;">ขออภัย!</h1>
@@ -255,17 +257,18 @@
                     </div>`;
                 document.body.style.display = "flex";
             } else {
+                // หากยังไม่เต็ม ให้แสดงหน้าเว็บมหาเฮงตามปกติ
                 document.body.style.display = "flex";
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            // กรณีระบบขัดข้อง ให้เข้าใช้งานได้ตามปกติเพื่อป้องกันการเสียโอกาส
+            // กรณีระบบขัดข้อง ให้เข้าใช้งานได้ตามปกติเพื่อไม่ให้หน้าขาวค้างไว้
             document.body.style.display = "flex"; 
         });
     }
     
-    checkAccess(); // เริ่มตรวจสิทธิ์ทันที
+    checkAccess(); // เริ่มตรวจสิทธิ์ทันทีที่โหลดหน้า
     // ---------------------------------------
 
     const grid = document.getElementById("grid");
