@@ -26,9 +26,10 @@
             align-items: center;
             min-height: 100vh;
             padding-bottom: 50px;
-            /* ซ่อนหน้าเว็บไว้ก่อนเพื่อรอการตรวจสิทธิ์ */
-            display: none; 
         }
+
+        /* ซ่อนหน้าจอก่อนตรวจสอบ Token */
+        #main-content { display: none; width: 100%; display: flex; flex-direction: column; align-items: center; }
 
         .wrapper {
             position: relative;
@@ -68,14 +69,8 @@
 
         #lottoDate {
             position: absolute;
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            opacity: 0;
-            cursor: pointer; 
-            z-index: 2;
-            display: block;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; cursor: pointer; z-index: 2; display: block;
         }
 
         .grid {
@@ -103,86 +98,45 @@
             box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
         }
 
-        .num .val {
-            font-size: 1.6rem;
-            font-weight: 900;
-            color: #000000;
-        }
+        .num .val { font-size: 1.6rem; font-weight: 900; color: #000000; }
 
         .num span.label {
-            position: absolute; 
-            font-size: 8.5px; 
-            font-weight: 900;
-            display: none; 
-            z-index: 2;
-            color: #ff0000;
+            position: absolute; font-size: 8.5px; font-weight: 900;
+            display: none; z-index: 2; color: #ff0000;
             background: rgba(255, 255, 255, 0.9);
-            padding: 1px 3px;
-            border-radius: 3px;
-            transform: rotate(-15deg);
-            white-space: nowrap;
-            border: 1px solid #ff0000;
+            padding: 1px 3px; border-radius: 3px;
+            transform: rotate(-15deg); white-space: nowrap; border: 1px solid #ff0000;
         }
 
-        .num.booked {
-            background: var(--booked-bg) !important;
-            box-shadow: none;
-        }
-
+        .num.booked { background: var(--booked-bg) !important; box-shadow: none; }
         .num.booked .val { opacity: 0.15; filter: blur(0.5px); }
         .num.booked .label { display: block; }
 
         .admin-section {
-            width: 95%;
-            max-width: 800px;
-            margin-top: 40px;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            box-sizing: border-box;
+            width: 95%; max-width: 800px; margin-top: 40px;
+            background: white; padding: 20px; border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); box-sizing: border-box;
         }
 
         .filter-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            font-family: 'Kanit';
-            margin-bottom: 15px;
-            box-sizing: border-box;
+            width: 100%; padding: 12px; border: 1px solid #eee;
+            border-radius: 10px; font-family: 'Kanit'; margin-bottom: 15px; box-sizing: border-box;
         }
 
         .table-container { overflow-x: auto; }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-
-        th, td {
-            border-bottom: 1px solid #eee;
-            padding: 12px 8px;
-            text-align: left;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        th, td { border-bottom: 1px solid #eee; padding: 12px 8px; text-align: left; }
 
         .admin-btn {
-            padding: 15px;
-            background: #ff4757;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-family: 'Kanit';
-            font-weight: 700;
-            cursor: pointer;
-            flex: 1;
+            padding: 15px; background: #ff4757; color: white;
+            border: none; border-radius: 50px; font-family: 'Kanit';
+            font-weight: 700; cursor: pointer; flex: 1;
+        }
+
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+
+        #error-screen {
+            display: none; text-align: center; margin-top: 25vh; padding: 20px;
         }
 
         @media (max-width: 600px) {
@@ -190,85 +144,89 @@
             .num span.label { font-size: 7.5px; }
             #dateDisplay { font-size: 0.8rem; }
         }
-
-        .full-access-screen {
-            height: 100vh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background-color: #fdf2ad;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
 
-<div class="wrapper">
-    <div class="date-container">
-        <span id="dateDisplay">เลือกงวดวันที่</span>
-        <input type="date" id="lottoDate">
-    </div>
-    <div class="grid" id="grid"></div>
-</div>
+<div id="loading-screen" style="margin-top: 25vh; font-size: 20px;">กำลังตรวจสอบสิทธิ์...</div>
 
-<div class="admin-section">
-    <div class="admin-title" style="font-weight: 900; font-size: 1.2rem; margin-bottom: 10px;">แผงควบคุมแอดมิน</div>
-    <input type="text" id="filterInput" class="filter-input" placeholder="🔍 ค้นหาเบอร์ หรือ ชื่อ..." onkeyup="updateAdminTable()">
-    
-    <div class="table-container">
-        <table id="adminTable">
-            <thead>
-                <tr>
-                    <th>เบอร์</th>
-                    <th>ชื่อ</th>
-                    <th>เวลา</th>
-                </tr>
-            </thead>
-            <tbody id="adminTableBody"></tbody>
-        </table>
+<div id="error-screen"></div>
+
+<div id="main-content">
+    <div class="wrapper">
+        <div class="date-container">
+            <span id="dateDisplay">เลือกงวดวันที่</span>
+            <input type="date" id="lottoDate">
+        </div>
+        <div class="grid" id="grid"></div>
     </div>
-    
-    <div class="btn-group">
-        <button class="admin-btn" onclick="resetBoard()">ล้างงวดใหม่</button>
-        <button class="admin-btn" style="background:#2f3542;" onclick="window.print()">พิมพ์สรุป</button>
+
+    <div class="admin-section">
+        <div class="admin-title" style="font-weight: 900; font-size: 1.2rem; margin-bottom: 10px;">แผงควบคุมแอดมิน</div>
+        <input type="text" id="filterInput" class="filter-input" placeholder="🔍 ค้นหาเบอร์ หรือ ชื่อ..." onkeyup="updateAdminTable()">
+        
+        <div class="table-container">
+            <table id="adminTable">
+                <thead>
+                    <tr>
+                        <th>เบอร์</th>
+                        <th>ชื่อ</th>
+                        <th>เวลา</th>
+                    </tr>
+                </thead>
+                <tbody id="adminTableBody"></tbody>
+            </table>
+        </div>
+        
+        <div class="btn-group">
+            <button class="admin-btn" onclick="resetBoard()">ล้างงวดใหม่</button>
+            <button class="admin-btn" style="background:#2f3542;" onclick="window.print()">พิมพ์สรุป</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // --- ส่วนที่ 1: ระบบตรวจสอบสิทธิ์พร้อมป้องกันการนับซ้ำ (Session Storage) ---
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwT4w5QXnFZ78ynuiElrTjaJL-yGdjRgJor0sJMovfKUoXHWfJdqubUwW3hfbC5PL-n/exec";
+    // --- 1. ตั้งค่าระบบตรวจสอบ TOKEN ---
+    // *** นำ URL จากการ Deploy มาใส่ตรงนี้ ***
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxFUl12KSlond4-TRofHaTgcQhDBjtBNdW4u4qf0Acsn8FqQv1XfCA9qMlGxKBRRoVqgQ/exec";
+    
+    const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
 
-    function checkAccess() {
-        const hasVisited = sessionStorage.getItem("alreadyCounted");
-        const finalURL = hasVisited ? `${scriptURL}?mode=check` : scriptURL;
+    const mainContent = document.getElementById("main-content");
+    const loadingScreen = document.getElementById("loading-screen");
+    const errorScreen = document.getElementById("error-screen");
 
-        fetch(finalURL)
-        .then(response => response.json())
+    function showError(msg) {
+        loadingScreen.style.display = "none";
+        errorScreen.style.display = "block";
+        errorScreen.innerHTML = `<h2 style="color:red;">${msg}</h2><p>กรุณาติดต่อผู้ดูแลระบบเพื่อขอ Token ใหม่</p>`;
+    }
+
+    if (!token) {
+        showError("❌ ไม่พบ Token ในระบบ");
+    } else {
+        fetch(`${SCRIPT_URL}?action=check&token=${token}&fp=${fp}`)
+        .then(res => res.json())
         .then(data => {
-            if (data.status === "full") {
-                document.body.innerHTML = `
-                    <div class="full-access-screen">
-                        <h1 style="color: #ff4757; font-size: 3rem; margin:0; font-weight:900;">ขออภัย!</h1>
-                        <h2 style="color: #2f3542; font-weight:700;">สิทธิ์การเข้าถึงเต็มแล้ว</h2>
-                        <p style="color: #747d8c; font-size:1.2rem;">ยอดสแกนงวดนี้ครบกำหนดแล้วครับ</p>
-                        <div style="font-size: 100px; margin-top:20px;">🚫</div>
-                    </div>`;
-                document.body.style.display = "flex";
+            if (data.status === "ok") {
+                loadingScreen.style.display = "none";
+                mainContent.style.display = "flex";
+                initApp(); 
+            } else if (data.status === "deny") {
+                showError("❌ Token นี้ถูกใช้โดยเครื่องอื่นแล้ว");
             } else {
-                sessionStorage.setItem("alreadyCounted", "true");
-                document.body.style.display = "flex";
+                showError("❌ Token ไม่ถูกต้อง หรือหมดอายุ");
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-            document.body.style.display = "flex"; 
+        .catch(err => {
+            console.error(err);
+            showError("❌ เชื่อมต่อระบบตรวจสอบไม่ได้");
         });
     }
-    checkAccess();
 
-    // --- ส่วนที่ 2: ฟังก์ชันเดิมของ มหาเฮง 99 (ห้ามเอาออก) ---
+    // --- 2. ฟังก์ชันระบบจองเดิมของคุณ ---
     const grid = document.getElementById("grid");
     const dateInput = document.getElementById("lottoDate");
     const dateDisplay = document.getElementById("dateDisplay");
@@ -276,22 +234,55 @@
 
     let bookedData = JSON.parse(localStorage.getItem("lotto_full_data")) || {};
 
-    if(localStorage.getItem("formattedDate_final")) {
-        dateDisplay.textContent = localStorage.getItem("formattedDate_final");
-        dateInput.value = localStorage.getItem("rawDate_final");
-    }
-
-    dateInput.onchange = function() {
-        const val = this.value; 
-        if (val) {
-            const [y, m, d] = val.split("-");
-            const thaiYear = parseInt(y) + 543;
-            const formatted = `${d}/${m}/${thaiYear}`;
-            dateDisplay.textContent = formatted;
-            localStorage.setItem("rawDate_final", val);
-            localStorage.setItem("formattedDate_final", formatted);
+    function initApp() {
+        if(localStorage.getItem("formattedDate_final")) {
+            dateDisplay.textContent = localStorage.getItem("formattedDate_final");
+            dateInput.value = localStorage.getItem("rawDate_final");
         }
-    };
+
+        dateInput.onchange = function() {
+            const val = this.value; 
+            if (val) {
+                const [y, m, d] = val.split("-");
+                const thaiYear = parseInt(y) + 543;
+                const formatted = `${d}/${m}/${thaiYear}`;
+                dateDisplay.textContent = formatted;
+                localStorage.setItem("rawDate_final", val);
+                localStorage.setItem("formattedDate_final", formatted);
+            }
+        };
+
+        for (let i = 0; i < 100; i++) {
+            const numStr = i.toString().padStart(2, "0");
+            const d = document.createElement("div");
+            d.className = "num";
+            d.innerHTML = `<span class="val">${numStr}</span><span class="label">จองแล้ว</span>`;
+            if (bookedData[numStr]) d.classList.add("booked");
+            
+            d.onclick = () => {
+                if (!d.classList.contains("booked")) {
+                    const name = prompt(`จองเบอร์ ${numStr}\nระบุชื่อผู้จอง:`, "");
+                    if (name !== null) {
+                        const now = new Date();
+                        bookedData[numStr] = { 
+                            name: name.trim() || "ไม่ระบุชื่อ", 
+                            time: now.toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) 
+                        };
+                        d.classList.add("booked");
+                    }
+                } else {
+                    if (confirm(`ยกเลิกเบอร์ ${numStr}?`)) {
+                        delete bookedData[numStr];
+                        d.classList.remove("booked");
+                    }
+                }
+                localStorage.setItem("lotto_full_data", JSON.stringify(bookedData));
+                updateAdminTable();
+            };
+            grid.appendChild(d);
+        }
+        updateAdminTable();
+    }
 
     function updateAdminTable() {
         const keyword = document.getElementById("filterInput").value.toLowerCase();
@@ -304,43 +295,12 @@
         });
     }
 
-    for (let i = 0; i < 100; i++) {
-        const numStr = i.toString().padStart(2, "0");
-        const d = document.createElement("div");
-        d.className = "num";
-        d.innerHTML = `<span class="val">${numStr}</span><span class="label">จองแล้ว</span>`;
-        if (bookedData[numStr]) d.classList.add("booked");
-        
-        d.onclick = () => {
-            if (!d.classList.contains("booked")) {
-                const name = prompt(`จองเบอร์ ${numStr}\nระบุชื่อผู้จอง:`, "");
-                if (name !== null) {
-                    const now = new Date();
-                    bookedData[numStr] = { 
-                        name: name.trim() || "ไม่ระบุชื่อ", 
-                        time: now.toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) 
-                    };
-                    d.classList.add("booked");
-                }
-            } else {
-                if (confirm(`ยกเลิกเบอร์ ${numStr}?`)) {
-                    delete bookedData[numStr];
-                    d.classList.remove("booked");
-                }
-            }
-            localStorage.setItem("lotto_full_data", JSON.stringify(bookedData));
-            updateAdminTable();
-        };
-        grid.appendChild(d);
-    }
-
     function resetBoard() {
         if(confirm("ล้างข้อมูลทั้งหมด?")) {
             localStorage.clear();
             location.reload();
         }
     }
-    updateAdminTable();
 </script>
 
 </body>
