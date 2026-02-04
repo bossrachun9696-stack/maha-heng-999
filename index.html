@@ -28,6 +28,7 @@
             padding-bottom: 50px;
         }
 
+        /* ซ่อนหน้าจอก่อนตรวจสอบ Token */
         #main-content { display: none; width: 100%; display: flex; flex-direction: column; align-items: center; }
 
         .wrapper {
@@ -185,19 +186,13 @@
 </div>
 
 <script>
-    // --- 1. ระบบตรวจสอบและจดจำ TOKEN (อัปเดตเพื่อรองรับ Home Screen) ---
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyn86zeVZ-V5oi_j8xNho1mlfbLMhoBKu8VoHKqG6-PO-G7Igcgs3yBOeRjFvTueCa/exec";
+    // --- 1. ตั้งค่าระบบตรวจสอบ TOKEN ---
+    // *** นำ URL จากการ Deploy มาใส่ตรงนี้ ***
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxFUl12KSlond4-TRofHaTgcQhDBjtBNdW4u4qf0Acsn8FqQv1XfCA9qMlGxKBRRoVqgQ/exec";
     
-    // สร้าง Fingerprint ประจำเครื่อง
     const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
-
-    // ลำดับการหา Token: 1. จาก URL ก่อน -> 2. ถ้าไม่มีให้ดึงจาก LocalStorage (ที่เครื่องเคยจำไว้)
     const urlParams = new URLSearchParams(window.location.search);
-    let token = urlParams.get('token');
-
-    if (!token) {
-        token = localStorage.getItem("saved_lotto_token");
-    }
+    const token = urlParams.get('token');
 
     const mainContent = document.getElementById("main-content");
     const loadingScreen = document.getElementById("loading-screen");
@@ -206,10 +201,9 @@
     function showError(msg) {
         loadingScreen.style.display = "none";
         errorScreen.style.display = "block";
-        errorScreen.innerHTML = `<h2 style="color:red;">${msg}</h2><p>กรุณาเข้าผ่านลิงก์ที่มี Token หรือติดต่อผู้ดูแลระบบ</p>`;
+        errorScreen.innerHTML = `<h2 style="color:red;">${msg}</h2><p>กรุณาติดต่อผู้ดูแลระบบเพื่อขอ Token ใหม่</p>`;
     }
 
-    // เริ่มตรวจสอบ Token
     if (!token) {
         showError("❌ ไม่พบ Token ในระบบ");
     } else {
@@ -217,16 +211,12 @@
         .then(res => res.json())
         .then(data => {
             if (data.status === "ok") {
-                // ✅ เมื่อตรวจสอบผ่าน ให้บันทึก Token ลงเครื่องทันที (เพื่อใช้เปิดจาก Home Screen ครั้งหน้า)
-                localStorage.setItem("saved_lotto_token", token);
                 loadingScreen.style.display = "none";
                 mainContent.style.display = "flex";
                 initApp(); 
             } else if (data.status === "deny") {
                 showError("❌ Token นี้ถูกใช้โดยเครื่องอื่นแล้ว");
             } else {
-                // ถ้า Token ผิด ให้ลบที่จำไว้ออกด้วย
-                localStorage.removeItem("saved_lotto_token");
                 showError("❌ Token ไม่ถูกต้อง หรือหมดอายุ");
             }
         })
@@ -236,7 +226,7 @@
         });
     }
 
-    // --- 2. ฟังก์ชันระบบจองเดิม (คงไว้ครบถ้วน 100%) ---
+    // --- 2. ฟังก์ชันระบบจองเดิมของคุณ ---
     const grid = document.getElementById("grid");
     const dateInput = document.getElementById("lottoDate");
     const dateDisplay = document.getElementById("dateDisplay");
@@ -306,10 +296,8 @@
     }
 
     function resetBoard() {
-        if(confirm("ล้างข้อมูลทั้งหมด? (Token จะยังถูกจดจำไว้)")) {
-            localStorage.removeItem("lotto_full_data");
-            localStorage.removeItem("rawDate_final");
-            localStorage.removeItem("formattedDate_final");
+        if(confirm("ล้างข้อมูลทั้งหมด?")) {
+            localStorage.clear();
             location.reload();
         }
     }
@@ -317,3 +305,4 @@
 
 </body>
 </html>
+
