@@ -186,11 +186,12 @@
 
 <script>
     // --- 1. ระบบตรวจสอบและจดจำ TOKEN (อัปเดตเพื่อรองรับ Home Screen) ---
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxFUl12KSlond4-TRofHaTgcQhDBjtBNdW4u4qf0Acsn8FqQv1XfCA9qMlGxKBRRoVqgQ/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyn86zeVZ-V5oi_j8xNho1mlfbLMhoBKu8VoHKqG6-PO-G7Igcgs3yBOeRjFvTueCa/exec";
     
+    // สร้าง Fingerprint ประจำเครื่อง
     const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
 
-    // ลำดับการหา Token: 1. จาก URL ก่อน -> 2. ถ้าไม่มีให้ดึงจาก LocalStorage (ที่เครื่องจำไว้)
+    // ลำดับการหา Token: 1. จาก URL ก่อน -> 2. ถ้าไม่มีให้ดึงจาก LocalStorage (ที่เครื่องเคยจำไว้)
     const urlParams = new URLSearchParams(window.location.search);
     let token = urlParams.get('token');
 
@@ -216,7 +217,7 @@
         .then(res => res.json())
         .then(data => {
             if (data.status === "ok") {
-                // ✅ สำคัญ: เมื่อตรวจสอบผ่าน ให้บันทึก Token ลงเครื่องไว้ใช้ครั้งหน้า (รวมถึงโหมด Home Screen)
+                // ✅ เมื่อตรวจสอบผ่าน ให้บันทึก Token ลงเครื่องทันที (เพื่อใช้เปิดจาก Home Screen ครั้งหน้า)
                 localStorage.setItem("saved_lotto_token", token);
                 loadingScreen.style.display = "none";
                 mainContent.style.display = "flex";
@@ -224,6 +225,7 @@
             } else if (data.status === "deny") {
                 showError("❌ Token นี้ถูกใช้โดยเครื่องอื่นแล้ว");
             } else {
+                // ถ้า Token ผิด ให้ลบที่จำไว้ออกด้วย
                 localStorage.removeItem("saved_lotto_token");
                 showError("❌ Token ไม่ถูกต้อง หรือหมดอายุ");
             }
