@@ -191,12 +191,12 @@
     // สร้าง Fingerprint ประจำเครื่อง
     const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
 
-    // ลำดับการหา Token: 1. จาก URL ก่อน -> 2. ถ้าไม่มีให้หาจากที่จำไว้ในเครื่อง
+    // ลำดับการหา Token: 1. จาก URL ก่อน -> 2. ถ้าไม่มีให้หาจากที่จำไว้ในเครื่อง (localStorage)
     const urlParams = new URLSearchParams(window.location.search);
     let token = urlParams.get('token');
 
     if (!token) {
-        token = localStorage.getItem("remembered_token");
+        token = localStorage.getItem("saved_lotto_token");
     }
 
     const mainContent = document.getElementById("main-content");
@@ -217,16 +217,16 @@
         .then(res => res.json())
         .then(data => {
             if (data.status === "ok") {
-                // ✅ ตรวจสอบผ่าน: บันทึก Token ลงเครื่องไว้ใช้ครั้งหน้า
-                localStorage.setItem("remembered_token", token);
+                // ✅ สำคัญ: เมื่อตรวจสอบผ่าน ให้บันทึก Token ลงเครื่องไว้ใช้ครั้งหน้า (Home Screen)
+                localStorage.setItem("saved_lotto_token", token);
                 loadingScreen.style.display = "none";
                 mainContent.style.display = "flex";
                 initApp(); 
             } else if (data.status === "deny") {
                 showError("❌ Token นี้ถูกใช้โดยเครื่องอื่นแล้ว");
             } else {
-                // ถ้า Token ไม่ถูกต้อง ให้ล้างค่าที่เคยจำไว้ด้วย
-                localStorage.removeItem("remembered_token");
+                // ถ้า Token ไม่ถูกต้อง ให้ลบค่าที่เคยจำไว้ออกด้วย
+                localStorage.removeItem("saved_lotto_token");
                 showError("❌ Token ไม่ถูกต้อง หรือหมดอายุ");
             }
         })
@@ -236,7 +236,7 @@
         });
     }
 
-    // --- 2. ฟังก์ชันระบบจองเดิม (คงไว้ครบถ้วน) ---
+    // --- 2. ฟังก์ชันระบบจองเดิม (คงไว้ครบถ้วน 100%) ---
     const grid = document.getElementById("grid");
     const dateInput = document.getElementById("lottoDate");
     const dateDisplay = document.getElementById("dateDisplay");
@@ -306,8 +306,10 @@
     }
 
     function resetBoard() {
-        if(confirm("ล้างข้อมูลทั้งหมด?")) {
-            localStorage.clear();
+        if(confirm("ล้างข้อมูลทั้งหมด? (Token จะยังถูกจดจำไว้)")) {
+            localStorage.removeItem("lotto_full_data");
+            localStorage.removeItem("rawDate_final");
+            localStorage.removeItem("formattedDate_final");
             location.reload();
         }
     }
