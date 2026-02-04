@@ -185,13 +185,12 @@
 </div>
 
 <script>
-    // --- 1. ระบบตรวจสอบและจดจำ TOKEN (แก้ไขเพื่อรองรับ Home Screen) ---
+    // --- 1. ระบบตรวจสอบและจดจำ TOKEN (อัปเดตเพื่อรองรับ Home Screen) ---
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxFUl12KSlond4-TRofHaTgcQhDBjtBNdW4u4qf0Acsn8FqQv1XfCA9qMlGxKBRRoVqgQ/exec";
     
-    // สร้าง Fingerprint ประจำเครื่อง
     const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
 
-    // ลำดับการหา Token: 1. จาก URL ก่อน -> 2. ถ้าไม่มีให้หาจากที่จำไว้ในเครื่อง (localStorage)
+    // ลำดับการหา Token: 1. จาก URL ก่อน -> 2. ถ้าไม่มีให้ดึงจาก LocalStorage (ที่เครื่องจำไว้)
     const urlParams = new URLSearchParams(window.location.search);
     let token = urlParams.get('token');
 
@@ -217,7 +216,7 @@
         .then(res => res.json())
         .then(data => {
             if (data.status === "ok") {
-                // ✅ สำคัญ: เมื่อตรวจสอบผ่าน ให้บันทึก Token ลงเครื่องไว้ใช้ครั้งหน้า (Home Screen)
+                // ✅ สำคัญ: เมื่อตรวจสอบผ่าน ให้บันทึก Token ลงเครื่องไว้ใช้ครั้งหน้า (รวมถึงโหมด Home Screen)
                 localStorage.setItem("saved_lotto_token", token);
                 loadingScreen.style.display = "none";
                 mainContent.style.display = "flex";
@@ -225,7 +224,6 @@
             } else if (data.status === "deny") {
                 showError("❌ Token นี้ถูกใช้โดยเครื่องอื่นแล้ว");
             } else {
-                // ถ้า Token ไม่ถูกต้อง ให้ลบค่าที่เคยจำไว้ออกด้วย
                 localStorage.removeItem("saved_lotto_token");
                 showError("❌ Token ไม่ถูกต้อง หรือหมดอายุ");
             }
