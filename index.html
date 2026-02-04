@@ -28,7 +28,6 @@
             padding-bottom: 50px;
         }
 
-        /* ซ่อนหน้าจอก่อนตรวจสอบ Token */
         #main-content { display: none; width: 100%; display: flex; flex-direction: column; align-items: center; }
 
         .wrapper {
@@ -186,13 +185,19 @@
 </div>
 
 <script>
-    // --- 1. ตั้งค่าระบบตรวจสอบ TOKEN ---
-    // *** นำ URL จากการ Deploy มาใส่ตรงนี้ ***
+    // --- 1. ระบบตรวจสอบและจดจำ TOKEN (แก้ไขเพื่อรองรับ Home Screen) ---
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxFUl12KSlond4-TRofHaTgcQhDBjtBNdW4u4qf0Acsn8FqQv1XfCA9qMlGxKBRRoVqgQ/exec";
     
+    // สร้าง Fingerprint ประจำเครื่อง
     const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
+
+    // ลำดับการหา Token: 1. จาก URL ก่อน -> 2. ถ้าไม่มีให้หาจากที่จำไว้ในเครื่อง
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    let token = urlParams.get('token');
+
+    if (!token) {
+        token = localStorage.getItem("remembered_token");
+    }
 
     const mainContent = document.getElementById("main-content");
     const loadingScreen = document.getElementById("loading-screen");
@@ -201,9 +206,10 @@
     function showError(msg) {
         loadingScreen.style.display = "none";
         errorScreen.style.display = "block";
-        errorScreen.innerHTML = `<h2 style="color:red;">${msg}</h2><p>กรุณาติดต่อผู้ดูแลระบบเพื่อขอ Token ใหม่</p>`;
+        errorScreen.innerHTML = `<h2 style="color:red;">${msg}</h2><p>กรุณาเข้าผ่านลิงก์ที่มี Token หรือติดต่อผู้ดูแลระบบ</p>`;
     }
 
+    // เริ่มตรวจสอบ Token
     if (!token) {
         showError("❌ ไม่พบ Token ในระบบ");
     } else {
@@ -211,12 +217,16 @@
         .then(res => res.json())
         .then(data => {
             if (data.status === "ok") {
+                // ✅ ตรวจสอบผ่าน: บันทึก Token ลงเครื่องไว้ใช้ครั้งหน้า
+                localStorage.setItem("remembered_token", token);
                 loadingScreen.style.display = "none";
                 mainContent.style.display = "flex";
                 initApp(); 
             } else if (data.status === "deny") {
                 showError("❌ Token นี้ถูกใช้โดยเครื่องอื่นแล้ว");
             } else {
+                // ถ้า Token ไม่ถูกต้อง ให้ล้างค่าที่เคยจำไว้ด้วย
+                localStorage.removeItem("remembered_token");
                 showError("❌ Token ไม่ถูกต้อง หรือหมดอายุ");
             }
         })
@@ -226,7 +236,7 @@
         });
     }
 
-    // --- 2. ฟังก์ชันระบบจองเดิมของคุณ ---
+    // --- 2. ฟังก์ชันระบบจองเดิม (คงไว้ครบถ้วน) ---
     const grid = document.getElementById("grid");
     const dateInput = document.getElementById("lottoDate");
     const dateDisplay = document.getElementById("dateDisplay");
