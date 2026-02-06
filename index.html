@@ -8,335 +8,623 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" type="image/png" href="icon.png">
     
-    <title>มหาเฮง 99 - ระบบจัดการ</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;700;900&display=swap');
+    <title>มหาเฮง 99 - Ultimate Freedom</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Charmonman:wght@400;700&family=Fahkwang:wght@400;600;700&family=Itim&family=Kanit:wght@300;400;600;900&family=KoHo:wght@400;600;700&family=Mali:wght@400;600;700&family=Pattaya&family=Prompt:wght@400;600;900&family=Sriracha&display=swap" rel="stylesheet">
 
+    <style>
         :root {
-            --primary-purple: #b84cff;
-            --booked-bg: #f5f5f5;
+            /* --- ค่า Default (Grid) --- */
+            --grid-bg-1: #ffffff;
+            --grid-bg-2: #f0f0f0;
+            --grid-border-color: rgba(0,0,0,0.1);
+            --grid-border-width: 1px;
+            --grid-shadow-dist: 4px;
+            
+            --grid-font-family: 'Kanit', sans-serif;
+            --grid-text-color: #333333;
+            --grid-font-size: 1.6rem;
+            --grid-font-weight: 900;
+            --grid-text-stroke-color: transparent;
+            --grid-text-stroke-width: 0px;
+
+            /* --- แยกอิสระ 3 ช่อง --- */
+            /* 1. Price Box */
+            --p-font: 'Mali', sans-serif; --p-color: #333; --p-size: 1.8rem; --p-weight: 900; --p-stroke: transparent; --p-stroke-w: 0px;
+            /* 2. Top Box */
+            --t-font: 'Mali', sans-serif; --t-color: #333; --t-size: 1.8rem; --t-weight: 900; --t-stroke: transparent; --t-stroke-w: 0px;
+            /* 3. Bottom Box */
+            --b-font: 'Mali', sans-serif; --b-color: #333; --b-size: 1.8rem; --b-weight: 900; --b-stroke: transparent; --b-stroke-w: 0px;
         }
 
         body {
-            margin: 0;
-            background: #fdf2ad; 
+            margin: 0; background: #fdf2ad;
             font-family: 'Kanit', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding-bottom: 50px;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; padding-bottom: 80px; user-select: none;
         }
 
-        /* ซ่อนหน้าจอก่อนตรวจสอบ Token */
-        #main-content { display: none; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        #main-content { display: none; width: 100%; flex-direction: column; align-items: center; }
 
         .wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
+            position: relative; width: 100%; max-width: 800px;
             aspect-ratio: 1 / 1.25;
             background: #fff url('bg.jpg') no-repeat center top/contain;
-            margin-top: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border-radius: 20px; overflow: hidden;
+            touch-action: none;
         }
 
+        /* --- Floating Items --- */
+        .floating-item {
+            position: absolute; width: 28%; text-align: center; z-index: 80; cursor: grab;
+        }
+        .floating-item:active { cursor: grabbing; }
+        
+        .floating-item input {
+            width: 100%; border: none; background: transparent;
+            text-align: center; outline: none; pointer-events: auto;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Apply specific styles */
+        #box-price input {
+            font-family: var(--p-font); color: var(--p-color); font-size: var(--p-size); font-weight: var(--p-weight);
+            -webkit-text-stroke: var(--p-stroke-w) var(--p-stroke);
+        }
+        #box-top input {
+            font-family: var(--t-font); color: var(--t-color); font-size: var(--t-size); font-weight: var(--t-weight);
+            -webkit-text-stroke: var(--t-stroke-w) var(--t-stroke);
+        }
+        #box-bot input {
+            font-family: var(--b-font); color: var(--b-color); font-size: var(--b-size); font-weight: var(--b-weight);
+            -webkit-text-stroke: var(--b-stroke-w) var(--b-stroke);
+        }
+
+        /* Edit Mode */
+        .wrapper.edit-mode .floating-item {
+            border: 2px dashed #ff4757; background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse { 0% { border-color: #ff4757; } 50% { border-color: #4D96FF; } 100% { border-color: #ff4757; } }
+        
+        .wrapper.edit-mode .floating-item input { pointer-events: none; }
+        
+        .edit-hint {
+            display: none; position: absolute; top: 10px; left: 0; width: 100%;
+            text-align: center; background: rgba(0,0,0,0.8); color: #fff;
+            padding: 8px; font-size: 0.9rem; pointer-events: none; z-index: 100;
+            border-bottom: 2px solid #FFD93D;
+        }
+        .wrapper.edit-mode .edit-hint { display: block; }
+
+        /* --- Components --- */
         .date-container {
-            position: absolute;
-            top: 25.5%; 
-            left: 48.5%;
-            width: 25%;
-            height: 3.8%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #ff4757; 
-            border-radius: 10px;
-            border: 2px solid #b33939;
-            box-shadow: 0 4px 0 #b33939;
-            z-index: 100;
-            cursor: pointer;
+            position: absolute; top: 25.5%; left: 48.5%; width: 25%; height: 3.8%;
+            display: flex; align-items: center; justify-content: center;
+            background: #ff4757; border-radius: 50px;
+            border: 2px solid #b33939; box-shadow: 0 4px 0 #b33939;
+            z-index: 90; cursor: pointer;
         }
-
-        #dateDisplay {
-            font-size: 0.9rem;
-            font-weight: 900;
-            color: #ffffff; 
-            pointer-events: none;
-            position: relative;
-            z-index: 1;
-        }
-
-        #lottoDate {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; cursor: pointer; z-index: 2; display: block;
-        }
+        #dateDisplay { font-size: 0.9rem; font-weight: 900; color: #fff; pointer-events: none; }
+        #lottoDate { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
 
         .grid {
-            position: absolute;
-            top: 33.5%;
-            left: 4.5%;
-            width: 91%;
-            height: 61%;
-            display: grid;
-            grid-template-columns: repeat(10, 1fr);
-            grid-template-rows: repeat(10, 1fr);
-            gap: 4px;
-            padding: 2px;
+            position: absolute; top: 33.5%; left: 4.5%; width: 91%; height: 61%;
+            display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(10, 1fr);
+            gap: 6px; padding: 2px;
         }
-
         .num {
-            background: var(--primary-purple);
-            border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            position: relative;
-            border: 2px solid #f7060666;
-            box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2);
+            background: linear-gradient(135deg, var(--grid-bg-1), var(--grid-bg-2));
+            border: var(--grid-border-width) solid var(--grid-border-color);
+            border-radius: 12px;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; position: relative;
+            box-shadow: 
+                var(--grid-shadow-dist) var(--grid-shadow-dist) calc(var(--grid-shadow-dist)*2) rgba(0,0,0,0.15), 
+                calc(var(--grid-shadow-dist)*-1) calc(var(--grid-shadow-dist)*-1) calc(var(--grid-shadow-dist)*2) rgba(255,255,255,0.7);
+            transition: transform 0.1s;
         }
-
-        .num .val { font-size: 1.6rem; font-weight: 900; color: #000000; }
-
-        .num span.label {
-            position: absolute; font-size: 8.5px; font-weight: 900;
-            display: none; z-index: 2; color: #ff0000;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 1px 3px; border-radius: 3px;
-            transform: rotate(-15deg); white-space: nowrap; border: 1px solid #ff0000;
+        .num:active { transform: scale(0.95); box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1); }
+        .num .val {
+            font-family: var(--grid-font-family); color: var(--grid-text-color);
+            font-size: var(--grid-font-size); font-weight: var(--grid-font-weight);
+            -webkit-text-stroke: var(--grid-text-stroke-width) var(--grid-text-stroke-color);
         }
-
-        .num.booked { background: var(--booked-bg) !important; box-shadow: none; }
-        .num.booked .val { opacity: 0.15; filter: blur(0.5px); }
+        .num.booked { background: #e0e0e0 !important; box-shadow: inset 3px 3px 6px rgba(0,0,0,0.1) !important; }
+        .num.booked .val { opacity: 0.2; -webkit-text-stroke: 0; color: #888; }
+        .num .label {
+            position: absolute; font-size: 9px; font-weight: 900; display: none; z-index: 2; color: #fff; font-family: 'Kanit';
+            background: #ff4757; padding: 2px 5px; border-radius: 5px; transform: rotate(-15deg); box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
         .num.booked .label { display: block; }
 
-        .admin-section {
-            width: 95%; max-width: 800px; margin-top: 40px;
-            background: white; padding: 20px; border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); box-sizing: border-box;
-        }
-
-        .filter-input {
-            width: 100%; padding: 12px; border: 1px solid #eee;
-            border-radius: 10px; font-family: 'Kanit'; margin-bottom: 15px; box-sizing: border-box;
-        }
-
+        /* Admin & UI */
+        .admin-section { width: 95%; max-width: 800px; margin-top: 25px; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); box-sizing: border-box; }
+        .filter-input { width: 100%; padding: 14px; border: 2px solid #f1f2f6; border-radius: 12px; font-family: 'Kanit'; margin-bottom: 15px; outline: none; box-sizing: border-box; }
         .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        th, td { border-bottom: 1px solid #eee; padding: 12px 8px; text-align: left; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8f9fa; padding: 12px; text-align: left; font-size: 0.85rem; color: #888; border-radius: 8px; }
+        td { border-bottom: 1px solid #f1f2f6; padding: 12px; font-size: 0.95rem; }
+        .btn-group { display: flex; gap: 10px; margin-top: 25px; flex-wrap: wrap; }
+        .admin-btn { padding: 12px; border: none; border-radius: 50px; font-family: 'Kanit'; font-weight: 700; cursor: pointer; flex: 1; min-width: 100px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
-        .admin-btn {
-            padding: 15px; background: #ff4757; color: white;
-            border: none; border-radius: 50px; font-family: 'Kanit';
-            font-weight: 700; cursor: pointer; flex: 1;
+        /* Modals */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-box { background: white; width: 90%; max-width: 380px; padding: 25px; border-radius: 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+        .modal-input { width: 100%; padding: 14px; margin: 8px 0; border: 2px solid #f1f2f6; border-radius: 12px; font-family: 'Kanit'; outline: none; text-align: center; box-sizing: border-box; font-size: 1.1rem; }
+
+        .editor-section { background: #f9f9f9; padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; }
+        .control-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .control-label { font-size: 0.85rem; color: #555; }
+        input[type="color"] { border: none; width: 35px; height: 35px; cursor: pointer; background: none; }
+        input[type="range"] { width: 100px; accent-color: #b84cff; }
+        select { padding: 5px; border-radius: 5px; border: 1px solid #ddd; font-family: 'Kanit'; font-size: 0.8rem; width: 150px; }
+
+        .preview-box {
+            padding: 15px; background: #fff; border: 2px dashed #ddd; margin-bottom: 15px; border-radius: 10px;
+            display: flex; justify-content: center; align-items: center;
         }
-
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-
-        #error-screen {
-            display: none; text-align: center; margin-top: 20vh; padding: 20px;
-        }
+        #previewText { font-size: 2rem; font-weight: bold; pointer-events: none; }
 
         @media (max-width: 600px) {
-            .num .val { font-size: 1.2rem; }
-            .num span.label { font-size: 7.5px; }
-            #dateDisplay { font-size: 0.8rem; }
+            .num .val { font-size: 1.1rem; }
+            .floating-item input { font-size: 1.4rem; }
+            .grid { gap: 4px; }
         }
     </style>
 </head>
 <body>
 
-<div id="loading-screen" style="margin-top: 25vh; font-size: 20px;">กำลังตรวจสอบสิทธิ์...</div>
-
+<div id="loading-screen" style="margin-top: 30vh; font-size: 20px;">กำลังโหลดระบบ...</div>
 <div id="error-screen"></div>
 
 <div id="main-content">
-    <div class="wrapper">
+    <div class="wrapper" id="gameWrapper">
+        <div class="edit-hint">👆 ลากเพื่อย้ายตำแหน่ง | แตะเพื่อแก้ไขสี/ฟอนต์</div>
+        
+        <div id="box-price" class="floating-item" style="top:15%; left:5%;" data-type="p">
+            <input type="text" id="pricePerTicket" value="40" onchange="saveGameSettings()">
+        </div>
+        <div id="box-top" class="floating-item" style="top:15%; left:38%;" data-type="t">
+            <input type="text" id="prizeTop" value="1500" onchange="saveGameSettings()">
+        </div>
+        <div id="box-bot" class="floating-item" style="top:15%; left:70%;" data-type="b">
+            <input type="text" id="prizeBottom" value="1500" onchange="saveGameSettings()">
+        </div>
+
         <div class="date-container">
-            <span id="dateDisplay">เลือกงวดวันที่</span>
+            <span id="dateDisplay">งวดวันที่</span>
             <input type="date" id="lottoDate">
         </div>
         <div class="grid" id="grid"></div>
     </div>
 
     <div class="admin-section">
-        <div class="admin-title" style="font-weight: 900; font-size: 1.2rem; margin-bottom: 10px;">แผงควบคุมแอดมิน</div>
-        <input type="text" id="filterInput" class="filter-input" placeholder="🔍 ค้นหาเบอร์ หรือ ชื่อ..." onkeyup="updateAdminTable()">
+        <div style="font-weight: 900; font-size: 1.4rem; margin-bottom: 15px;">📊 จัดการ & สรุปยอด</div>
+        <input type="text" id="filterInput" class="filter-input" placeholder="🔍 ค้นหาเบอร์/ชื่อ..." onkeyup="updateAdminTable()">
         
         <div class="table-container">
-            <table id="adminTable">
-                <thead>
-                    <tr>
-                        <th>เบอร์</th>
-                        <th>ชื่อ</th>
-                        <th>เวลา</th>
-                    </tr>
-                </thead>
+            <table>
+                <thead><tr><th>เบอร์</th><th>ชื่อ</th><th>ราคา</th><th>เวลา</th></tr></thead>
                 <tbody id="adminTableBody"></tbody>
+                <tfoot><tr style="background:#f8f9fa; font-weight: 900;"><td colspan="2" style="text-align:right;">รวม:</td><td id="totalSum" style="color:#ff4757; font-size:1.2rem;">0</td><td></td></tr></tfoot>
             </table>
         </div>
         
         <div class="btn-group">
-            <button class="admin-btn" onclick="resetBoard()">ล้างงวดใหม่</button>
-            <button class="admin-btn" style="background:#636e72;" onclick="logoutToken()">เปลี่ยน Token</button>
-            <button class="admin-btn" style="background:#2f3542;" onclick="window.print()">พิมพ์สรุป</button>
+            <button class="admin-btn" style="background:#ff4757; color:white;" onclick="resetBoard()">ล้างงวด</button>
+            <button class="admin-btn" style="background:#f1f2f6; color:#333;" onclick="logoutToken()">Token</button>
+            <button class="admin-btn" style="background:#2f3542; color:white;" onclick="window.print()">พิมพ์</button>
+            <button class="admin-btn" style="background: linear-gradient(45deg, #4D96FF, #6BCB77); color:white;" onclick="openGridDesignModal()">🎨 ธีมตาราง</button>
+            <button class="admin-btn" id="btnToggleEdit" style="background: linear-gradient(45deg, #FF9F43, #FF6B6B); color:white;" onclick="toggleEditMode()">🔧 แก้ไขหน้าจอ</button>
         </div>
     </div>
 </div>
 
-<script>
-    // --- 1. ระบบตรวจสอบและจดจำ TOKEN (ฉบับแก้ปัญหา PWA iPhone แบบ Login UI) ---
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxFUl12KSlond4-TRofHaTgcQhDBjtBNdW4u4qf0Acsn8FqQv1XfCA9qMlGxKBRRoVqgQ/exec";
-    
-    // สร้าง Fingerprint ประจำเครื่อง
-    const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
+<div id="bookingModal" class="modal-overlay">
+    <div class="modal-box">
+        <div style="font-size: 1.6rem; font-weight: 900; margin-bottom: 15px;">เบอร์ <span id="modalNum" style="color:#b84cff;"></span></div>
+        <input type="text" id="inputName" class="modal-input" placeholder="ชื่อลูกค้า">
+        <input type="text" id="inputPrice" class="modal-input" placeholder="ราคา">
+        <button onclick="confirmBooking()" style="background:#2ed573; color:white; padding:15px; border-radius:50px; border:none; width:100%; font-weight:bold; cursor:pointer; margin-top:10px;">บันทึก</button>
+        <button onclick="closeModal('bookingModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:15px;">ยกเลิก</button>
+    </div>
+</div>
 
-    // อ่าน Token: 1. จาก URL ก่อน -> 2. ถ้าไม่มีให้ดึงจาก LocalStorage (ที่เครื่องเคยจำไว้)
-    const urlParams = new URLSearchParams(window.location.search);
-    let token = urlParams.get('token') || localStorage.getItem("saved_lotto_token");
+<div id="gridDesignModal" class="modal-overlay">
+    <div class="modal-box">
+        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; color:#4D96FF;">🎨 ปรับแต่งตาราง (00-99)</div>
+        <div class="preview-box">
+            <div class="num" style="width:70px; height:70px;"><span class="val">99</span></div>
+        </div>
+        <div class="editor-section">
+            <div class="control-row"><span class="control-label">พื้นหลัง 1:</span> <input type="color" id="ed-bg1" oninput="previewGridDesign()"></div>
+            <div class="control-row"><span class="control-label">พื้นหลัง 2:</span> <input type="color" id="ed-bg2" oninput="previewGridDesign()"></div>
+            <div class="control-row"><span class="control-label">สีเส้นขอบ:</span> <input type="color" id="ed-border" oninput="previewGridDesign()"></div>
+            <div class="control-row"><span class="control-label">หนาขอบ:</span> <input type="range" id="ed-border-w" min="0" max="5" oninput="previewGridDesign()"></div>
+            <div class="control-row"><span class="control-label">นูน (3D):</span> <input type="range" id="ed-shadow" min="0" max="15" oninput="previewGridDesign()"></div>
+        </div>
+        <div class="editor-section">
+            <div class="control-row">
+                <span class="control-label">ฟอนต์:</span>
+                <select id="ed-grid-font" onchange="previewGridDesign()">
+                    <option value="'Kanit', sans-serif">คานิต (มาตรฐาน)</option>
+                    <option value="'Mali', sans-serif">มาลี (ลายมือเด็ก)</option>
+                    <option value="'Sriracha', sans-serif">ศรีราชา (วัยรุ่น)</option>
+                    <option value="'Pattaya', sans-serif">พัทยา (หัวม้วน)</option>
+                    <option value="'Chakra Petch', sans-serif">จักรเพชร (เท่)</option>
+                    <option value="'Itim', cursive">ไอติม (กลมมน)</option>
+                    <option value="'Charmonman', cursive">ชามนแมน (หรู)</option>
+                    <option value="'Fahkwang', sans-serif">ฟ้ากว้าง (ทางการ)</option>
+                    <option value="'KoHo', sans-serif">โก๋ (ทันสมัย)</option>
+                    <option value="'Prompt', sans-serif">พร้อม (กว้าง)</option>
+                </select>
+            </div>
+            <div class="control-row"><span class="control-label">สีตัวเลข:</span> <input type="color" id="ed-grid-color" oninput="previewGridDesign()"></div>
+            <div class="control-row"><span class="control-label">ขนาด:</span> <input type="range" id="ed-grid-size" min="10" max="30" oninput="previewGridDesign()"></div>
+            <div class="control-row"><span class="control-label">หนาตัว:</span> <input type="range" id="ed-grid-weight" min="100" max="900" step="100" oninput="previewGridDesign()"></div>
+            <div class="control-row"><span class="control-label">สีขอบ:</span> <input type="color" id="ed-grid-stroke" oninput="previewGridDesign()"></div>
+            <div class="control-row"><span class="control-label">หนาขอบ:</span> <input type="range" id="ed-grid-stroke-w" min="0" max="30" oninput="previewGridDesign()"></div>
+        </div>
+        <button onclick="saveGridDesign()" style="background:#2ed573; color:white; padding:12px; border-radius:50px; border:none; width:100%; font-weight:bold; cursor:pointer;">บันทึก</button>
+        <button onclick="closeModal('gridDesignModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:10px;">ปิด</button>
+    </div>
+</div>
+
+<div id="boxDesignModal" class="modal-overlay">
+    <div class="modal-box">
+        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; color:#ff4757;">✨ แก้ไขช่องนี้</div>
+        <div class="preview-box">
+            <span id="previewText">1500</span>
+        </div>
+        <div class="editor-section">
+            <div class="control-row">
+                <span class="control-label">ฟอนต์:</span>
+                <select id="ed-box-font" onchange="previewBoxDesign()">
+                    <option value="'Kanit', sans-serif">คานิต (มาตรฐาน)</option>
+                    <option value="'Mali', sans-serif">มาลี (ลายมือเด็ก)</option>
+                    <option value="'Sriracha', sans-serif">ศรีราชา (วัยรุ่น)</option>
+                    <option value="'Pattaya', sans-serif">พัทยา (หัวม้วน)</option>
+                    <option value="'Chakra Petch', sans-serif">จักรเพชร (เท่)</option>
+                    <option value="'Itim', cursive">ไอติม (กลมมน)</option>
+                    <option value="'Charmonman', cursive">ชามนแมน (หรู)</option>
+                    <option value="'Fahkwang', sans-serif">ฟ้ากว้าง (ทางการ)</option>
+                    <option value="'KoHo', sans-serif">โก๋ (ทันสมัย)</option>
+                    <option value="'Prompt', sans-serif">พร้อม (กว้าง)</option>
+                </select>
+            </div>
+            <div class="control-row"><span class="control-label">สีข้อความ:</span> <input type="color" id="ed-box-color" oninput="previewBoxDesign()"></div>
+            <div class="control-row"><span class="control-label">ขนาด:</span> <input type="range" id="ed-box-size" min="10" max="60" oninput="previewBoxDesign()"></div>
+            <div class="control-row"><span class="control-label">หนาตัว:</span> <input type="range" id="ed-box-weight" min="100" max="900" step="100" oninput="previewBoxDesign()"></div>
+            <div class="control-row"><span class="control-label">สีขอบ:</span> <input type="color" id="ed-box-stroke" oninput="previewBoxDesign()"></div>
+            <div class="control-row"><span class="control-label">หนาขอบ:</span> <input type="range" id="ed-box-stroke-w" min="0" max="30" oninput="previewBoxDesign()"></div>
+        </div>
+        <button onclick="saveBoxDesign()" style="background:#2ed573; color:white; padding:12px; border-radius:50px; border:none; width:100%; font-weight:bold; cursor:pointer;">บันทึก</button>
+        <button onclick="closeModal('boxDesignModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:10px;">ปิด</button>
+    </div>
+</div>
+
+<script>
+    // --- Token System ---
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxFUl12KSlond4-TRofHaTgcQhDBjtBNdW4u4qf0Acsn8FqQv1XfCA9qMlGxKBRRoVqgQ/exec";
+    const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
+    let token = new URLSearchParams(window.location.search).get('token') || localStorage.getItem("saved_lotto_token");
 
     const mainContent = document.getElementById("main-content");
     const loadingScreen = document.getElementById("loading-screen");
     const errorScreen = document.getElementById("error-screen");
 
     function showLoginUI(msg) {
-        loadingScreen.style.display = "none";
-        errorScreen.style.display = "block";
-        errorScreen.innerHTML = `
-            <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 85%; max-width: 400px; margin: auto;">
-                <h2 style="color: #b84cff; margin-bottom: 10px; font-weight:900;">มหาเฮง 99</h2>
-                <p style="color: #666; font-size: 14px; margin-bottom: 20px;">${msg || "กรุณากรอกรหัสเข้าใช้งานเพื่อเริ่มระบบ"}</p>
-                <input type="text" id="manualToken" placeholder="กรอก Token 8 หลัก" 
-                       style="width: 100%; padding: 15px; font-size: 20px; text-align: center; border-radius: 12px; border: 2px solid #eee; margin-bottom: 20px; font-family: 'Kanit'; box-sizing: border-box; outline: none;">
-                <button onclick="saveAndLogin()" 
-                        style="width: 100%; padding: 15px; background: #b84cff; color: white; border: none; border-radius: 50px; font-family: 'Kanit'; font-weight: bold; font-size: 18px; cursor: pointer; box-shadow: 0 4px 15px rgba(184, 76, 255, 0.3);">
-                        เข้าสู่ระบบ
-                </button>
-            </div>
-        `;
+        loadingScreen.style.display = "none"; errorScreen.style.display = "block";
+        errorScreen.innerHTML = `<div style="background:white; padding:40px; border-radius:30px; box-shadow:0 15px 35px rgba(0,0,0,0.1); width:85%; max-width:400px; margin:auto; text-align:center;"><h2 style="color:#b84cff;">มหาเฮง 99</h2><p style="color:#666;">${msg||"กรุณากรอก Token"}</p><input type="text" id="manualToken" placeholder="Token" style="width:100%; padding:15px; border-radius:15px; border:2px solid #f1f2f6; margin-bottom:20px; text-align:center; outline:none;"><button onclick="saveAndLogin()" style="width:100%; padding:15px; background:#b84cff; color:white; border:none; border-radius:50px; font-weight:bold; cursor:pointer;">เข้าสู่ระบบ</button></div>`;
+    }
+    function saveAndLogin() { const i = document.getElementById("manualToken").value.trim(); if(i.length>=8){localStorage.setItem("saved_lotto_token", i); location.reload();} }
+    function logoutToken() { if(confirm("เปลี่ยน Token?")){localStorage.removeItem("saved_lotto_token"); location.reload();} }
+
+    if(!token) showLoginUI(); else {
+        fetch(`${SCRIPT_URL}?action=check&token=${token}&fp=${fp}`).then(r=>r.json()).then(d=>{
+            if(d.status==="ok"){mainContent.style.display="flex"; loadingScreen.style.display="none"; initApp();} else showLoginUI("Token ผิดพลาด");
+        }).catch(()=>showLoginUI("เชื่อมต่อไม่ได้"));
     }
 
-    function saveAndLogin() {
-        const input = document.getElementById("manualToken").value.trim();
-        if (input.length >= 8) {
-            localStorage.setItem("saved_lotto_token", input); // บันทึกลงเครื่อง
-            location.href = location.pathname; // โหลดหน้าใหม่เพื่อเริ่มตรวจสอบสิทธิ์
-        } else {
-            alert("กรุณากรอกรหัส Token ให้ถูกต้อง (8 ตัวอักษรขึ้นไป)");
-        }
-    }
-
-    function logoutToken() {
-        if(confirm("ต้องการออกจากระบบเพื่อเปลี่ยนรหัสใหม่ใช่หรือไม่?")) {
-            localStorage.removeItem("saved_lotto_token"); // ลบ Token ที่จำไว้
-            location.href = location.pathname;
-        }
-    }
-
-    // เริ่มตรวจสอบ Token
-    if (!token) {
-        showLoginUI("ไม่พบข้อมูลการเข้าใช้งานเดิม");
-    } else {
-        fetch(`${SCRIPT_URL}?action=check&token=${token}&fp=${fp}`)
-        .then(res => res.json())
-        .then(data => {
-            if (data.status === "ok") {
-                // ✅ ตรวจสอบผ่าน: บันทึก Token ลงเครื่องไว้ใช้ครั้งหน้า (รวมถึงโหมดแอปหน้าจอโฮม)
-                localStorage.setItem("saved_lotto_token", token);
-                loadingScreen.style.display = "none";
-                mainContent.style.display = "flex";
-                initApp(); 
-            } else if (data.status === "deny") {
-                showLoginUI("❌ รหัสนี้ถูกใช้โดยเครื่องอื่นแล้ว");
-            } else {
-                localStorage.removeItem("saved_lotto_token");
-                showLoginUI("❌ รหัสไม่ถูกต้อง หรือหมดอายุ");
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            showLoginUI("❌ เชื่อมต่อระบบไม่ได้ (กรุณาตรวจสอบอินเทอร์เน็ต)");
-        });
-    }
-
-    // --- 2. ฟังก์ชันระบบจองเดิมของคุณ (ห้ามเอาออก) ---
+    // --- Main Logic ---
     const grid = document.getElementById("grid");
     const dateInput = document.getElementById("lottoDate");
     const dateDisplay = document.getElementById("dateDisplay");
-    const adminTableBody = document.getElementById("adminTableBody");
-
+    
+    let gameSettings = JSON.parse(localStorage.getItem("lotto_settings")) || { price: "40", top: "1500", bottom: "1500" };
     let bookedData = JSON.parse(localStorage.getItem("lotto_full_data")) || {};
+    
+    // Default Design (V7 - Independent Boxes)
+    let designConfig = JSON.parse(localStorage.getItem("lotto_design_v7")) || {
+        bg1: "#ffffff", bg2: "#f0f0f0", border: "#eeeeee", borderWidth: 1, shadow: 4,
+        gridFont: "'Kanit', sans-serif", gridColor: "#333333", gridSize: 1.6, gridWeight: 900, gridStroke: "transparent", gridStrokeWidth: 0,
+        
+        // Price Box (p)
+        pFont: "'Mali', sans-serif", pColor: "#333333", pSize: 1.8, pWeight: 900, pStroke: "transparent", pStrokeWidth: 0, pTop: 15, pLeft: 5,
+        // Top Prize (t)
+        tFont: "'Mali', sans-serif", tColor: "#333333", tSize: 1.8, tWeight: 900, tStroke: "transparent", tStrokeWidth: 0, tTop: 15, tLeft: 38,
+        // Bottom Prize (b)
+        bFont: "'Mali', sans-serif", bColor: "#333333", bSize: 1.8, bWeight: 900, bStroke: "transparent", bStrokeWidth: 0, bTop: 15, bLeft: 70
+    };
 
     function initApp() {
+        applyDesign(designConfig);
+        document.getElementById("box-price").style.top = designConfig.pTop + "%"; document.getElementById("box-price").style.left = designConfig.pLeft + "%";
+        document.getElementById("box-top").style.top = designConfig.tTop + "%"; document.getElementById("box-top").style.left = designConfig.tLeft + "%";
+        document.getElementById("box-bot").style.top = designConfig.bTop + "%"; document.getElementById("box-bot").style.left = designConfig.bLeft + "%";
+
+        document.getElementById("pricePerTicket").value = gameSettings.price;
+        document.getElementById("prizeTop").value = gameSettings.top;
+        document.getElementById("prizeBottom").value = gameSettings.bottom;
+
         if(localStorage.getItem("formattedDate_final")) {
             dateDisplay.textContent = localStorage.getItem("formattedDate_final");
             dateInput.value = localStorage.getItem("rawDate_final");
         }
 
         dateInput.onchange = function() {
-            const val = this.value; 
-            if (val) {
-                const [y, m, d] = val.split("-");
-                const thaiYear = parseInt(y) + 543;
-                const formatted = `${d}/${m}/${thaiYear}`;
-                dateDisplay.textContent = formatted;
-                localStorage.setItem("rawDate_final", val);
-                localStorage.setItem("formattedDate_final", formatted);
-            }
+            if(!this.value) return;
+            const [y, m, d] = this.value.split("-");
+            const formatted = `${d}/${m}/${parseInt(y)+543}`;
+            dateDisplay.textContent = formatted;
+            localStorage.setItem("rawDate_final", this.value);
+            localStorage.setItem("formattedDate_final", formatted);
         };
 
+        renderGrid();
+        updateAdminTable();
+        initDraggable();
+    }
+
+    function saveGameSettings() {
+        gameSettings.price = document.getElementById("pricePerTicket").value;
+        gameSettings.top = document.getElementById("prizeTop").value;
+        gameSettings.bottom = document.getElementById("prizeBottom").value;
+        localStorage.setItem("lotto_settings", JSON.stringify(gameSettings));
+    }
+
+    function renderGrid() {
+        grid.innerHTML = "";
         for (let i = 0; i < 100; i++) {
             const numStr = i.toString().padStart(2, "0");
             const d = document.createElement("div");
             d.className = "num";
             d.innerHTML = `<span class="val">${numStr}</span><span class="label">จองแล้ว</span>`;
             if (bookedData[numStr]) d.classList.add("booked");
-            
             d.onclick = () => {
                 if (!d.classList.contains("booked")) {
-                    const name = prompt(`จองเบอร์ ${numStr}\nระบุชื่อผู้จอง:`, "");
-                    if (name !== null) {
-                        const now = new Date();
-                        bookedData[numStr] = { 
-                            name: name.trim() || "ไม่ระบุชื่อ", 
-                            time: now.toLocaleTimeString('th-TH', {hour: '2-digit', minute:'2-digit'}) 
-                        };
-                        d.classList.add("booked");
-                    }
+                    currentNum = numStr;
+                    document.getElementById("modalNum").innerText = numStr;
+                    document.getElementById("inputName").value = "";
+                    document.getElementById("inputPrice").value = gameSettings.price;
+                    document.getElementById("bookingModal").style.display = "flex";
+                    setTimeout(()=>document.getElementById("inputName").focus(),100);
                 } else {
-                    if (confirm(`ยกเลิกเบอร์ ${numStr}?`)) {
-                        delete bookedData[numStr];
-                        d.classList.remove("booked");
-                    }
+                    if (confirm(`ยกเลิกเบอร์ ${numStr}?`)) { delete bookedData[numStr]; saveData(); }
                 }
-                localStorage.setItem("lotto_full_data", JSON.stringify(bookedData));
-                updateAdminTable();
             };
             grid.appendChild(d);
         }
-        updateAdminTable();
     }
 
+    let currentNum = null;
+    function confirmBooking() {
+        const name = document.getElementById("inputName").value.trim() || "ไม่ระบุ";
+        const price = document.getElementById("inputPrice").value.trim();
+        const now = new Date();
+        const dt = `${now.getDate().toString().padStart(2,'0')}/${(now.getMonth()+1).toString().padStart(2,'0')}/${(now.getFullYear()+543).toString().slice(-2)} ${now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}`;
+        bookedData[currentNum] = { name, price, datetime: dt };
+        saveData();
+        closeModal('bookingModal');
+    }
+
+    function saveData() { localStorage.setItem("lotto_full_data", JSON.stringify(bookedData)); renderGrid(); updateAdminTable(); }
+
     function updateAdminTable() {
-        const keyword = document.getElementById("filterInput").value.toLowerCase();
-        adminTableBody.innerHTML = "";
+        const key = document.getElementById("filterInput").value.toLowerCase();
+        const tbody = document.getElementById("adminTableBody");
+        tbody.innerHTML = ""; let total = 0;
         Object.keys(bookedData).sort().forEach(num => {
-            const data = bookedData[num];
-            if (num.includes(keyword) || data.name.toLowerCase().includes(keyword)) {
-                adminTableBody.innerHTML += `<tr><td><b>${num}</b></td><td>${data.name}</td><td>${data.time}</td></tr>`;
+            const d = bookedData[num];
+            if (num.includes(key) || d.name.toLowerCase().includes(key)) {
+                total += parseFloat(d.price.replace(/,/g,'')) || 0;
+                tbody.innerHTML += `<tr><td style="font-weight:900; color:#b84cff;">${num}</td><td>${d.name}</td><td>${d.price}</td><td style="color:#888; font-size:0.8rem;">${d.datetime}</td></tr>`;
             }
+        });
+        document.getElementById("totalSum").innerText = total.toLocaleString();
+    }
+
+    function resetBoard() { if(confirm("ล้างข้อมูลทั้งหมด?")) { localStorage.removeItem("lotto_full_data"); localStorage.removeItem("rawDate_final"); localStorage.removeItem("formattedDate_final"); location.reload(); } }
+    function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+    // --- Drag & Edit Logic ---
+    let isEditMode = false;
+    let currentEditType = null; // 'p', 't', 'b'
+
+    function toggleEditMode() {
+        isEditMode = !isEditMode;
+        const wrapper = document.getElementById("gameWrapper");
+        const btn = document.getElementById("btnToggleEdit");
+        
+        if (isEditMode) {
+            wrapper.classList.add("edit-mode");
+            btn.innerHTML = "💾 บันทึก";
+            btn.style.background = "#2ed573";
+        } else {
+            wrapper.classList.remove("edit-mode");
+            btn.innerHTML = "🔧 แก้ไขหน้าจอ";
+            btn.style.background = "linear-gradient(45deg, #FF9F43, #FF6B6B)";
+            savePositions();
+        }
+    }
+
+    function initDraggable() {
+        const items = document.querySelectorAll(".floating-item");
+        items.forEach(el => {
+            let isDragging = false;
+            let startX, startY, initialLeft, initialTop;
+
+            const startDrag = (clientX, clientY) => {
+                if (!isEditMode) return;
+                isDragging = true;
+                startX = clientX; startY = clientY;
+                initialLeft = el.offsetLeft; initialTop = el.offsetTop;
+            };
+
+            const moveDrag = (clientX, clientY) => {
+                if (!isEditMode || !isDragging) return;
+                const wrapper = document.getElementById("gameWrapper");
+                const dx = clientX - startX; const dy = clientY - startY;
+                el.style.left = ((initialLeft + dx) / wrapper.offsetWidth * 100) + "%";
+                el.style.top = ((initialTop + dy) / wrapper.offsetHeight * 100) + "%";
+            };
+
+            // Touch
+            el.addEventListener("touchstart", e => startDrag(e.touches[0].clientX, e.touches[0].clientY));
+            el.addEventListener("touchmove", e => { e.preventDefault(); moveDrag(e.touches[0].clientX, e.touches[0].clientY); });
+            el.addEventListener("touchend", () => isDragging = false);
+
+            // Mouse
+            el.addEventListener("mousedown", e => startDrag(e.clientX, e.clientY));
+            window.addEventListener("mousemove", e => moveDrag(e.clientX, e.clientY));
+            window.addEventListener("mouseup", () => isDragging = false);
+
+            // Click to Edit Style
+            el.addEventListener("click", () => {
+                if (isEditMode) openBoxDesignModal(el.getAttribute('data-type'));
+            });
         });
     }
 
-    function resetBoard() {
-        if(confirm("ล้างข้อมูลทั้งหมด? (Token จะยังถูกจดจำไว้)")) {
-            localStorage.removeItem("lotto_full_data");
-            localStorage.removeItem("rawDate_final");
-            localStorage.removeItem("formattedDate_final");
-            location.reload();
-        }
+    function savePositions() {
+        const p = document.getElementById("box-price");
+        const t = document.getElementById("box-top");
+        const b = document.getElementById("box-bot");
+        designConfig.pTop = parseFloat(p.style.top); designConfig.pLeft = parseFloat(p.style.left);
+        designConfig.tTop = parseFloat(t.style.top); designConfig.tLeft = parseFloat(t.style.left);
+        designConfig.bTop = parseFloat(b.style.top); designConfig.bLeft = parseFloat(b.style.left);
+        localStorage.setItem("lotto_design_v7", JSON.stringify(designConfig));
+    }
+
+    // --- Box Style Editor ---
+    function openBoxDesignModal(type) {
+        currentEditType = type;
+        const prefix = type; // p, t, b
+        
+        // Load existing values based on type
+        document.getElementById("ed-box-font").value = designConfig[prefix + 'Font'];
+        document.getElementById("ed-box-color").value = designConfig[prefix + 'Color'];
+        document.getElementById("ed-box-size").value = designConfig[prefix + 'Size'] * 10;
+        document.getElementById("ed-box-weight").value = designConfig[prefix + 'Weight'];
+        document.getElementById("ed-box-stroke").value = designConfig[prefix + 'Stroke'] === "transparent" ? "#ffffff" : designConfig[prefix + 'Stroke'];
+        document.getElementById("ed-box-stroke-w").value = designConfig[prefix + 'StrokeWidth'] * 10;
+        
+        // Set Preview Text
+        const preview = document.getElementById("previewText");
+        preview.innerText = (type === 'p') ? document.getElementById("pricePerTicket").value : (type === 't') ? document.getElementById("prizeTop").value : document.getElementById("prizeBottom").value;
+        previewBoxDesign(); // Init Preview Style
+
+        document.getElementById("boxDesignModal").style.display = "flex";
+    }
+
+    function previewBoxDesign() {
+        const preview = document.getElementById("previewText");
+        preview.style.fontFamily = document.getElementById("ed-box-font").value;
+        preview.style.color = document.getElementById("ed-box-color").value;
+        preview.style.fontSize = (document.getElementById("ed-box-size").value / 10) + 'rem';
+        preview.style.fontWeight = document.getElementById("ed-box-weight").value;
+        preview.style.webkitTextStroke = (document.getElementById("ed-box-stroke-w").value / 10) + 'px ' + document.getElementById("ed-box-stroke").value;
+    }
+
+    function saveBoxDesign() {
+        const p = currentEditType;
+        designConfig[p + 'Font'] = document.getElementById("ed-box-font").value;
+        designConfig[p + 'Color'] = document.getElementById("ed-box-color").value;
+        designConfig[p + 'Size'] = document.getElementById("ed-box-size").value / 10;
+        designConfig[p + 'Weight'] = document.getElementById("ed-box-weight").value;
+        designConfig[p + 'Stroke'] = document.getElementById("ed-box-stroke").value;
+        designConfig[p + 'StrokeWidth'] = document.getElementById("ed-box-stroke-w").value / 10;
+        
+        localStorage.setItem("lotto_design_v7", JSON.stringify(designConfig));
+        applyDesign(designConfig);
+        closeModal('boxDesignModal');
+    }
+
+    // --- Grid Style Editor ---
+    function openGridDesignModal() {
+        document.getElementById("ed-bg1").value = designConfig.bg1;
+        document.getElementById("ed-bg2").value = designConfig.bg2;
+        document.getElementById("ed-border").value = designConfig.border;
+        document.getElementById("ed-border-w").value = designConfig.borderWidth;
+        document.getElementById("ed-shadow").value = designConfig.shadow;
+        document.getElementById("ed-grid-font").value = designConfig.gridFont;
+        document.getElementById("ed-grid-color").value = designConfig.gridColor;
+        document.getElementById("ed-grid-size").value = designConfig.gridSize * 10;
+        document.getElementById("ed-grid-weight").value = designConfig.gridWeight;
+        document.getElementById("ed-grid-stroke").value = designConfig.gridStroke === "transparent" ? "#ffffff" : designConfig.gridStroke;
+        document.getElementById("ed-grid-stroke-w").value = designConfig.gridStrokeWidth * 10;
+        document.getElementById("gridDesignModal").style.display = "flex";
+    }
+
+    function previewGridDesign() {
+        const cfg = { ...designConfig };
+        cfg.bg1 = document.getElementById("ed-bg1").value;
+        cfg.bg2 = document.getElementById("ed-bg2").value;
+        cfg.border = document.getElementById("ed-border").value;
+        cfg.borderWidth = document.getElementById("ed-border-w").value;
+        cfg.shadow = document.getElementById("ed-shadow").value;
+        cfg.gridFont = document.getElementById("ed-grid-font").value;
+        cfg.gridColor = document.getElementById("ed-grid-color").value;
+        cfg.gridSize = document.getElementById("ed-grid-size").value / 10;
+        cfg.gridWeight = document.getElementById("ed-grid-weight").value;
+        cfg.gridStroke = document.getElementById("ed-grid-stroke").value;
+        cfg.gridStrokeWidth = document.getElementById("ed-grid-stroke-w").value / 10;
+        applyDesign(cfg);
+    }
+
+    function saveGridDesign() {
+        designConfig.bg1 = document.getElementById("ed-bg1").value;
+        designConfig.bg2 = document.getElementById("ed-bg2").value;
+        designConfig.border = document.getElementById("ed-border").value;
+        designConfig.borderWidth = document.getElementById("ed-border-w").value;
+        designConfig.shadow = document.getElementById("ed-shadow").value;
+        designConfig.gridFont = document.getElementById("ed-grid-font").value;
+        designConfig.gridColor = document.getElementById("ed-grid-color").value;
+        designConfig.gridSize = document.getElementById("ed-grid-size").value / 10;
+        designConfig.gridWeight = document.getElementById("ed-grid-weight").value;
+        designConfig.gridStroke = document.getElementById("ed-grid-stroke").value;
+        designConfig.gridStrokeWidth = document.getElementById("ed-grid-stroke-w").value / 10;
+        localStorage.setItem("lotto_design_v7", JSON.stringify(designConfig));
+        closeModal('gridDesignModal');
+    }
+
+    function applyDesign(c) {
+        const r = document.documentElement.style;
+        // Grid
+        r.setProperty('--grid-bg-1', c.bg1); r.setProperty('--grid-bg-2', c.bg2);
+        r.setProperty('--grid-border-color', c.border); r.setProperty('--grid-border-width', c.borderWidth + 'px');
+        r.setProperty('--grid-shadow-dist', c.shadow + 'px');
+        r.setProperty('--grid-font-family', c.gridFont); r.setProperty('--grid-text-color', c.gridColor);
+        r.setProperty('--grid-font-size', c.gridSize + 'rem'); r.setProperty('--grid-font-weight', c.gridWeight);
+        r.setProperty('--grid-text-stroke-color', c.gridStroke); r.setProperty('--grid-text-stroke-width', c.gridStrokeWidth + 'px');
+        
+        // Box P
+        r.setProperty('--p-font', c.pFont); r.setProperty('--p-color', c.pColor);
+        r.setProperty('--p-size', c.pSize + 'rem'); r.setProperty('--p-weight', c.pWeight);
+        r.setProperty('--p-stroke', c.pStroke); r.setProperty('--p-stroke-w', c.pStrokeWidth + 'px');
+        
+        // Box T
+        r.setProperty('--t-font', c.tFont); r.setProperty('--t-color', c.tColor);
+        r.setProperty('--t-size', c.tSize + 'rem'); r.setProperty('--t-weight', c.tWeight);
+        r.setProperty('--t-stroke', c.tStroke); r.setProperty('--t-stroke-w', c.tStrokeWidth + 'px');
+        
+        // Box B
+        r.setProperty('--b-font', c.bFont); r.setProperty('--b-color', c.bColor);
+        r.setProperty('--b-size', c.bSize + 'rem'); r.setProperty('--b-weight', c.bWeight);
+        r.setProperty('--b-stroke', c.bStroke); r.setProperty('--b-stroke-w', c.bStrokeWidth + 'px');
     }
 </script>
 
