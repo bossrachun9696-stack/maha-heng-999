@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" type="image/png" href="icon.png">
     
-    <title>มหาเฮง 99 - Ultimate Freedom</title>
+    <title>มหาเฮง 99 - Fixed Token</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Charmonman:wght@400;700&family=Fahkwang:wght@400;600;700&family=Itim&family=Kanit:wght@300;400;600;900&family=KoHo:wght@400;600;700&family=Mali:wght@400;600;700&family=Pattaya&family=Prompt:wght@400;600;900&family=Sriracha&display=swap" rel="stylesheet">
 
@@ -321,7 +321,15 @@
         errorScreen.innerHTML = `<div style="background:white; padding:40px; border-radius:30px; box-shadow:0 15px 35px rgba(0,0,0,0.1); width:85%; max-width:400px; margin:auto; text-align:center;"><h2 style="color:#b84cff;">มหาเฮง 99</h2><p style="color:#666;">${msg||"กรุณากรอก Token"}</p><input type="text" id="manualToken" placeholder="Token" style="width:100%; padding:15px; border-radius:15px; border:2px solid #f1f2f6; margin-bottom:20px; text-align:center; outline:none;"><button onclick="saveAndLogin()" style="width:100%; padding:15px; background:#b84cff; color:white; border:none; border-radius:50px; font-weight:bold; cursor:pointer;">เข้าสู่ระบบ</button></div>`;
     }
     function saveAndLogin() { const i = document.getElementById("manualToken").value.trim(); if(i.length>=8){localStorage.setItem("saved_lotto_token", i); location.reload();} }
-    function logoutToken() { if(confirm("เปลี่ยน Token?")){localStorage.removeItem("saved_lotto_token"); location.reload();} }
+    
+    // --- FIXED: Logout Token ---
+    function logoutToken() { 
+        if(confirm("เปลี่ยน Token?")) { 
+            localStorage.removeItem("saved_lotto_token"); 
+            // เปลี่ยนจาก location.reload() เป็นการไปที่ Base URL เพื่อล้าง query string ที่อาจมี token ติดอยู่
+            window.location.href = window.location.pathname; 
+        } 
+    }
 
     if(!token) showLoginUI(); else {
         fetch(`${SCRIPT_URL}?action=check&token=${token}&fp=${fp}`).then(r=>r.json()).then(d=>{
