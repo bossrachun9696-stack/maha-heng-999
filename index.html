@@ -8,26 +8,23 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" type="image/png" href="icon.png">
     
-    <title>มหาเฮง 99 - Ultimate Pro V14 (Final)</title>
+    <title>มหาเฮง 99 - Ultimate Pro V15 (Fixed Trial)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Charmonman:wght@400;700&family=Fahkwang:wght@400;600;700&family=Itim&family=Kanit:wght@300;400;600;900&family=KoHo:wght@400;600;700&family=Mali:wght@400;600;700&family=Pattaya&family=Prompt:wght@400;600;900&family=Sriracha&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* --- ค่า Default --- */
             --grid-bg-1: #ffffff; --grid-bg-2: #f0f0f0; --grid-border-color: rgba(0,0,0,0.1); --grid-border-width: 1px; --grid-shape: 12px;
             --grid-shadow-dist: 3px; --grid-shadow-blur: 6px; --grid-shadow-dark: #a3a3a3; --grid-shadow-light: #ffffff;
             --grid-font-family: 'Kanit', sans-serif; --grid-text-color: #333333; --grid-font-size: 1.6rem; --grid-font-weight: 900;
             --grid-text-stroke-color: transparent; --grid-text-stroke-width: 0px;
             --label-bg: #ff4757; --label-text: #ffffff; --label-border: transparent; --label-shape: 5px; --label-scale: 1;
-            
-            /* Floating Boxes Defaults */
             --p-font: 'Mali', sans-serif; --p-color: #333; --p-size: 1.8rem; --p-weight: 900; --p-stroke: transparent; --p-stroke-w: 0px;
             --t-font: 'Mali', sans-serif; --t-color: #333; --t-size: 1.8rem; --t-weight: 900; --t-stroke: transparent; --t-stroke-w: 0px;
             --b-font: 'Mali', sans-serif; --b-color: #333; --b-size: 1.8rem; --b-weight: 900; --b-stroke: transparent; --b-stroke-w: 0px;
         }
 
-        body { margin: 0; background: #fdf2ad; font-family: 'Kanit', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 80px; user-select: none; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; background: #fdf2ad; font-family: 'Kanit', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 80px; user-select: none; }
 
         /* Login Screen */
         #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; box-sizing: border-box; }
@@ -43,22 +40,19 @@
         .btn-main { width: 100%; padding: 12px; border: none; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-bottom: 10px; font-family: 'Kanit'; transition: 0.2s; }
         .btn-login { background: #4D96FF; color: white; box-shadow: 0 4px 15px rgba(77, 150, 255, 0.3); }
         .btn-trial { background: #2ed573; color: white; box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3); }
+        .btn-trial:disabled, .btn-login:disabled { background: #ccc; cursor: not-allowed; box-shadow: none; }
         .btn-main:active { transform: scale(0.95); }
 
         /* Main App */
         #main-content { display: none; width: 100%; flex-direction: column; align-items: center; }
-        .board-nav { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; box-sizing: border-box; background: rgba(255,255,255,0.8); border-radius: 20px; margin-top: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .board-nav { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; box-sizing: border-box; background: white; border-radius: 20px; margin-top: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .nav-btn { background: #b84cff; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; transition: 0.2s; }
-        .nav-btn:active { transform: scale(0.9); }
         .nav-info { font-weight: 900; font-size: 1.2rem; color: #333; cursor: pointer; border-bottom: 2px dashed #ccc; }
         .nav-add { background: #2ed573; } .nav-del { background: #ff4757; width: 30px; height: 30px; font-size: 0.9rem; margin-left: 10px; }
         
-        .wrapper { position: relative; width: 100%; max-width: 800px; aspect-ratio: 1 / 1.25; background: #fff url('bg.jpg') no-repeat center top/contain; background-size: 100% 100%; margin-top: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border-radius: 20px; overflow: hidden; touch-action: none; transition: background-image 0.3s ease; }
-        
+        .wrapper { position: relative; width: 100%; max-width: 800px; aspect-ratio: 1 / 1.25; background: #fff url('bg.jpg') no-repeat center top/contain; background-size: 100% 100%; margin-top: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border-radius: 20px; overflow: hidden; touch-action: pan-y; transition: background-image 0.3s ease; }
         .floating-item { position: absolute; width: 28%; text-align: center; z-index: 80; cursor: grab; user-select: none; }
-        .floating-item:active { cursor: grabbing; }
         .floating-item input { width: 100%; border: none; background: transparent; text-align: center; outline: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); pointer-events: auto; }
-        
         #box-price input { font-family: var(--p-font); color: var(--p-color); font-size: var(--p-size); font-weight: var(--p-weight); -webkit-text-stroke: var(--p-stroke-w) var(--p-stroke); }
         #box-top input { font-family: var(--t-font); color: var(--t-color); font-size: var(--t-size); font-weight: var(--t-weight); -webkit-text-stroke: var(--t-stroke-w) var(--t-stroke); }
         #box-bot input { font-family: var(--b-font); color: var(--b-color); font-size: var(--b-size); font-weight: var(--b-weight); -webkit-text-stroke: var(--b-stroke-w) var(--b-stroke); }
@@ -91,7 +85,6 @@
         .admin-btn { padding: 12px; border: none; border-radius: 50px; font-family: 'Kanit'; font-weight: 700; cursor: pointer; flex: 1; min-width: 100px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .admin-btn:active { transform: scale(0.95); }
 
-        /* Modals & UI Elements */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-box { background: white; width: 90%; max-width: 380px; padding: 25px; border-radius: 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
         .modal-input { width: 100%; padding: 14px; margin: 8px 0; border: 2px solid #f1f2f6; border-radius: 12px; font-family: 'Kanit'; outline: none; text-align: center; box-sizing: border-box; font-size: 1.1rem; }
@@ -108,7 +101,6 @@
         .bg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
         .bg-thumb { width: 100%; aspect-ratio: 1/1.25; object-fit: cover; border-radius: 8px; border: 2px solid #eee; cursor: pointer; transition: 0.2s; }
         .bg-thumb:hover, .bg-thumb.active { border-color: #b84cff; transform: scale(1.05); }
-
         @media (max-width: 600px) { .num .val { font-size: 1.1rem; } .floating-item input { font-size: 1.4rem; } .grid { gap: 4px; } }
     </style>
 </head>
@@ -141,7 +133,7 @@
         </div>
 
         <input type="text" id="tokenInput" class="login-input" placeholder="กรอก Token เพื่อเข้าใช้งาน">
-        <button class="btn-main btn-login" onclick="checkTokenLogin()">เข้าสู่ระบบ</button>
+        <button id="btnLogin" class="btn-main btn-login" onclick="checkTokenLogin()">เข้าสู่ระบบ</button>
         <button id="trialBtn" class="btn-main btn-trial" onclick="startTrial()">ทดลองใช้งานฟรี 3 วัน</button>
         <div id="login-msg" style="color:red; margin-top:10px; font-size:0.9rem;"></div>
     </div>
@@ -229,6 +221,7 @@
         <button onclick="closeModal('gridDesignModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:10px;">ปิด</button>
     </div>
 </div>
+
 <div id="boxDesignModal" class="modal-overlay">
     <div class="modal-box">
         <div class="preview-box"><span id="previewText">1500</span></div>
@@ -246,23 +239,19 @@
 </div>
 
 <script>
-    // --- Login & Trial Logic (TRUE DEVICE LOCK & FIXED LOGOUT) ---
+    // --- Login & Trial Logic (FIXED: UI Locking + Server Check) ---
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbymbOZtjXqlFoeFUfOHzqHaHMNm9d625evuhZgrscQqw96f9I55rrOH9ekCF3imbhCv-g/exec";
     const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
     const loginScreen = document.getElementById("login-screen");
     const mainContent = document.getElementById("main-content");
     const loginMsg = document.getElementById("login-msg");
+    const trialBtn = document.getElementById("trialBtn");
+    const loginBtn = document.getElementById("btnLogin");
 
-    // Fingerprint Device ID Generation
     function getDeviceId() {
         let id = localStorage.getItem("lotto_device_unique_id");
         if (!id) {
-            const raw = navigator.userAgent + 
-                        (screen.width * screen.height) + 
-                        navigator.language + 
-                        new Date().getTimezoneOffset() + 
-                        (navigator.hardwareConcurrency || 1);
-
+            const raw = navigator.userAgent + (screen.width * screen.height) + navigator.language + new Date().getTimezoneOffset() + (navigator.hardwareConcurrency || 1);
             let hash = 0;
             for (let i = 0; i < raw.length; i++) {
                 const char = raw.charCodeAt(i);
@@ -279,39 +268,59 @@
         const token = localStorage.getItem("saved_lotto_token");
         const deviceId = getDeviceId();
         const trialInfo = document.getElementById("trial-info");
-        const trialBtn = document.getElementById("trialBtn");
+        
+        // 1. Lock UI while checking
+        trialBtn.disabled = true;
+        loginBtn.disabled = true;
+        trialBtn.innerText = "กำลังตรวจสอบ...";
 
         if (token) {
             verifyToken(token);
-        } else {
-            // Check trial status
-            try {
-                const response = await fetch(`${SCRIPT_URL}?action=checkTrial&deviceId=${deviceId}`);
-                const result = await response.json();
-                
-                loginScreen.style.display = "flex";
+            return;
+        }
 
-                if (result.status === "exists") {
-                    const expDate = new Date(result.expDate);
-                    const now = new Date();
-                    if (now > expDate) {
-                        loginMsg.innerText = "หมดเวลาทดลองเล่นแล้ว! กรุณาใส่ Token จริง";
-                        trialBtn.style.display = "none";
-                    } else {
-                        const daysLeft = Math.ceil((expDate - now) / (1000 * 60 * 60 * 24));
-                        trialInfo.style.display = "block";
-                        trialInfo.innerText = `สถานะ: กำลังทดลองใช้งาน (เหลือ ${daysLeft} วัน)`;
-                        
-                        trialBtn.innerText = `เข้าใช้งานต่อ (${daysLeft} วัน)`;
-                        trialBtn.onclick = enterApp; 
-                        trialBtn.classList.remove("btn-trial");
-                        trialBtn.classList.add("btn-login"); 
-                    }
+        // 2. Server Check
+        try {
+            const response = await fetch(`${SCRIPT_URL}?action=checkTrial&deviceId=${deviceId}`);
+            const result = await response.json();
+            
+            loginScreen.style.display = "flex";
+            
+            if (result.status === "exists") {
+                const expDate = new Date(result.expDate);
+                const now = new Date();
+                
+                if (now > expDate) {
+                    // Expired
+                    loginMsg.innerText = "หมดเวลาทดลองเล่นแล้ว! กรุณาใส่ Token จริง";
+                    trialBtn.style.display = "none"; 
+                    // No Enable trial button
+                } else {
+                    // Valid Trial
+                    const daysLeft = Math.ceil((expDate - now) / (1000 * 60 * 60 * 24));
+                    trialInfo.style.display = "block";
+                    trialInfo.innerText = `สถานะ: กำลังทดลองใช้งาน (เหลือ ${daysLeft} วัน)`;
+                    
+                    trialBtn.disabled = false;
+                    trialBtn.innerText = `เข้าใช้งานต่อ (${daysLeft} วัน)`;
+                    trialBtn.onclick = enterApp; 
+                    trialBtn.classList.remove("btn-trial");
+                    trialBtn.classList.add("btn-login"); 
                 }
-            } catch (err) {
-                loginScreen.style.display = "flex";
-                loginMsg.innerText = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้";
+            } else {
+                // New User
+                trialBtn.disabled = false;
+                trialBtn.innerText = "ทดลองใช้งานฟรี 3 วัน";
+                // Restore onclick in case it was changed
+                trialBtn.onclick = startTrial;
             }
+        } catch (err) {
+            loginScreen.style.display = "flex";
+            loginMsg.innerText = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้";
+            trialBtn.innerText = "ลองใหม่อีกครั้ง";
+            trialBtn.disabled = false; 
+        } finally {
+            loginBtn.disabled = false;
         }
     }
 
@@ -324,6 +333,9 @@
             }
         }).catch(()=>{
              loginMsg.innerText = "เชื่อมต่อเน็ตไม่ได้";
+             loginScreen.style.display = "flex";
+             loginBtn.disabled = false;
+             trialBtn.disabled = false;
         });
     }
 
@@ -331,11 +343,19 @@
         const t = document.getElementById("tokenInput").value.trim();
         if(!t) return;
         loginMsg.innerText = "กำลังตรวจสอบ...";
+        loginBtn.disabled = true;
+        
         fetch(`${SCRIPT_URL}?action=check&token=${t}&fp=${fp}`).then(r=>r.json()).then(d=>{
             if(d.status==="ok") {
                 localStorage.setItem("saved_lotto_token", t);
                 location.reload();
-            } else { loginMsg.innerText = "Token ผิดพลาด!"; }
+            } else { 
+                loginMsg.innerText = "Token ผิดพลาด!"; 
+                loginBtn.disabled = false;
+            }
+        }).catch(()=>{
+             loginMsg.innerText = "เชื่อมต่อเน็ตไม่ได้";
+             loginBtn.disabled = false;
         });
     }
 
@@ -345,16 +365,24 @@
         expDate.setDate(expDate.getDate() + 3);
         const expStr = expDate.toISOString();
         
-        loginMsg.innerText = "กำลังลงทะเบียน...";
+        trialBtn.disabled = true;
+        trialBtn.innerText = "กำลังลงทะเบียน...";
+        loginMsg.innerText = "";
         
         try {
+            // Note: The Apps Script will handle duplicate checks now
             const response = await fetch(`${SCRIPT_URL}?action=startTrial&deviceId=${deviceId}&expDate=${expStr}`);
             const result = await response.json();
-            if (result.status === "ok") {
-                alert("เริ่มทดลองใช้งานฟรี 3 วัน!");
+            
+            if (result.status === "ok" || result.status === "exists") {
+                alert("เข้าสู่ระบบทดลองใช้งาน!");
                 location.reload();
             }
-        } catch (err) { alert("ลงทะเบียนไม่สำเร็จ"); }
+        } catch (err) { 
+            alert("ลงทะเบียนไม่สำเร็จ"); 
+            trialBtn.disabled = false;
+            trialBtn.innerText = "ทดลองใช้งานฟรี 3 วัน";
+        }
     }
 
     function enterApp() {
@@ -370,7 +398,7 @@
         }
     }
 
-    // --- Core Logic (Multi-Board Independent) ---
+    // --- Core Logic ---
     let boards = [];
     let currentBoardIdx = 0;
     const defaultDesign = { bgImage: "bg.jpg", bg1: "#ffffff", bg2: "#f0f0f0", border: "#eeeeee", borderWidth: 1, gridShape: "12px", shadow: 4, shadowDark: "#a3a3a3", shadowLight: "#ffffff", labelBg: "#ff4757", labelText: "#ffffff", labelBorder: "#ff4757", labelShape: "5px", labelScale: 1, gridFont: "'Kanit', sans-serif", gridColor: "#333333", gridSize: 1.6, gridWeight: 900, gridStroke: "transparent", gridStrokeWidth: 0, pFont: "'Mali', sans-serif", pColor: "#333333", pSize: 1.8, pWeight: 900, pStroke: "transparent", pStrokeWidth: 0, pTop: 15, pLeft: 5, tFont: "'Mali', sans-serif", tColor: "#333333", tSize: 1.8, tWeight: 900, tStroke: "transparent", tStrokeWidth: 0, tTop: 15, tLeft: 38, bFont: "'Mali', sans-serif", bColor: "#333333", bSize: 1.8, bWeight: 900, bStroke: "transparent", bStrokeWidth: 0, bTop: 15, bLeft: 70 };
@@ -465,10 +493,8 @@
         document.getElementById("totalSum").innerText = total.toLocaleString();
     }
 
-    function addNewBoard() {
-        boards.push({ id: Date.now(), name: "แผงที่ "+(boards.length+1), data: {}, settings: {price:"40", top:"1500", bottom:"1500"}, design: JSON.parse(JSON.stringify(defaultDesign)) });
-        currentBoardIdx = boards.length-1; saveAll(); renderBoardUI();
-    }
+    function resetBoard() { if(confirm("ล้างข้อมูลในแผงนี้ทั้งหมด?")) { boards[currentBoardIdx].data = {}; saveAll(); renderGrid(); updateAdminTable(); } }
+    function addNewBoard() { boards.push({ id: Date.now(), name: "แผงที่ "+(boards.length+1), data: {}, settings: {price:"40", top:"1500", bottom:"1500"}, design: JSON.parse(JSON.stringify(defaultDesign)) }); currentBoardIdx = boards.length-1; saveAll(); renderBoardUI(); }
     function deleteCurrentBoard() { if(boards.length>1 && confirm("ลบแผงนี้?")){ boards.splice(currentBoardIdx,1); currentBoardIdx=Math.max(0, currentBoardIdx-1); saveAll(); renderBoardUI(); } }
     function renameBoard() { const n = prompt("ชื่อแผงใหม่:", boards[currentBoardIdx].name); if(n){ boards[currentBoardIdx].name=n; saveAll(); renderBoardUI(); } }
     function prevBoard() { if(currentBoardIdx>0){ currentBoardIdx--; renderBoardUI(); } }
@@ -486,7 +512,6 @@
         s.bottom = document.getElementById("prizeBottom").value;
         saveAll();
     }
-    function resetBoard() { if(confirm("ล้างข้อมูลในแผงนี้ทั้งหมด?")) { boards[currentBoardIdx].data = {}; saveAll(); renderGrid(); updateAdminTable(); } }
 
     function applyDesign(c) {
         const r = document.documentElement.style;
@@ -565,7 +590,6 @@
         window.addEventListener('touchend', onEnd);
     }
 
-    // --- Editors ---
     function openBgSelector() {
         const c = document.getElementById("bgGridContainer"); c.innerHTML = "";
         for (let i = 1; i <= 20; i++) {
