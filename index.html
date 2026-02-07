@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" type="image/png" href="icon.png">
     
-    <title>มหาเฮง 99 - Ultimate Pro V11</title>
+    <title>มหาเฮง 99 - Ultimate Pro V12 (Independent Boards)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Charmonman:wght@400;700&family=Fahkwang:wght@400;600;700&family=Itim&family=Kanit:wght@300;400;600;900&family=KoHo:wght@400;600;700&family=Mali:wght@400;600;700&family=Pattaya&family=Prompt:wght@400;600;900&family=Sriracha&display=swap" rel="stylesheet">
 
@@ -35,35 +35,35 @@
         .app-title { font-size: 2rem; font-weight: 900; background: linear-gradient(45deg, #FF6B6B, #4D96FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
         .trial-status { font-size: 0.9rem; color: #ff4757; font-weight: bold; margin-bottom: 10px; display: block; background: #fff0f0; padding: 5px; border-radius: 5px; }
         .feature-list { text-align: left; margin: 20px 0; font-size: 0.85rem; color: #555; background: #f8f9fa; padding: 15px; border-radius: 10px; line-height: 1.6; }
-        .contact-box { background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; color: #1565c0; text-align: center; border: 1px solid #90caf9; }
-        .contact-row { margin-bottom: 5px; font-weight: bold; }
-        .login-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 50px; text-align: center; font-family: 'Kanit'; font-size: 1.1rem; outline: none; transition: 0.3s; margin-bottom: 10px; box-sizing: border-box; }
-        .login-input:focus { border-color: #4D96FF; }
+        .contact-box { background: #e3f2fd; padding: 12px; border-radius: 10px; margin-bottom: 15px; font-size: 0.85rem; color: #1565c0; }
+        .login-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 50px; text-align: center; font-family: 'Kanit'; font-size: 1.1rem; margin-bottom: 10px; box-sizing: border-box; outline: none; }
         .btn-main { width: 100%; padding: 12px; border: none; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-bottom: 10px; font-family: 'Kanit'; transition: 0.2s; }
-        .btn-login { background: #4D96FF; color: white; box-shadow: 0 4px 15px rgba(77, 150, 255, 0.3); }
-        .btn-trial { background: #2ed573; color: white; box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3); }
-        .btn-main:active { transform: scale(0.95); }
-
+        .btn-login { background: #4D96FF; color: white; }
+        .btn-trial { background: #2ed573; color: white; }
+        
         /* Main App */
         #main-content { display: none; width: 100%; flex-direction: column; align-items: center; }
-        .board-nav { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; box-sizing: border-box; background: rgba(255,255,255,0.8); border-radius: 20px; margin-top: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .nav-btn { background: #b84cff; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; transition: 0.2s; }
-        .nav-btn:active { transform: scale(0.9); }
+        .board-nav { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; box-sizing: border-box; background: white; border-radius: 20px; margin-top: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .nav-btn { background: #b84cff; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .nav-info { font-weight: 900; font-size: 1.2rem; color: #333; cursor: pointer; border-bottom: 2px dashed #ccc; }
         .nav-add { background: #2ed573; } .nav-del { background: #ff4757; width: 30px; height: 30px; font-size: 0.9rem; margin-left: 10px; }
         
         .wrapper { position: relative; width: 100%; max-width: 800px; aspect-ratio: 1 / 1.25; background: #fff url('bg.jpg') no-repeat center top/contain; background-size: 100% 100%; margin-top: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border-radius: 20px; overflow: hidden; touch-action: pan-y; transition: background-image 0.3s ease; }
-        .floating-item { position: absolute; width: 28%; text-align: center; z-index: 80; cursor: grab; }
-        .floating-item input { width: 100%; border: none; background: transparent; text-align: center; outline: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        
+        .floating-item { position: absolute; width: 28%; text-align: center; z-index: 80; cursor: grab; user-select: none; }
+        .floating-item:active { cursor: grabbing; }
+        .floating-item input { width: 100%; border: none; background: transparent; text-align: center; outline: none; pointer-events: auto; }
+        
         #box-price input { font-family: var(--p-font); color: var(--p-color); font-size: var(--p-size); font-weight: var(--p-weight); -webkit-text-stroke: var(--p-stroke-w) var(--p-stroke); }
         #box-top input { font-family: var(--t-font); color: var(--t-color); font-size: var(--t-size); font-weight: var(--t-weight); -webkit-text-stroke: var(--t-stroke-w) var(--t-stroke); }
         #box-bot input { font-family: var(--b-font); color: var(--b-color); font-size: var(--b-size); font-weight: var(--b-weight); -webkit-text-stroke: var(--b-stroke-w) var(--b-stroke); }
+        
         .wrapper.edit-mode .floating-item { border: 2px dashed #ff4757; background: rgba(255, 255, 255, 0.7); border-radius: 10px; animation: pulse 1.5s infinite; }
         .wrapper.edit-mode .floating-item input { pointer-events: none; }
         .edit-hint { display: none; position: absolute; top: 10px; left: 0; width: 100%; text-align: center; background: rgba(0,0,0,0.8); color: #fff; padding: 8px; font-size: 0.9rem; pointer-events: none; z-index: 100; }
         .wrapper.edit-mode .edit-hint { display: block; }
         @keyframes pulse { 0% { border-color: #ff4757; } 50% { border-color: #4D96FF; } 100% { border-color: #ff4757; } }
-        
+
         .date-container { position: absolute; top: 25.5%; left: 48.5%; width: 25%; height: 3.8%; display: flex; align-items: center; justify-content: center; background: #ff4757; border-radius: 50px; border: 2px solid #b33939; box-shadow: 0 4px 0 #b33939; z-index: 90; }
         #dateDisplay { font-size: 0.9rem; font-weight: 900; color: #fff; pointer-events: none; }
         #lottoDate { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
@@ -75,7 +75,7 @@
         .num.booked .val { opacity: 0.2; -webkit-text-stroke: 0; color: #888; }
         .num .label { position: absolute; font-size: 9px; font-weight: 900; display: none; z-index: 2; background: var(--label-bg); color: var(--label-text); border: 1px solid var(--label-border); border-radius: var(--label-shape); transform: rotate(-15deg) scale(var(--label-scale)); padding: 2px 5px; box-shadow: 2px 2px 5px rgba(0,0,0,0.2); white-space: nowrap; justify-content: center; align-items: center; }
         .num.booked .label { display: flex !important; }
-        
+
         .admin-section { width: 95%; max-width: 800px; margin-top: 25px; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); box-sizing: border-box; }
         .filter-input { width: 100%; padding: 14px; border: 2px solid #f1f2f6; border-radius: 12px; font-family: 'Kanit'; margin-bottom: 15px; outline: none; box-sizing: border-box; }
         .table-container { overflow-x: auto; }
@@ -84,9 +84,7 @@
         td { border-bottom: 1px solid #f1f2f6; padding: 12px; font-size: 0.95rem; white-space: nowrap; }
         .btn-group { display: flex; gap: 10px; margin-top: 25px; flex-wrap: wrap; }
         .admin-btn { padding: 12px; border: none; border-radius: 50px; font-family: 'Kanit'; font-weight: 700; cursor: pointer; flex: 1; min-width: 100px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .admin-btn:active { transform: scale(0.95); }
-
-        /* Modals & UI Elements */
+        
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-box { background: white; width: 90%; max-width: 380px; padding: 25px; border-radius: 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
         .modal-input { width: 100%; padding: 14px; margin: 8px 0; border: 2px solid #f1f2f6; border-radius: 12px; font-family: 'Kanit'; outline: none; text-align: center; box-sizing: border-box; font-size: 1.1rem; }
@@ -104,11 +102,7 @@
         .bg-thumb { width: 100%; aspect-ratio: 1/1.25; object-fit: cover; border-radius: 8px; border: 2px solid #eee; cursor: pointer; transition: 0.2s; }
         .bg-thumb:hover, .bg-thumb.active { border-color: #b84cff; transform: scale(1.05); }
 
-        @media (max-width: 600px) {
-            .num .val { font-size: 1.1rem; }
-            .floating-item input { font-size: 1.4rem; }
-            .grid { gap: 4px; }
-        }
+        @media (max-width: 600px) { .num .val { font-size: 1.1rem; } .floating-item input { font-size: 1.4rem; } .grid { gap: 4px; } }
     </style>
 </head>
 <body>
@@ -134,9 +128,8 @@
 
         <div class="contact-box">
             <b>📞 ติดต่อผู้พัฒนา / ซื้อ Token ถาวร</b><br>
-            <div class="contact-row"><span>📱 โทร: 093-281-5229</span></div>
-            <div class="contact-row"><span>💬 Line: @boss0932815229</span></div>
-            <div class="contact-row"><span>💙 FB: Rachan Taksin</span></div>
+            โทร: 093-281-5229 | Line: @boss0932815229<br>
+            FB: Rachan Taksin
         </div>
 
         <input type="text" id="tokenInput" class="login-input" placeholder="กรอก Token เพื่อเข้าใช้งาน">
@@ -161,41 +154,23 @@
 
     <div class="wrapper" id="gameWrapper">
         <div class="edit-hint">👆 ลากเพื่อย้ายตำแหน่ง | แตะเพื่อแก้ไขสี/ฟอนต์</div>
-        
-        <div id="box-price" class="floating-item" style="top:15%; left:5%;" data-type="p">
-            <input type="text" id="pricePerTicket" value="40" onchange="saveGameSettings()">
-        </div>
-        <div id="box-top" class="floating-item" style="top:15%; left:38%;" data-type="t">
-            <input type="text" id="prizeTop" value="1500" onchange="saveGameSettings()">
-        </div>
-        <div id="box-bot" class="floating-item" style="top:15%; left:70%;" data-type="b">
-            <input type="text" id="prizeBottom" value="1500" onchange="saveGameSettings()">
-        </div>
-
-        <div class="date-container">
-            <span id="dateDisplay">งวดวันที่</span>
-            <input type="date" id="lottoDate">
-        </div>
+        <div id="box-price" class="floating-item" style="top:15%; left:5%;" data-type="p"><input type="text" id="pricePerTicket" value="40" onchange="saveGameSettings()"></div>
+        <div id="box-top" class="floating-item" style="top:15%; left:38%;" data-type="t"><input type="text" id="prizeTop" value="1500" onchange="saveGameSettings()"></div>
+        <div id="box-bot" class="floating-item" style="top:15%; left:70%;" data-type="b"><input type="text" id="prizeBottom" value="1500" onchange="saveGameSettings()"></div>
+        <div class="date-container"><span id="dateDisplay">งวดวันที่</span><input type="date" id="lottoDate"></div>
         <div class="grid" id="grid"></div>
     </div>
 
     <div class="admin-section">
-        <div style="font-weight: 900; font-size: 1.4rem; margin-bottom: 15px;">📊 จัดการ & สรุปยอด</div>
+        <div style="font-weight: 900; font-size: 1.4rem; margin-bottom: 15px;">📊 จัดการ & สรุปยอด (แผงปัจจุบัน)</div>
         <input type="text" id="filterInput" class="filter-input" placeholder="🔍 ค้นหาเบอร์/ชื่อ..." onkeyup="updateAdminTable()">
-        
         <div class="table-container">
-            <table>
-                <thead><tr><th>เบอร์</th><th>ชื่อ</th><th>ราคา</th><th>วัน/เวลา</th></tr></thead>
-                <tbody id="adminTableBody"></tbody>
-                <tfoot><tr style="background:#f8f9fa; font-weight: 900;"><td colspan="2" style="text-align:right;">รวม:</td><td id="totalSum" style="color:#ff4757; font-size:1.2rem;">0</td><td></td></tr></tfoot>
-            </table>
+            <table><thead><tr><th>เบอร์</th><th>ชื่อ</th><th>ราคา</th><th>วัน/เวลา</th></tr></thead><tbody id="adminTableBody"></tbody><tfoot><tr style="background:#f8f9fa; font-weight: 900;"><td colspan="2" style="text-align:right;">รวม:</td><td id="totalSum" style="color:#ff4757; font-size:1.2rem;">0</td><td></td></tr></tfoot></table>
         </div>
-        
         <div class="btn-group">
             <button class="admin-btn" style="background:#f1f2f6; color:#333;" onclick="logoutApp()">ออกจากระบบ / เปลี่ยน Token</button>
             <button class="admin-btn" style="background:#ff4757; color:white;" onclick="resetBoard()">ล้างแผงนี้</button>
             <button class="admin-btn" style="background:#2f3542; color:white;" onclick="window.print()">พิมพ์</button>
-            
             <button class="admin-btn" style="background: linear-gradient(45deg, #FF6B6B, #4D96FF); color:white;" onclick="openBgSelector()">🖼️ พื้นหลัง</button>
             <button class="admin-btn" style="background: linear-gradient(45deg, #4D96FF, #6BCB77); color:white;" onclick="openGridDesignModal()">🎨 ธีมตาราง</button>
             <button class="admin-btn" id="btnToggleEdit" style="background: linear-gradient(45deg, #FF9F43, #FF6B6B); color:white;" onclick="toggleEditMode()">🔧 จัดวาง</button>
@@ -212,21 +187,18 @@
         <button onclick="closeModal('bookingModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:15px;">ยกเลิก</button>
     </div>
 </div>
-
 <div id="bgSelectModal" class="modal-overlay">
     <div class="modal-box" style="max-width:450px;">
-        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; color:#b84cff;">🖼️ เลือกพื้นหลัง</div>
+        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px;">เลือกพื้นหลัง</div>
         <div class="bg-grid" id="bgGridContainer"></div>
         <button onclick="closeModal('bgSelectModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:20px;">ปิด</button>
     </div>
 </div>
-
 <div id="gridDesignModal" class="modal-overlay">
     <div class="modal-box" style="max-width: 400px; max-height: 85vh;">
-        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; color:#4D96FF;">🎨 ปรับแต่งตาราง</div>
         <div class="preview-box">
-            <div style="text-align:center;"><div style="font-size:0.8rem; color:#888; margin-bottom:5px;">ปกติ</div><div class="num" style="width:70px; height:70px;"><span class="val">00</span></div></div>
-            <div style="text-align:center;"><div style="font-size:0.8rem; color:#888; margin-bottom:5px;">จองแล้ว</div><div class="num booked" style="width:70px; height:70px;"><span class="val">99</span><span class="label">จองแล้ว</span></div></div>
+            <div style="text-align:center;"><div style="font-size:0.8rem; color:#888;">ปกติ</div><div class="num" style="width:70px; height:70px;"><span class="val">00</span></div></div>
+            <div style="text-align:center;"><div style="font-size:0.8rem; color:#888;">จองแล้ว</div><div class="num booked" style="width:70px; height:70px;"><span class="val">99</span><span class="label">จองแล้ว</span></div></div>
         </div>
         <div style="overflow-y:auto; max-height: 50vh;">
             <div class="editor-section">
@@ -262,7 +234,6 @@
         <button onclick="closeModal('gridDesignModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:10px;">ปิด</button>
     </div>
 </div>
-
 <div id="boxDesignModal" class="modal-overlay">
     <div class="modal-box">
         <div class="preview-box"><span id="previewText">1500</span></div>
@@ -458,10 +429,8 @@
         document.getElementById("totalSum").innerText = total.toLocaleString();
     }
 
-    function addNewBoard() {
-        boards.push({ id: Date.now(), name: "แผงที่ "+(boards.length+1), data: {}, settings: {price:"40", top:"1500", bottom:"1500"}, design: defaultDesign });
-        currentBoardIdx = boards.length-1; saveAll(); renderBoardUI();
-    }
+    function resetBoard() { if(confirm("ล้างข้อมูลในแผงนี้ทั้งหมด?")) { boards[currentBoardIdx].data = {}; saveAll(); renderGrid(); updateAdminTable(); } }
+    function addNewBoard() { boards.push({ id: Date.now(), name: "แผงที่ "+(boards.length+1), data: {}, settings: {price:"40", top:"1500", bottom:"1500"}, design: defaultDesign }); currentBoardIdx = boards.length-1; saveAll(); renderBoardUI(); }
     function deleteCurrentBoard() { if(boards.length>1 && confirm("ลบแผงนี้?")){ boards.splice(currentBoardIdx,1); currentBoardIdx=Math.max(0, currentBoardIdx-1); saveAll(); renderBoardUI(); } }
     function renameBoard() { const n = prompt("ชื่อแผงใหม่:", boards[currentBoardIdx].name); if(n){ boards[currentBoardIdx].name=n; saveAll(); renderBoardUI(); } }
     function prevBoard() { if(currentBoardIdx>0){ currentBoardIdx--; renderBoardUI(); } }
@@ -479,7 +448,6 @@
         s.bottom = document.getElementById("prizeBottom").value;
         saveAll();
     }
-    function resetBoard() { if(confirm("ล้างข้อมูลในแผงนี้ทั้งหมด?")) { boards[currentBoardIdx].data = {}; saveAll(); renderGrid(); updateAdminTable(); } }
 
     function applyDesign(c) {
         const r = document.documentElement.style;
@@ -500,7 +468,11 @@
         r.setProperty('--b-font', c.bFont); r.setProperty('--b-color', c.bColor); r.setProperty('--b-size', c.bSize + 'rem'); r.setProperty('--b-weight', c.bWeight); r.setProperty('--b-stroke', c.bStroke); r.setProperty('--b-stroke-w', c.bStrokeWidth + 'px');
     }
     
+    // Toggle, Drag, Editors
     let isEditMode = false;
+    let activeItem = null;
+    let startX = 0, startY = 0, startLeft = 0, startTop = 0;
+
     function toggleEditMode() {
         isEditMode = !isEditMode;
         const wrapper = document.getElementById("gameWrapper");
@@ -515,17 +487,53 @@
         d.bTop = parseFloat(document.getElementById("box-bot").style.top); d.bLeft = parseFloat(document.getElementById("box-bot").style.left);
         saveAll();
     }
+    
     function initDraggable() {
-        document.querySelectorAll(".floating-item").forEach(el => {
-            let dragging = false, x, y, l, t;
-            el.onmousedown = e => { if(!isEditMode)return; dragging=true; x=e.clientX; y=e.clientY; l=el.offsetLeft; t=el.offsetTop; };
-            window.onmousemove = e => { if(!dragging)return; const dx=e.clientX-x, dy=e.clientY-y; el.style.left=((l+dx)/document.getElementById("gameWrapper").offsetWidth*100)+"%"; el.style.top=((t+dy)/document.getElementById("gameWrapper").offsetHeight*100)+"%"; };
-            window.onmouseup = () => dragging=false;
-            el.ontouchstart = e => { if(!isEditMode)return; dragging=true; x=e.touches[0].clientX; y=e.touches[0].clientY; l=el.offsetLeft; t=el.offsetTop; };
-            el.ontouchmove = e => { if(!dragging)return; e.preventDefault(); const dx=e.touches[0].clientX-x, dy=e.touches[0].clientY-y; el.style.left=((l+dx)/document.getElementById("gameWrapper").offsetWidth*100)+"%"; el.style.top=((t+dy)/document.getElementById("gameWrapper").offsetHeight*100)+"%"; };
-            el.ontouchend = () => dragging=false;
-            el.onclick = () => { if(isEditMode) openBoxDesignModal(el.getAttribute('data-type')); };
+        const wrapper = document.getElementById("gameWrapper");
+        const items = document.querySelectorAll(".floating-item");
+
+        const onStart = (e, item) => {
+            if (!isEditMode) return;
+            activeItem = item;
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+            startX = clientX;
+            startY = clientY;
+            startLeft = item.offsetLeft;
+            startTop = item.offsetTop;
+        };
+
+        const onMove = (e) => {
+            if (!activeItem || !isEditMode) return;
+            e.preventDefault(); 
+            const clientX = e.clientX || e.touches[0].clientX;
+            const clientY = e.clientY || e.touches[0].clientY;
+            const dx = clientX - startX;
+            const dy = clientY - startY;
+            
+            const newLeft = ((startLeft + dx) / wrapper.offsetWidth) * 100;
+            const newTop = ((startTop + dy) / wrapper.offsetHeight) * 100;
+            
+            activeItem.style.left = newLeft + "%";
+            activeItem.style.top = newTop + "%";
+        };
+
+        const onEnd = () => {
+            activeItem = null;
+        };
+
+        items.forEach(el => {
+            el.addEventListener('mousedown', (e) => onStart(e, el));
+            el.addEventListener('touchstart', (e) => onStart(e, el));
+            el.addEventListener('click', () => { 
+                 if (isEditMode) openBoxDesignModal(el.getAttribute('data-type'));
+            });
         });
+
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('mouseup', onEnd);
+        window.addEventListener('touchend', onEnd);
     }
 
     function openBgSelector() {
