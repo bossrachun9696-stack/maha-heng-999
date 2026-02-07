@@ -8,126 +8,98 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" type="image/png" href="icon.png">
     
-    <title>มหาเฮง 99 - Ultimate Shadow Control</title>
+    <title>มหาเฮง 99 - Ultimate Pro V11</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Charmonman:wght@400;700&family=Fahkwang:wght@400;600;700&family=Itim&family=Kanit:wght@300;400;600;900&family=KoHo:wght@400;600;700&family=Mali:wght@400;600;700&family=Pattaya&family=Prompt:wght@400;600;900&family=Sriracha&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* --- ค่า Default (Grid) --- */
-            --grid-bg-1: #ffffff;
-            --grid-bg-2: #f0f0f0;
-            --grid-border-color: rgba(0,0,0,0.1);
-            --grid-border-width: 1px;
-            
-            /* Shadow Config */
-            --grid-shadow-dist: 4px;
-            --grid-shadow-dark: #a3a3a3;
-            --grid-shadow-light: #ffffff;
-            
-            --grid-font-family: 'Kanit', sans-serif;
-            --grid-text-color: #333333;
-            --grid-font-size: 1.6rem;
-            --grid-font-weight: 900;
-            --grid-text-stroke-color: transparent;
-            --grid-text-stroke-width: 0px;
-
-            /* --- แยกอิสระ 3 ช่อง --- */
+            /* --- ค่า Default --- */
+            --grid-bg-1: #ffffff; --grid-bg-2: #f0f0f0; --grid-border-color: rgba(0,0,0,0.1); --grid-border-width: 1px; --grid-shape: 12px;
+            --grid-shadow-dist: 3px; --grid-shadow-blur: 6px; --grid-shadow-dark: #a3a3a3; --grid-shadow-light: #ffffff;
+            --grid-font-family: 'Kanit', sans-serif; --grid-text-color: #333333; --grid-font-size: 1.6rem; --grid-font-weight: 900;
+            --grid-text-stroke-color: transparent; --grid-text-stroke-width: 0px;
+            --label-bg: #ff4757; --label-text: #ffffff; --label-border: transparent; --label-shape: 5px; --label-scale: 1;
+            /* Floating Boxes */
             --p-font: 'Mali', sans-serif; --p-color: #333; --p-size: 1.8rem; --p-weight: 900; --p-stroke: transparent; --p-stroke-w: 0px;
             --t-font: 'Mali', sans-serif; --t-color: #333; --t-size: 1.8rem; --t-weight: 900; --t-stroke: transparent; --t-stroke-w: 0px;
             --b-font: 'Mali', sans-serif; --b-color: #333; --b-size: 1.8rem; --b-weight: 900; --b-stroke: transparent; --b-stroke-w: 0px;
         }
 
-        body {
-            margin: 0; background: #fdf2ad;
-            font-family: 'Kanit', sans-serif;
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; padding-bottom: 80px; user-select: none;
-        }
+        body { margin: 0; background: #fdf2ad; font-family: 'Kanit', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding-bottom: 80px; user-select: none; }
 
+        /* Login Screen */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow-y: auto; padding: 20px; box-sizing: border-box; }
+        .login-card { background: white; width: 100%; max-width: 450px; padding: 30px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); text-align: center; }
+        .app-logo { font-size: 3rem; margin-bottom: 10px; display: block; }
+        .app-title { font-size: 2rem; font-weight: 900; background: linear-gradient(45deg, #FF6B6B, #4D96FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
+        .trial-status { font-size: 0.9rem; color: #ff4757; font-weight: bold; margin-bottom: 10px; display: block; background: #fff0f0; padding: 5px; border-radius: 5px; }
+        .feature-list { text-align: left; margin: 20px 0; font-size: 0.85rem; color: #555; background: #f8f9fa; padding: 15px; border-radius: 10px; line-height: 1.6; }
+        .contact-box { background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; color: #1565c0; text-align: center; border: 1px solid #90caf9; }
+        .contact-row { margin-bottom: 5px; font-weight: bold; }
+        .login-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 50px; text-align: center; font-family: 'Kanit'; font-size: 1.1rem; outline: none; transition: 0.3s; margin-bottom: 10px; box-sizing: border-box; }
+        .login-input:focus { border-color: #4D96FF; }
+        .btn-main { width: 100%; padding: 12px; border: none; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-bottom: 10px; font-family: 'Kanit'; transition: 0.2s; }
+        .btn-login { background: #4D96FF; color: white; box-shadow: 0 4px 15px rgba(77, 150, 255, 0.3); }
+        .btn-trial { background: #2ed573; color: white; box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3); }
+        .btn-main:active { transform: scale(0.95); }
+
+        /* Main App */
         #main-content { display: none; width: 100%; flex-direction: column; align-items: center; }
-
-        .wrapper {
-            position: relative; width: 100%; max-width: 800px;
-            aspect-ratio: 1 / 1.25;
-            background: #fff url('bg.jpg') no-repeat center top/contain;
-            background-size: 100% 100%;
-            margin-top: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            border-radius: 20px; overflow: hidden;
-            touch-action: none;
-            transition: background-image 0.3s ease;
-        }
-
-        /* --- Floating Items --- */
-        .floating-item { position: absolute; width: 28%; text-align: center; z-index: 80; cursor: grab; }
-        .floating-item:active { cursor: grabbing; }
+        .board-nav { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; box-sizing: border-box; background: rgba(255,255,255,0.8); border-radius: 20px; margin-top: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .nav-btn { background: #b84cff; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; transition: 0.2s; }
+        .nav-btn:active { transform: scale(0.9); }
+        .nav-info { font-weight: 900; font-size: 1.2rem; color: #333; cursor: pointer; border-bottom: 2px dashed #ccc; }
+        .nav-add { background: #2ed573; } .nav-del { background: #ff4757; width: 30px; height: 30px; font-size: 0.9rem; margin-left: 10px; }
         
-        .floating-item input {
-            width: 100%; border: none; background: transparent;
-            text-align: center; outline: none; pointer-events: auto;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
+        .wrapper { position: relative; width: 100%; max-width: 800px; aspect-ratio: 1 / 1.25; background: #fff url('bg.jpg') no-repeat center top/contain; background-size: 100% 100%; margin-top: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border-radius: 20px; overflow: hidden; touch-action: pan-y; transition: background-image 0.3s ease; }
+        .floating-item { position: absolute; width: 28%; text-align: center; z-index: 80; cursor: grab; }
+        .floating-item input { width: 100%; border: none; background: transparent; text-align: center; outline: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
         #box-price input { font-family: var(--p-font); color: var(--p-color); font-size: var(--p-size); font-weight: var(--p-weight); -webkit-text-stroke: var(--p-stroke-w) var(--p-stroke); }
         #box-top input { font-family: var(--t-font); color: var(--t-color); font-size: var(--t-size); font-weight: var(--t-weight); -webkit-text-stroke: var(--t-stroke-w) var(--t-stroke); }
         #box-bot input { font-family: var(--b-font); color: var(--b-color); font-size: var(--b-size); font-weight: var(--b-weight); -webkit-text-stroke: var(--b-stroke-w) var(--b-stroke); }
-
-        .wrapper.edit-mode .floating-item {
-            border: 2px dashed #ff4757; background: rgba(255, 255, 255, 0.7);
-            border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); animation: pulse 1.5s infinite;
-        }
-        @keyframes pulse { 0% { border-color: #ff4757; } 50% { border-color: #4D96FF; } 100% { border-color: #ff4757; } }
+        .wrapper.edit-mode .floating-item { border: 2px dashed #ff4757; background: rgba(255, 255, 255, 0.7); border-radius: 10px; animation: pulse 1.5s infinite; }
         .wrapper.edit-mode .floating-item input { pointer-events: none; }
-        .edit-hint { display: none; position: absolute; top: 10px; left: 0; width: 100%; text-align: center; background: rgba(0,0,0,0.8); color: #fff; padding: 8px; font-size: 0.9rem; pointer-events: none; z-index: 100; border-bottom: 2px solid #FFD93D; }
+        .edit-hint { display: none; position: absolute; top: 10px; left: 0; width: 100%; text-align: center; background: rgba(0,0,0,0.8); color: #fff; padding: 8px; font-size: 0.9rem; pointer-events: none; z-index: 100; }
         .wrapper.edit-mode .edit-hint { display: block; }
-
-        .date-container { position: absolute; top: 25.5%; left: 48.5%; width: 25%; height: 3.8%; display: flex; align-items: center; justify-content: center; background: #ff4757; border-radius: 50px; border: 2px solid #b33939; box-shadow: 0 4px 0 #b33939; z-index: 90; cursor: pointer; }
+        @keyframes pulse { 0% { border-color: #ff4757; } 50% { border-color: #4D96FF; } 100% { border-color: #ff4757; } }
+        
+        .date-container { position: absolute; top: 25.5%; left: 48.5%; width: 25%; height: 3.8%; display: flex; align-items: center; justify-content: center; background: #ff4757; border-radius: 50px; border: 2px solid #b33939; box-shadow: 0 4px 0 #b33939; z-index: 90; }
         #dateDisplay { font-size: 0.9rem; font-weight: 900; color: #fff; pointer-events: none; }
         #lottoDate { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2; }
-
         .grid { position: absolute; top: 33.5%; left: 4.5%; width: 91%; height: 61%; display: grid; grid-template-columns: repeat(10, 1fr); grid-template-rows: repeat(10, 1fr); gap: 6px; padding: 2px; }
-        .num { 
-            background: linear-gradient(135deg, var(--grid-bg-1), var(--grid-bg-2)); 
-            border: var(--grid-border-width) solid var(--grid-border-color); 
-            border-radius: 12px; 
-            display: flex; justify-content: center; align-items: center; 
-            cursor: pointer; position: relative; 
-            /* Dynamic Shadow Color */
-            box-shadow: 
-                var(--grid-shadow-dist) var(--grid-shadow-dist) calc(var(--grid-shadow-dist)*2) var(--grid-shadow-dark), 
-                calc(var(--grid-shadow-dist)*-1) calc(var(--grid-shadow-dist)*-1) calc(var(--grid-shadow-dist)*2) var(--grid-shadow-light);
-            transition: transform 0.1s; 
-        }
+        .num { background: linear-gradient(135deg, var(--grid-bg-1), var(--grid-bg-2)); border: var(--grid-border-width) solid var(--grid-border-color); border-radius: var(--grid-shape); display: flex; justify-content: center; align-items: center; cursor: pointer; position: relative; box-shadow: var(--grid-shadow-dist) var(--grid-shadow-dist) var(--grid-shadow-blur) var(--grid-shadow-dark), calc(var(--grid-shadow-dist)*-1) calc(var(--grid-shadow-dist)*-1) var(--grid-shadow-blur) var(--grid-shadow-light); transition: transform 0.1s; }
         .num:active { transform: scale(0.95); box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1); }
         .num .val { font-family: var(--grid-font-family); color: var(--grid-text-color); font-size: var(--grid-font-size); font-weight: var(--grid-font-weight); -webkit-text-stroke: var(--grid-text-stroke-width) var(--grid-text-stroke-color); }
         .num.booked { background: #e0e0e0 !important; box-shadow: inset 3px 3px 6px rgba(0,0,0,0.1) !important; }
         .num.booked .val { opacity: 0.2; -webkit-text-stroke: 0; color: #888; }
-        .num .label { position: absolute; font-size: 9px; font-weight: 900; display: none; z-index: 2; color: #fff; font-family: 'Kanit'; background: #ff4757; padding: 2px 5px; border-radius: 5px; transform: rotate(-15deg); box-shadow: 2px 2px 5px rgba(0,0,0,0.2); }
-        .num.booked .label { display: block; }
-
+        .num .label { position: absolute; font-size: 9px; font-weight: 900; display: none; z-index: 2; background: var(--label-bg); color: var(--label-text); border: 1px solid var(--label-border); border-radius: var(--label-shape); transform: rotate(-15deg) scale(var(--label-scale)); padding: 2px 5px; box-shadow: 2px 2px 5px rgba(0,0,0,0.2); white-space: nowrap; justify-content: center; align-items: center; }
+        .num.booked .label { display: flex !important; }
+        
         .admin-section { width: 95%; max-width: 800px; margin-top: 25px; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); box-sizing: border-box; }
         .filter-input { width: 100%; padding: 14px; border: 2px solid #f1f2f6; border-radius: 12px; font-family: 'Kanit'; margin-bottom: 15px; outline: none; box-sizing: border-box; }
         .table-container { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; }
         th { background: #f8f9fa; padding: 12px; text-align: left; font-size: 0.85rem; color: #888; border-radius: 8px; }
-        td { border-bottom: 1px solid #f1f2f6; padding: 12px; font-size: 0.95rem; }
+        td { border-bottom: 1px solid #f1f2f6; padding: 12px; font-size: 0.95rem; white-space: nowrap; }
         .btn-group { display: flex; gap: 10px; margin-top: 25px; flex-wrap: wrap; }
         .admin-btn { padding: 12px; border: none; border-radius: 50px; font-family: 'Kanit'; font-weight: 700; cursor: pointer; flex: 1; min-width: 100px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .admin-btn:active { transform: scale(0.95); }
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        /* Modals & UI Elements */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-box { background: white; width: 90%; max-width: 380px; padding: 25px; border-radius: 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
         .modal-input { width: 100%; padding: 14px; margin: 8px 0; border: 2px solid #f1f2f6; border-radius: 12px; font-family: 'Kanit'; outline: none; text-align: center; box-sizing: border-box; font-size: 1.1rem; }
-
-        .editor-section { background: #f9f9f9; padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; }
+        
+        .editor-section { background: #f9f9f9; padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; text-align:left; }
+        .editor-head { font-size: 1rem; font-weight: bold; margin-bottom: 10px; color:#555; border-bottom:1px solid #ddd; padding-bottom:5px; }
         .control-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .control-label { font-size: 0.85rem; color: #555; }
         input[type="color"] { border: none; width: 35px; height: 35px; cursor: pointer; background: none; }
         input[type="range"] { width: 100px; accent-color: #b84cff; }
         select { padding: 5px; border-radius: 5px; border: 1px solid #ddd; font-family: 'Kanit'; font-size: 0.8rem; width: 150px; }
-        .preview-box { padding: 15px; background: #fff; border: 2px dashed #ddd; margin-bottom: 15px; border-radius: 10px; display: flex; justify-content: center; align-items: center; }
+        .preview-box { padding: 20px; background: #f8f9fa; border: 2px dashed #ddd; margin-bottom: 15px; border-radius: 10px; display: flex; justify-content: space-around; align-items: center; }
+        .preview-box .num { pointer-events: none; margin: 5px; }
         #previewText { font-size: 2rem; font-weight: bold; pointer-events: none; }
-
         .bg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
         .bg-thumb { width: 100%; aspect-ratio: 1/1.25; object-fit: cover; border-radius: 8px; border: 2px solid #eee; cursor: pointer; transition: 0.2s; }
         .bg-thumb:hover, .bg-thumb.active { border-color: #b84cff; transform: scale(1.05); }
@@ -141,10 +113,52 @@
 </head>
 <body>
 
-<div id="loading-screen" style="margin-top: 30vh; font-size: 20px;">กำลังโหลดระบบ...</div>
-<div id="error-screen"></div>
+<div id="login-screen">
+    <div class="login-card">
+        <span class="app-logo">🎰</span>
+        <div class="app-title">มหาเฮง 99</div>
+        <div style="font-size:0.9rem; color:#888; margin-bottom:15px;">ระบบจัดการหวยออนไลน์ครบวงจร</div>
+        
+        <div id="trial-info" class="trial-status" style="display:none;"></div>
+
+        <div class="feature-list">
+            <b>✨ จุดเด่นแอพพลิเคชั่น:</b>
+            <ul>
+                <li>✅ เพิ่มแผงหวยได้ไม่จำกัด แยกการตั้งค่าอิสระ</li>
+                <li>✅ ปรับแต่งธีม, สี, ฟอนต์, พื้นหลัง ได้ตามใจ</li>
+                <li>✅ ระบบจองอัตโนมัติ คำนวณยอดเงินทันที</li>
+                <li>✅ รองรับการพิมพ์ใบสรุปยอด</li>
+                <li>✅ ใช้งานง่าย บนมือถือและคอมพิวเตอร์</li>
+            </ul>
+        </div>
+
+        <div class="contact-box">
+            <b>📞 ติดต่อผู้พัฒนา / ซื้อ Token ถาวร</b><br>
+            <div class="contact-row"><span>📱 โทร: 093-281-5229</span></div>
+            <div class="contact-row"><span>💬 Line: @boss0932815229</span></div>
+            <div class="contact-row"><span>💙 FB: Rachan Taksin</span></div>
+        </div>
+
+        <input type="text" id="tokenInput" class="login-input" placeholder="กรอก Token เพื่อเข้าใช้งาน">
+        <button class="btn-main btn-login" onclick="checkTokenLogin()">เข้าสู่ระบบ</button>
+        <button id="trialBtn" class="btn-main btn-trial" onclick="startTrial()">ทดลองใช้งานฟรี 3 วัน</button>
+        <div id="login-msg" style="color:red; margin-top:10px; font-size:0.9rem;"></div>
+    </div>
+</div>
 
 <div id="main-content">
+    <div class="board-nav">
+        <button class="nav-btn" onclick="prevBoard()">❮</button>
+        <div style="display:flex; align-items:center;">
+            <span id="boardNameDisplay" class="nav-info" onclick="renameBoard()">แผงที่ 1</span>
+            <button class="nav-btn nav-del" onclick="deleteCurrentBoard()" id="btnDeleteBoard">🗑️</button>
+        </div>
+        <div style="display:flex; gap:5px;">
+            <button class="nav-btn nav-add" onclick="addNewBoard()">+</button>
+            <button class="nav-btn" onclick="nextBoard()">❯</button>
+        </div>
+    </div>
+
     <div class="wrapper" id="gameWrapper">
         <div class="edit-hint">👆 ลากเพื่อย้ายตำแหน่ง | แตะเพื่อแก้ไขสี/ฟอนต์</div>
         
@@ -171,15 +185,15 @@
         
         <div class="table-container">
             <table>
-                <thead><tr><th>เบอร์</th><th>ชื่อ</th><th>ราคา</th><th>เวลา</th></tr></thead>
+                <thead><tr><th>เบอร์</th><th>ชื่อ</th><th>ราคา</th><th>วัน/เวลา</th></tr></thead>
                 <tbody id="adminTableBody"></tbody>
                 <tfoot><tr style="background:#f8f9fa; font-weight: 900;"><td colspan="2" style="text-align:right;">รวม:</td><td id="totalSum" style="color:#ff4757; font-size:1.2rem;">0</td><td></td></tr></tfoot>
             </table>
         </div>
         
         <div class="btn-group">
-            <button class="admin-btn" style="background:#ff4757; color:white;" onclick="resetBoard()">ล้างงวด</button>
-            <button class="admin-btn" style="background:#f1f2f6; color:#333;" onclick="logoutToken()">Token</button>
+            <button class="admin-btn" style="background:#f1f2f6; color:#333;" onclick="logoutApp()">ออกจากระบบ / เปลี่ยน Token</button>
+            <button class="admin-btn" style="background:#ff4757; color:white;" onclick="resetBoard()">ล้างแผงนี้</button>
             <button class="admin-btn" style="background:#2f3542; color:white;" onclick="window.print()">พิมพ์</button>
             
             <button class="admin-btn" style="background: linear-gradient(45deg, #FF6B6B, #4D96FF); color:white;" onclick="openBgSelector()">🖼️ พื้นหลัง</button>
@@ -202,81 +216,63 @@
 <div id="bgSelectModal" class="modal-overlay">
     <div class="modal-box" style="max-width:450px;">
         <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; color:#b84cff;">🖼️ เลือกพื้นหลัง</div>
-        <div style="font-size:0.8rem; color:#666; margin-bottom:10px;">รูปจากโฟลเดอร์ Background/bg1.jpg - bg20.jpg</div>
         <div class="bg-grid" id="bgGridContainer"></div>
         <button onclick="closeModal('bgSelectModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:20px;">ปิด</button>
     </div>
 </div>
 
 <div id="gridDesignModal" class="modal-overlay">
-    <div class="modal-box">
-        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; color:#4D96FF;">🎨 ปรับแต่งตาราง (00-99)</div>
+    <div class="modal-box" style="max-width: 400px; max-height: 85vh;">
+        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; color:#4D96FF;">🎨 ปรับแต่งตาราง</div>
         <div class="preview-box">
-            <div class="num" style="width:70px; height:70px;"><span class="val">99</span></div>
+            <div style="text-align:center;"><div style="font-size:0.8rem; color:#888; margin-bottom:5px;">ปกติ</div><div class="num" style="width:70px; height:70px;"><span class="val">00</span></div></div>
+            <div style="text-align:center;"><div style="font-size:0.8rem; color:#888; margin-bottom:5px;">จองแล้ว</div><div class="num booked" style="width:70px; height:70px;"><span class="val">99</span><span class="label">จองแล้ว</span></div></div>
         </div>
-        <div class="editor-section">
-            <div class="control-row"><span class="control-label">พื้นหลัง 1:</span> <input type="color" id="ed-bg1" oninput="previewGridDesign()"></div>
-            <div class="control-row"><span class="control-label">พื้นหลัง 2:</span> <input type="color" id="ed-bg2" oninput="previewGridDesign()"></div>
-            <div class="control-row"><span class="control-label">สีเส้นขอบ:</span> <input type="color" id="ed-border" oninput="previewGridDesign()"></div>
-            <div class="control-row"><span class="control-label">หนาขอบ:</span> <input type="range" id="ed-border-w" min="0" max="5" oninput="previewGridDesign()"></div>
-            <div class="control-row"><span class="control-label">นูน (3D)/ขนาดเงา:</span> <input type="range" id="ed-shadow" min="0" max="15" oninput="previewGridDesign()"></div>
-            <div class="control-row"><span class="control-label">สีเงาเข้ม:</span> <input type="color" id="ed-shadow-dark" oninput="previewGridDesign()"></div>
-            <div class="control-row"><span class="control-label">สีเงาสว่าง:</span> <input type="color" id="ed-shadow-light" oninput="previewGridDesign()"></div>
-        </div>
-        <div class="editor-section">
-            <div class="control-row">
-                <span class="control-label">ฟอนต์:</span>
-                <select id="ed-grid-font" onchange="previewGridDesign()">
-                    <option value="'Kanit', sans-serif">คานิต (มาตรฐาน)</option>
-                    <option value="'Mali', sans-serif">มาลี (ลายมือเด็ก)</option>
-                    <option value="'Sriracha', sans-serif">ศรีราชา (วัยรุ่น)</option>
-                    <option value="'Pattaya', sans-serif">พัทยา (หัวม้วน)</option>
-                    <option value="'Chakra Petch', sans-serif">จักรเพชร (เท่)</option>
-                    <option value="'Itim', cursive">ไอติม (กลมมน)</option>
-                    <option value="'Charmonman', cursive">ชามนแมน (หรู)</option>
-                    <option value="'Fahkwang', sans-serif">ฟ้ากว้าง (ทางการ)</option>
-                    <option value="'KoHo', sans-serif">โก๋ (ทันสมัย)</option>
-                    <option value="'Prompt', sans-serif">พร้อม (กว้าง)</option>
-                </select>
+        <div style="overflow-y:auto; max-height: 50vh;">
+            <div class="editor-section">
+                <div class="editor-head">📦 กล่อง & รูปทรง</div>
+                <div class="control-row"><span>รูปทรง:</span><select id="ed-grid-shape" onchange="previewGridDesign()"><option value="0px">สี่เหลี่ยม</option><option value="12px">มุมมน</option><option value="50%">วงกลม</option><option value="0px 50% 50% 50%">ใบไม้</option><option value="20px 5px 20px 5px">มนทแยง</option></select></div>
+                <div class="control-row"><span>พื้นหลัง 1:</span> <input type="color" id="ed-bg1" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>พื้นหลัง 2:</span> <input type="color" id="ed-bg2" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>ขอบ:</span> <input type="color" id="ed-border" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>หนาขอบ:</span> <input type="range" id="ed-border-w" min="0" max="5" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>นูน/เงา:</span> <input type="range" id="ed-shadow" min="0" max="20" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>เงาเข้ม:</span> <input type="color" id="ed-shadow-dark" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>เงาสว่าง:</span> <input type="color" id="ed-shadow-light" oninput="previewGridDesign()"></div>
             </div>
-            <div class="control-row"><span class="control-label">สีตัวเลข:</span> <input type="color" id="ed-grid-color" oninput="previewGridDesign()"></div>
-            <div class="control-row"><span class="control-label">ขนาด:</span> <input type="range" id="ed-grid-size" min="10" max="30" oninput="previewGridDesign()"></div>
-            <div class="control-row"><span class="control-label">หนาตัว:</span> <input type="range" id="ed-grid-weight" min="100" max="900" step="100" oninput="previewGridDesign()"></div>
-            <div class="control-row"><span class="control-label">สีขอบ:</span> <input type="color" id="ed-grid-stroke" oninput="previewGridDesign()"></div>
-            <div class="control-row"><span class="control-label">หนาขอบ:</span> <input type="range" id="ed-grid-stroke-w" min="0" max="30" oninput="previewGridDesign()"></div>
+            <div class="editor-section">
+                <div class="editor-head">🔤 ตัวเลข</div>
+                <div class="control-row"><span>ฟอนต์:</span><select id="ed-grid-font" onchange="previewGridDesign()"><option value="'Kanit', sans-serif">คานิต</option><option value="'Mali', sans-serif">มาลี</option><option value="'Sriracha', sans-serif">ศรีราชา</option><option value="'Pattaya', sans-serif">พัทยา</option><option value="'Chakra Petch', sans-serif">จักรเพชร</option><option value="'Itim', cursive">ไอติม</option><option value="'Charmonman', cursive">ชามนแมน</option><option value="'Fahkwang', sans-serif">ฟ้ากว้าง</option><option value="'KoHo', sans-serif">โก๋</option><option value="'Prompt', sans-serif">พร้อม</option></select></div>
+                <div class="control-row"><span>สี:</span> <input type="color" id="ed-grid-color" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>ขนาด:</span> <input type="range" id="ed-grid-size" min="10" max="30" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>หนา:</span> <input type="range" id="ed-grid-weight" min="100" max="900" step="100" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>สีขอบตัว:</span> <input type="color" id="ed-grid-stroke" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>หนาขอบตัว:</span> <input type="range" id="ed-grid-stroke-w" min="0" max="30" oninput="previewGridDesign()"></div>
+            </div>
+            <div class="editor-section">
+                <div class="editor-head">🏷️ ป้ายจอง</div>
+                <div class="control-row"><span>สีพื้น:</span> <input type="color" id="ed-label-bg" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>สีตัว:</span> <input type="color" id="ed-label-text" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>ขอบป้าย:</span> <input type="color" id="ed-label-border" oninput="previewGridDesign()"></div>
+                <div class="control-row"><span>รูปทรง:</span><select id="ed-label-shape" onchange="previewGridDesign()"><option value="0px">สี่เหลี่ยม</option><option value="5px">มุมมน</option><option value="50px">แคปซูล</option></select></div>
+                <div class="control-row"><span>ขนาด:</span> <input type="range" id="ed-label-scale" min="5" max="15" oninput="previewGridDesign()"></div>
+            </div>
         </div>
-        <button onclick="saveGridDesign()" style="background:#2ed573; color:white; padding:12px; border-radius:50px; border:none; width:100%; font-weight:bold; cursor:pointer;">บันทึก</button>
+        <button onclick="saveGridDesign()" style="background:#2ed573; color:white; padding:12px; border-radius:50px; border:none; width:100%; font-weight:bold; cursor:pointer; margin-top:10px;">บันทึก</button>
         <button onclick="closeModal('gridDesignModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:10px;">ปิด</button>
     </div>
 </div>
 
 <div id="boxDesignModal" class="modal-overlay">
     <div class="modal-box">
-        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; color:#ff4757;">✨ แก้ไขช่องนี้</div>
-        <div class="preview-box">
-            <span id="previewText">1500</span>
-        </div>
+        <div class="preview-box"><span id="previewText">1500</span></div>
         <div class="editor-section">
-            <div class="control-row">
-                <span class="control-label">ฟอนต์:</span>
-                <select id="ed-box-font" onchange="previewBoxDesign()">
-                    <option value="'Kanit', sans-serif">คานิต (มาตรฐาน)</option>
-                    <option value="'Mali', sans-serif">มาลี (ลายมือเด็ก)</option>
-                    <option value="'Sriracha', sans-serif">ศรีราชา (วัยรุ่น)</option>
-                    <option value="'Pattaya', sans-serif">พัทยา (หัวม้วน)</option>
-                    <option value="'Chakra Petch', sans-serif">จักรเพชร (เท่)</option>
-                    <option value="'Itim', cursive">ไอติม (กลมมน)</option>
-                    <option value="'Charmonman', cursive">ชามนแมน (หรู)</option>
-                    <option value="'Fahkwang', sans-serif">ฟ้ากว้าง (ทางการ)</option>
-                    <option value="'KoHo', sans-serif">โก๋ (ทันสมัย)</option>
-                    <option value="'Prompt', sans-serif">พร้อม (กว้าง)</option>
-                </select>
-            </div>
-            <div class="control-row"><span class="control-label">สีข้อความ:</span> <input type="color" id="ed-box-color" oninput="previewBoxDesign()"></div>
-            <div class="control-row"><span class="control-label">ขนาด:</span> <input type="range" id="ed-box-size" min="10" max="60" oninput="previewBoxDesign()"></div>
-            <div class="control-row"><span class="control-label">หนาตัว:</span> <input type="range" id="ed-box-weight" min="100" max="900" step="100" oninput="previewBoxDesign()"></div>
-            <div class="control-row"><span class="control-label">สีขอบ:</span> <input type="color" id="ed-box-stroke" oninput="previewBoxDesign()"></div>
-            <div class="control-row"><span class="control-label">หนาขอบ:</span> <input type="range" id="ed-box-stroke-w" min="0" max="30" oninput="previewBoxDesign()"></div>
+            <div class="control-row"><span>ฟอนต์:</span><select id="ed-box-font" onchange="previewBoxDesign()"><option value="'Kanit', sans-serif">คานิต</option><option value="'Mali', sans-serif">มาลี</option><option value="'Sriracha', sans-serif">ศรีราชา</option><option value="'Pattaya', sans-serif">พัทยา</option><option value="'Chakra Petch', sans-serif">จักรเพชร</option><option value="'Itim', cursive">ไอติม</option><option value="'Charmonman', cursive">ชามนแมน</option><option value="'Fahkwang', sans-serif">ฟ้ากว้าง</option><option value="'KoHo', sans-serif">โก๋</option><option value="'Prompt', sans-serif">พร้อม</option></select></div>
+            <div class="control-row"><span>สี:</span> <input type="color" id="ed-box-color" oninput="previewBoxDesign()"></div>
+            <div class="control-row"><span>ขนาด:</span> <input type="range" id="ed-box-size" min="10" max="60" oninput="previewBoxDesign()"></div>
+            <div class="control-row"><span>หนา:</span> <input type="range" id="ed-box-weight" min="100" max="900" step="100" oninput="previewBoxDesign()"></div>
+            <div class="control-row"><span>สีขอบ:</span> <input type="color" id="ed-box-stroke" oninput="previewBoxDesign()"></div>
+            <div class="control-row"><span>หนาขอบ:</span> <input type="range" id="ed-box-stroke-w" min="0" max="30" oninput="previewBoxDesign()"></div>
         </div>
         <button onclick="saveBoxDesign()" style="background:#2ed573; color:white; padding:12px; border-radius:50px; border:none; width:100%; font-weight:bold; cursor:pointer;">บันทึก</button>
         <button onclick="closeModal('boxDesignModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:10px;">ปิด</button>
@@ -284,113 +280,155 @@
 </div>
 
 <script>
-    // --- Token System ---
+    // --- Login & Trial Logic ---
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxFUl12KSlond4-TRofHaTgcQhDBjtBNdW4u4qf0Acsn8FqQv1XfCA9qMlGxKBRRoVqgQ/exec";
     const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
-    let token = new URLSearchParams(window.location.search).get('token') || localStorage.getItem("saved_lotto_token");
-
+    const loginScreen = document.getElementById("login-screen");
     const mainContent = document.getElementById("main-content");
-    const loadingScreen = document.getElementById("loading-screen");
-    const errorScreen = document.getElementById("error-screen");
+    const loginMsg = document.getElementById("login-msg");
 
-    function showLoginUI(msg) {
-        loadingScreen.style.display = "none"; errorScreen.style.display = "block";
-        errorScreen.innerHTML = `<div style="background:white; padding:40px; border-radius:30px; box-shadow:0 15px 35px rgba(0,0,0,0.1); width:85%; max-width:400px; margin:auto; text-align:center;"><h2 style="color:#b84cff;">มหาเฮง 99</h2><p style="color:#666;">${msg||"กรุณากรอก Token"}</p><input type="text" id="manualToken" placeholder="Token" style="width:100%; padding:15px; border-radius:15px; border:2px solid #f1f2f6; margin-bottom:20px; text-align:center; outline:none;"><button onclick="saveAndLogin()" style="width:100%; padding:15px; background:#b84cff; color:white; border:none; border-radius:50px; font-weight:bold; cursor:pointer;">เข้าสู่ระบบ</button></div>`;
-    }
-    function saveAndLogin() { const i = document.getElementById("manualToken").value.trim(); if(i.length>=8){localStorage.setItem("saved_lotto_token", i); location.reload();} }
-    function logoutToken() { 
-        if(confirm("เปลี่ยน Token?")) { 
-            localStorage.removeItem("saved_lotto_token"); 
-            window.location.href = window.location.pathname; 
-        } 
+    function checkLoginStatus() {
+        const token = localStorage.getItem("saved_lotto_token");
+        const trialExp = localStorage.getItem("trial_exp_date");
+        const trialInfo = document.getElementById("trial-info");
+        const trialBtn = document.getElementById("trialBtn");
+
+        if (token) {
+            verifyToken(token);
+        } else {
+            loginScreen.style.display = "flex";
+            if (trialExp) {
+                const expDate = new Date(trialExp);
+                const now = new Date();
+                if (now > expDate) {
+                    loginMsg.innerText = "หมดเวลาทดลองเล่นแล้ว! กรุณาใส่ Token จริง";
+                    trialBtn.style.display = "none";
+                } else {
+                    const daysLeft = Math.ceil((expDate - now) / (1000 * 60 * 60 * 24));
+                    trialInfo.style.display = "block";
+                    trialInfo.innerText = `สถานะ: กำลังทดลองใช้งาน (เหลือ ${daysLeft} วัน)`;
+                    trialBtn.innerText = `เข้าใช้งานต่อ (${daysLeft} วัน)`;
+                    trialBtn.onclick = enterApp; 
+                    trialBtn.classList.remove("btn-trial");
+                    trialBtn.classList.add("btn-login"); 
+                }
+            }
+        }
     }
 
-    if(!token) showLoginUI(); else {
-        fetch(`${SCRIPT_URL}?action=check&token=${token}&fp=${fp}`).then(r=>r.json()).then(d=>{
-            if(d.status==="ok"){mainContent.style.display="flex"; loadingScreen.style.display="none"; initApp();} else showLoginUI("Token ผิดพลาด");
-        }).catch(()=>showLoginUI("เชื่อมต่อไม่ได้"));
+    function verifyToken(t) {
+        fetch(`${SCRIPT_URL}?action=check&token=${t}&fp=${fp}`).then(r=>r.json()).then(d=>{
+            if(d.status==="ok") enterApp();
+            else { 
+                localStorage.removeItem("saved_lotto_token"); 
+                location.reload(); 
+            }
+        }).catch(()=>{
+            // enterApp(); // Uncomment for offline testing
+            loginMsg.innerText = "เชื่อมต่อเน็ตไม่ได้";
+        });
     }
 
-    // --- Main Logic ---
+    function checkTokenLogin() {
+        const t = document.getElementById("tokenInput").value.trim();
+        if(!t) return;
+        loginMsg.innerText = "กำลังตรวจสอบ...";
+        fetch(`${SCRIPT_URL}?action=check&token=${t}&fp=${fp}`).then(r=>r.json()).then(d=>{
+            if(d.status==="ok") {
+                localStorage.setItem("saved_lotto_token", t);
+                localStorage.removeItem("trial_exp_date");
+                location.reload();
+            } else { loginMsg.innerText = "Token ผิดพลาด!"; }
+        });
+    }
+
+    function startTrial() {
+        const expDate = new Date();
+        expDate.setDate(expDate.getDate() + 3);
+        localStorage.setItem("trial_exp_date", expDate.toISOString());
+        alert("เริ่มทดลองใช้งานฟรี 3 วัน!");
+        location.reload();
+    }
+
+    function enterApp() {
+        loginScreen.style.display = "none";
+        mainContent.style.display = "flex";
+        initApp();
+    }
+
+    function logoutApp() {
+        if(confirm("ออกจากระบบ?")) {
+            localStorage.removeItem("saved_lotto_token");
+            location.reload();
+        }
+    }
+
+    // --- Core Logic ---
+    let boards = [];
+    let currentBoardIdx = 0;
+    const defaultDesign = { bgImage: "bg.jpg", bg1: "#ffffff", bg2: "#f0f0f0", border: "#eeeeee", borderWidth: 1, gridShape: "12px", shadow: 4, shadowDark: "#a3a3a3", shadowLight: "#ffffff", labelBg: "#ff4757", labelText: "#ffffff", labelBorder: "#ff4757", labelShape: "5px", labelScale: 1, gridFont: "'Kanit', sans-serif", gridColor: "#333333", gridSize: 1.6, gridWeight: 900, gridStroke: "transparent", gridStrokeWidth: 0, pFont: "'Mali', sans-serif", pColor: "#333333", pSize: 1.8, pWeight: 900, pStroke: "transparent", pStrokeWidth: 0, pTop: 15, pLeft: 5, tFont: "'Mali', sans-serif", tColor: "#333333", tSize: 1.8, tWeight: 900, tStroke: "transparent", tStrokeWidth: 0, tTop: 15, tLeft: 38, bFont: "'Mali', sans-serif", bColor: "#333333", bSize: 1.8, bWeight: 900, bStroke: "transparent", bStrokeWidth: 0, bTop: 15, bLeft: 70 };
+    const defaultSettings = { price: "40", top: "1500", bottom: "1500" };
+
     const grid = document.getElementById("grid");
     const dateInput = document.getElementById("lottoDate");
     const dateDisplay = document.getElementById("dateDisplay");
-    
-    let gameSettings = JSON.parse(localStorage.getItem("lotto_settings")) || { price: "40", top: "1500", bottom: "1500" };
-    let bookedData = JSON.parse(localStorage.getItem("lotto_full_data")) || {};
-    
-    // Design Config
-    let designConfig = JSON.parse(localStorage.getItem("lotto_design_v9")) || {
-        bgImage: "bg.jpg",
-        bg1: "#ffffff", bg2: "#f0f0f0", border: "#eeeeee", borderWidth: 1, 
-        shadow: 4, shadowDark: "#a3a3a3", shadowLight: "#ffffff",
-        
-        gridFont: "'Kanit', sans-serif", gridColor: "#333333", gridSize: 1.6, gridWeight: 900, gridStroke: "transparent", gridStrokeWidth: 0,
-        pFont: "'Mali', sans-serif", pColor: "#333333", pSize: 1.8, pWeight: 900, pStroke: "transparent", pStrokeWidth: 0, pTop: 15, pLeft: 5,
-        tFont: "'Mali', sans-serif", tColor: "#333333", tSize: 1.8, tWeight: 900, tStroke: "transparent", tStrokeWidth: 0, tTop: 15, tLeft: 38,
-        bFont: "'Mali', sans-serif", bColor: "#333333", bSize: 1.8, bWeight: 900, bStroke: "transparent", bStrokeWidth: 0, bTop: 15, bLeft: 70
-    };
-    // Ensure defaults for new properties if loading old save
-    if(!designConfig.shadowDark) designConfig.shadowDark = "#a3a3a3";
-    if(!designConfig.shadowLight) designConfig.shadowLight = "#ffffff";
 
     function initApp() {
-        applyDesign(designConfig);
-        document.getElementById("box-price").style.top = designConfig.pTop + "%"; document.getElementById("box-price").style.left = designConfig.pLeft + "%";
-        document.getElementById("box-top").style.top = designConfig.tTop + "%"; document.getElementById("box-top").style.left = designConfig.tLeft + "%";
-        document.getElementById("box-bot").style.top = designConfig.bTop + "%"; document.getElementById("box-bot").style.left = designConfig.bLeft + "%";
-
-        document.getElementById("pricePerTicket").value = gameSettings.price;
-        document.getElementById("prizeTop").value = gameSettings.top;
-        document.getElementById("prizeBottom").value = gameSettings.bottom;
-
+        const saved = localStorage.getItem("lotto_multi_boards");
+        if(saved) boards = JSON.parse(saved);
+        else boards = [{ id: Date.now(), name: "แผงที่ 1", data: {}, settings: {price:"40", top:"1500", bottom:"1500"}, design: defaultDesign }];
+        
         if(localStorage.getItem("formattedDate_final")) {
-            dateDisplay.textContent = localStorage.getItem("formattedDate_final");
-            dateInput.value = localStorage.getItem("rawDate_final");
+            document.getElementById("dateDisplay").textContent = localStorage.getItem("formattedDate_final");
+            document.getElementById("lottoDate").value = localStorage.getItem("rawDate_final");
         }
-
-        dateInput.onchange = function() {
-            if(!this.value) return;
+        document.getElementById("lottoDate").onchange = function() {
             const [y, m, d] = this.value.split("-");
-            const formatted = `${d}/${m}/${parseInt(y)+543}`;
-            dateDisplay.textContent = formatted;
+            const fmt = `${d}/${m}/${parseInt(y)+543}`;
+            document.getElementById("dateDisplay").textContent = fmt;
             localStorage.setItem("rawDate_final", this.value);
-            localStorage.setItem("formattedDate_final", formatted);
+            localStorage.setItem("formattedDate_final", fmt);
         };
 
-        renderGrid();
-        updateAdminTable();
+        renderBoardUI();
         initDraggable();
+        initSwipe();
     }
 
-    function saveGameSettings() {
-        gameSettings.price = document.getElementById("pricePerTicket").value;
-        gameSettings.top = document.getElementById("prizeTop").value;
-        gameSettings.bottom = document.getElementById("prizeBottom").value;
-        localStorage.setItem("lotto_settings", JSON.stringify(gameSettings));
+    function saveAll() { localStorage.setItem("lotto_multi_boards", JSON.stringify(boards)); }
+
+    function renderBoardUI() {
+        const b = boards[currentBoardIdx];
+        document.getElementById("boardNameDisplay").innerText = b.name;
+        applyDesign(b.design);
+        document.getElementById("box-price").style.top = b.design.pTop+"%"; document.getElementById("box-price").style.left = b.design.pLeft+"%";
+        document.getElementById("box-top").style.top = b.design.tTop+"%"; document.getElementById("box-top").style.left = b.design.tLeft+"%";
+        document.getElementById("box-bot").style.top = b.design.bTop+"%"; document.getElementById("box-bot").style.left = b.design.bLeft+"%";
+        document.getElementById("pricePerTicket").value = b.settings.price;
+        document.getElementById("prizeTop").value = b.settings.top;
+        document.getElementById("prizeBottom").value = b.settings.bottom;
+        renderGrid();
+        updateAdminTable();
     }
 
     function renderGrid() {
-        grid.innerHTML = "";
-        for (let i = 0; i < 100; i++) {
-            const numStr = i.toString().padStart(2, "0");
-            const d = document.createElement("div");
-            d.className = "num";
-            d.innerHTML = `<span class="val">${numStr}</span><span class="label">จองแล้ว</span>`;
-            if (bookedData[numStr]) d.classList.add("booked");
+        const g = document.getElementById("grid"); g.innerHTML = "";
+        const b = boards[currentBoardIdx];
+        for(let i=0; i<100; i++){
+            const n = i.toString().padStart(2,"0");
+            const d = document.createElement("div"); d.className = "num";
+            d.innerHTML = `<span class="val">${n}</span><span class="label">จองแล้ว</span>`;
+            if(b.data[n]) d.classList.add("booked");
             d.onclick = () => {
-                if (!d.classList.contains("booked")) {
-                    currentNum = numStr;
-                    document.getElementById("modalNum").innerText = numStr;
-                    document.getElementById("inputName").value = "";
-                    document.getElementById("inputPrice").value = gameSettings.price;
+                if(!d.classList.contains("booked")){
+                    currentNum = n;
+                    document.getElementById("modalNum").innerText = n;
+                    document.getElementById("inputPrice").value = b.settings.price;
                     document.getElementById("bookingModal").style.display = "flex";
                     setTimeout(()=>document.getElementById("inputName").focus(),100);
-                } else {
-                    if (confirm(`ยกเลิกเบอร์ ${numStr}?`)) { delete bookedData[numStr]; saveData(); }
-                }
+                } else { if(confirm("ยกเลิกเบอร์ "+n+"?")){ delete b.data[n]; saveAll(); renderGrid(); updateAdminTable(); } }
             };
-            grid.appendChild(d);
+            g.appendChild(d);
         }
     }
 
@@ -399,244 +437,175 @@
         const name = document.getElementById("inputName").value.trim() || "ไม่ระบุ";
         const price = document.getElementById("inputPrice").value.trim();
         const now = new Date();
-        const dt = `${now.getDate().toString().padStart(2,'0')}/${(now.getMonth()+1).toString().padStart(2,'0')}/${(now.getFullYear()+543).toString().slice(-2)} ${now.toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}`;
-        bookedData[currentNum] = { name, price, datetime: dt };
-        saveData();
-        closeModal('bookingModal');
+        const dateStr = `${now.getDate().toString().padStart(2,'0')}/${(now.getMonth()+1).toString().padStart(2,'0')}/${(now.getFullYear()+543).toString().slice(-2)}`;
+        const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+        const dateTime = `${dateStr} ${timeStr}`;
+        boards[currentBoardIdx].data[currentNum] = { name, price, datetime: dateTime };
+        saveAll(); renderGrid(); updateAdminTable(); closeModal('bookingModal');
     }
 
-    function saveData() { localStorage.setItem("lotto_full_data", JSON.stringify(bookedData)); renderGrid(); updateAdminTable(); }
-
     function updateAdminTable() {
+        const body = document.getElementById("adminTableBody"); body.innerHTML = "";
+        let total = 0;
+        const data = boards[currentBoardIdx].data;
         const key = document.getElementById("filterInput").value.toLowerCase();
-        const tbody = document.getElementById("adminTableBody");
-        tbody.innerHTML = ""; let total = 0;
-        Object.keys(bookedData).sort().forEach(num => {
-            const d = bookedData[num];
-            if (num.includes(key) || d.name.toLowerCase().includes(key)) {
-                total += parseFloat(d.price.replace(/,/g,'')) || 0;
-                tbody.innerHTML += `<tr><td style="font-weight:900; color:#b84cff;">${num}</td><td>${d.name}</td><td>${d.price}</td><td style="color:#888; font-size:0.8rem;">${d.datetime}</td></tr>`;
+        Object.keys(data).sort().forEach(n => {
+            if(n.includes(key) || data[n].name.toLowerCase().includes(key)){
+                total += parseFloat(data[n].price.replace(/,/g,'')) || 0;
+                body.innerHTML += `<tr><td>${n}</td><td>${data[n].name}</td><td>${data[n].price}</td><td>${data[n].datetime}</td></tr>`;
             }
         });
         document.getElementById("totalSum").innerText = total.toLocaleString();
     }
 
-    function resetBoard() { if(confirm("ล้างข้อมูลทั้งหมด?")) { localStorage.removeItem("lotto_full_data"); localStorage.removeItem("rawDate_final"); localStorage.removeItem("formattedDate_final"); location.reload(); } }
-    function closeModal(id) { document.getElementById(id).style.display = "none"; }
-
-    // --- Drag & Edit Logic ---
-    let isEditMode = false;
-    let currentEditType = null; // 'p', 't', 'b'
-
-    function toggleEditMode() {
-        isEditMode = !isEditMode;
-        const wrapper = document.getElementById("gameWrapper");
-        const btn = document.getElementById("btnToggleEdit");
-        
-        if (isEditMode) {
-            wrapper.classList.add("edit-mode");
-            btn.innerHTML = "💾 บันทึก";
-            btn.style.background = "#2ed573";
-        } else {
-            wrapper.classList.remove("edit-mode");
-            btn.innerHTML = "🔧 จัดวาง";
-            btn.style.background = "linear-gradient(45deg, #FF9F43, #FF6B6B)";
-            savePositions();
-        }
+    function addNewBoard() {
+        boards.push({ id: Date.now(), name: "แผงที่ "+(boards.length+1), data: {}, settings: {price:"40", top:"1500", bottom:"1500"}, design: defaultDesign });
+        currentBoardIdx = boards.length-1; saveAll(); renderBoardUI();
     }
-
-    function initDraggable() {
-        const items = document.querySelectorAll(".floating-item");
-        items.forEach(el => {
-            let isDragging = false;
-            let startX, startY, initialLeft, initialTop;
-
-            const startDrag = (clientX, clientY) => {
-                if (!isEditMode) return;
-                isDragging = true;
-                startX = clientX; startY = clientY;
-                initialLeft = el.offsetLeft; initialTop = el.offsetTop;
-            };
-
-            const moveDrag = (clientX, clientY) => {
-                if (!isEditMode || !isDragging) return;
-                const wrapper = document.getElementById("gameWrapper");
-                const dx = clientX - startX; const dy = clientY - startY;
-                el.style.left = ((initialLeft + dx) / wrapper.offsetWidth * 100) + "%";
-                el.style.top = ((initialTop + dy) / wrapper.offsetHeight * 100) + "%";
-            };
-
-            el.addEventListener("touchstart", e => startDrag(e.touches[0].clientX, e.touches[0].clientY));
-            el.addEventListener("touchmove", e => { e.preventDefault(); moveDrag(e.touches[0].clientX, e.touches[0].clientY); });
-            el.addEventListener("touchend", () => isDragging = false);
-
-            el.addEventListener("mousedown", e => startDrag(e.clientX, e.clientY));
-            window.addEventListener("mousemove", e => moveDrag(e.clientX, e.clientY));
-            window.addEventListener("mouseup", () => isDragging = false);
-
-            el.addEventListener("click", () => {
-                if (isEditMode) openBoxDesignModal(el.getAttribute('data-type'));
-            });
-        });
+    function deleteCurrentBoard() { if(boards.length>1 && confirm("ลบแผงนี้?")){ boards.splice(currentBoardIdx,1); currentBoardIdx=Math.max(0, currentBoardIdx-1); saveAll(); renderBoardUI(); } }
+    function renameBoard() { const n = prompt("ชื่อแผงใหม่:", boards[currentBoardIdx].name); if(n){ boards[currentBoardIdx].name=n; saveAll(); renderBoardUI(); } }
+    function prevBoard() { if(currentBoardIdx>0){ currentBoardIdx--; renderBoardUI(); } }
+    function nextBoard() { if(currentBoardIdx<boards.length-1){ currentBoardIdx++; renderBoardUI(); } }
+    function initSwipe() {
+        let x=0; const w=document.getElementById("gameWrapper");
+        w.ontouchstart=e=>x=e.changedTouches[0].clientX;
+        w.ontouchend=e=>{ const dx=e.changedTouches[0].clientX-x; if(dx<-50)nextBoard(); else if(dx>50)prevBoard(); };
     }
-
-    function savePositions() {
-        const p = document.getElementById("box-price");
-        const t = document.getElementById("box-top");
-        const b = document.getElementById("box-bot");
-        designConfig.pTop = parseFloat(p.style.top); designConfig.pLeft = parseFloat(p.style.left);
-        designConfig.tTop = parseFloat(t.style.top); designConfig.tLeft = parseFloat(t.style.left);
-        designConfig.bTop = parseFloat(b.style.top); designConfig.bLeft = parseFloat(b.style.left);
-        localStorage.setItem("lotto_design_v9", JSON.stringify(designConfig));
+    function closeModal(id){ document.getElementById(id).style.display="none"; }
+    function saveGameSettings() { 
+        const s = boards[currentBoardIdx].settings;
+        s.price = document.getElementById("pricePerTicket").value;
+        s.top = document.getElementById("prizeTop").value;
+        s.bottom = document.getElementById("prizeBottom").value;
+        saveAll();
     }
-
-    // --- Background Selector Logic ---
-    function openBgSelector() {
-        const container = document.getElementById("bgGridContainer");
-        container.innerHTML = "";
-        for (let i = 1; i <= 20; i++) {
-            const imgPath = `Background/bg${i}.jpg`;
-            const img = document.createElement("img");
-            img.src = imgPath;
-            img.className = "bg-thumb";
-            img.onerror = function() { this.style.display = "none"; };
-            img.onclick = function() { selectBackground(imgPath); };
-            container.appendChild(img);
-        }
-        document.getElementById("bgSelectModal").style.display = "flex";
-    }
-
-    function selectBackground(path) {
-        designConfig.bgImage = path;
-        applyDesign(designConfig);
-        localStorage.setItem("lotto_design_v9", JSON.stringify(designConfig));
-        closeModal("bgSelectModal");
-    }
-
-    // --- Box Style Editor ---
-    function openBoxDesignModal(type) {
-        currentEditType = type;
-        const prefix = type;
-        
-        document.getElementById("ed-box-font").value = designConfig[prefix + 'Font'];
-        document.getElementById("ed-box-color").value = designConfig[prefix + 'Color'];
-        document.getElementById("ed-box-size").value = designConfig[prefix + 'Size'] * 10;
-        document.getElementById("ed-box-weight").value = designConfig[prefix + 'Weight'];
-        document.getElementById("ed-box-stroke").value = designConfig[prefix + 'Stroke'] === "transparent" ? "#ffffff" : designConfig[prefix + 'Stroke'];
-        document.getElementById("ed-box-stroke-w").value = designConfig[prefix + 'StrokeWidth'] * 10;
-        
-        const preview = document.getElementById("previewText");
-        preview.innerText = (type === 'p') ? document.getElementById("pricePerTicket").value : (type === 't') ? document.getElementById("prizeTop").value : document.getElementById("prizeBottom").value;
-        previewBoxDesign();
-
-        document.getElementById("boxDesignModal").style.display = "flex";
-    }
-
-    function previewBoxDesign() {
-        const preview = document.getElementById("previewText");
-        preview.style.fontFamily = document.getElementById("ed-box-font").value;
-        preview.style.color = document.getElementById("ed-box-color").value;
-        preview.style.fontSize = (document.getElementById("ed-box-size").value / 10) + 'rem';
-        preview.style.fontWeight = document.getElementById("ed-box-weight").value;
-        preview.style.webkitTextStroke = (document.getElementById("ed-box-stroke-w").value / 10) + 'px ' + document.getElementById("ed-box-stroke").value;
-    }
-
-    function saveBoxDesign() {
-        const p = currentEditType;
-        designConfig[p + 'Font'] = document.getElementById("ed-box-font").value;
-        designConfig[p + 'Color'] = document.getElementById("ed-box-color").value;
-        designConfig[p + 'Size'] = document.getElementById("ed-box-size").value / 10;
-        designConfig[p + 'Weight'] = document.getElementById("ed-box-weight").value;
-        designConfig[p + 'Stroke'] = document.getElementById("ed-box-stroke").value;
-        designConfig[p + 'StrokeWidth'] = document.getElementById("ed-box-stroke-w").value / 10;
-        localStorage.setItem("lotto_design_v9", JSON.stringify(designConfig));
-        applyDesign(designConfig);
-        closeModal('boxDesignModal');
-    }
-
-    // --- Grid Style Editor ---
-    function openGridDesignModal() {
-        document.getElementById("ed-bg1").value = designConfig.bg1;
-        document.getElementById("ed-bg2").value = designConfig.bg2;
-        document.getElementById("ed-border").value = designConfig.border;
-        document.getElementById("ed-border-w").value = designConfig.borderWidth;
-        document.getElementById("ed-shadow").value = designConfig.shadow;
-        document.getElementById("ed-shadow-dark").value = designConfig.shadowDark;
-        document.getElementById("ed-shadow-light").value = designConfig.shadowLight;
-        
-        document.getElementById("ed-grid-font").value = designConfig.gridFont;
-        document.getElementById("ed-grid-color").value = designConfig.gridColor;
-        document.getElementById("ed-grid-size").value = designConfig.gridSize * 10;
-        document.getElementById("ed-grid-weight").value = designConfig.gridWeight;
-        document.getElementById("ed-grid-stroke").value = designConfig.gridStroke === "transparent" ? "#ffffff" : designConfig.gridStroke;
-        document.getElementById("ed-grid-stroke-w").value = designConfig.gridStrokeWidth * 10;
-        document.getElementById("gridDesignModal").style.display = "flex";
-    }
-
-    function previewGridDesign() {
-        const cfg = { ...designConfig };
-        cfg.bg1 = document.getElementById("ed-bg1").value;
-        cfg.bg2 = document.getElementById("ed-bg2").value;
-        cfg.border = document.getElementById("ed-border").value;
-        cfg.borderWidth = document.getElementById("ed-border-w").value;
-        cfg.shadow = document.getElementById("ed-shadow").value;
-        cfg.shadowDark = document.getElementById("ed-shadow-dark").value;
-        cfg.shadowLight = document.getElementById("ed-shadow-light").value;
-        
-        cfg.gridFont = document.getElementById("ed-grid-font").value;
-        cfg.gridColor = document.getElementById("ed-grid-color").value;
-        cfg.gridSize = document.getElementById("ed-grid-size").value / 10;
-        cfg.gridWeight = document.getElementById("ed-grid-weight").value;
-        cfg.gridStroke = document.getElementById("ed-grid-stroke").value;
-        cfg.gridStrokeWidth = document.getElementById("ed-grid-stroke-w").value / 10;
-        applyDesign(cfg);
-    }
-
-    function saveGridDesign() {
-        designConfig.bg1 = document.getElementById("ed-bg1").value;
-        designConfig.bg2 = document.getElementById("ed-bg2").value;
-        designConfig.border = document.getElementById("ed-border").value;
-        designConfig.borderWidth = document.getElementById("ed-border-w").value;
-        designConfig.shadow = document.getElementById("ed-shadow").value;
-        designConfig.shadowDark = document.getElementById("ed-shadow-dark").value;
-        designConfig.shadowLight = document.getElementById("ed-shadow-light").value;
-        
-        designConfig.gridFont = document.getElementById("ed-grid-font").value;
-        designConfig.gridColor = document.getElementById("ed-grid-color").value;
-        designConfig.gridSize = document.getElementById("ed-grid-size").value / 10;
-        designConfig.gridWeight = document.getElementById("ed-grid-weight").value;
-        designConfig.gridStroke = document.getElementById("ed-grid-stroke").value;
-        designConfig.gridStrokeWidth = document.getElementById("ed-grid-stroke-w").value / 10;
-        localStorage.setItem("lotto_design_v9", JSON.stringify(designConfig));
-        closeModal('gridDesignModal');
-    }
+    function resetBoard() { if(confirm("ล้างข้อมูลในแผงนี้ทั้งหมด?")) { boards[currentBoardIdx].data = {}; saveAll(); renderGrid(); updateAdminTable(); } }
 
     function applyDesign(c) {
         const r = document.documentElement.style;
         document.querySelector('.wrapper').style.backgroundImage = `url('${c.bgImage}')`;
-
         r.setProperty('--grid-bg-1', c.bg1); r.setProperty('--grid-bg-2', c.bg2);
         r.setProperty('--grid-border-color', c.border); r.setProperty('--grid-border-width', c.borderWidth + 'px');
-        r.setProperty('--grid-shadow-dist', c.shadow + 'px');
-        r.setProperty('--grid-shadow-dark', c.shadowDark);
-        r.setProperty('--grid-shadow-light', c.shadowLight);
-        
+        const sD = c.shadow / 2; const sB = c.shadow * 1.5;
+        r.setProperty('--grid-shadow-dist', sD + 'px'); r.setProperty('--grid-shadow-blur', sB + 'px');
+        r.setProperty('--grid-shadow-dark', c.shadowDark); r.setProperty('--grid-shadow-light', c.shadowLight);
+        r.setProperty('--grid-shape', c.gridShape);
+        r.setProperty('--label-bg', c.labelBg); r.setProperty('--label-text', c.labelText);
+        r.setProperty('--label-border', c.labelBorder); r.setProperty('--label-shape', c.labelShape); r.setProperty('--label-scale', c.labelScale);
         r.setProperty('--grid-font-family', c.gridFont); r.setProperty('--grid-text-color', c.gridColor);
         r.setProperty('--grid-font-size', c.gridSize + 'rem'); r.setProperty('--grid-font-weight', c.gridWeight);
         r.setProperty('--grid-text-stroke-color', c.gridStroke); r.setProperty('--grid-text-stroke-width', c.gridStrokeWidth + 'px');
-        
-        r.setProperty('--p-font', c.pFont); r.setProperty('--p-color', c.pColor);
-        r.setProperty('--p-size', c.pSize + 'rem'); r.setProperty('--p-weight', c.pWeight);
-        r.setProperty('--p-stroke', c.pStroke); r.setProperty('--p-stroke-w', c.pStrokeWidth + 'px');
-        
-        r.setProperty('--t-font', c.tFont); r.setProperty('--t-color', c.tColor);
-        r.setProperty('--t-size', c.tSize + 'rem'); r.setProperty('--t-weight', c.tWeight);
-        r.setProperty('--t-stroke', c.tStroke); r.setProperty('--t-stroke-w', c.tStrokeWidth + 'px');
-        
-        r.setProperty('--b-font', c.bFont); r.setProperty('--b-color', c.bColor);
-        r.setProperty('--b-size', c.bSize + 'rem'); r.setProperty('--b-weight', c.bWeight);
-        r.setProperty('--b-stroke', c.bStroke); r.setProperty('--b-stroke-w', c.bStrokeWidth + 'px');
+        r.setProperty('--p-font', c.pFont); r.setProperty('--p-color', c.pColor); r.setProperty('--p-size', c.pSize + 'rem'); r.setProperty('--p-weight', c.pWeight); r.setProperty('--p-stroke', c.pStroke); r.setProperty('--p-stroke-w', c.pStrokeWidth + 'px');
+        r.setProperty('--t-font', c.tFont); r.setProperty('--t-color', c.tColor); r.setProperty('--t-size', c.tSize + 'rem'); r.setProperty('--t-weight', c.tWeight); r.setProperty('--t-stroke', c.tStroke); r.setProperty('--t-stroke-w', c.tStrokeWidth + 'px');
+        r.setProperty('--b-font', c.bFont); r.setProperty('--b-color', c.bColor); r.setProperty('--b-size', c.bSize + 'rem'); r.setProperty('--b-weight', c.bWeight); r.setProperty('--b-stroke', c.bStroke); r.setProperty('--b-stroke-w', c.bStrokeWidth + 'px');
     }
+    
+    let isEditMode = false;
+    function toggleEditMode() {
+        isEditMode = !isEditMode;
+        const wrapper = document.getElementById("gameWrapper");
+        const btn = document.getElementById("btnToggleEdit");
+        if (isEditMode) { wrapper.classList.add("edit-mode"); btn.innerHTML = "💾 บันทึก"; btn.style.background = "#2ed573"; }
+        else { wrapper.classList.remove("edit-mode"); btn.innerHTML = "🔧 จัดวาง"; btn.style.background = "linear-gradient(45deg, #FF9F43, #FF6B6B)"; savePositions(); }
+    }
+    function savePositions() {
+        const d = boards[currentBoardIdx].design;
+        d.pTop = parseFloat(document.getElementById("box-price").style.top); d.pLeft = parseFloat(document.getElementById("box-price").style.left);
+        d.tTop = parseFloat(document.getElementById("box-top").style.top); d.tLeft = parseFloat(document.getElementById("box-top").style.left);
+        d.bTop = parseFloat(document.getElementById("box-bot").style.top); d.bLeft = parseFloat(document.getElementById("box-bot").style.left);
+        saveAll();
+    }
+    function initDraggable() {
+        document.querySelectorAll(".floating-item").forEach(el => {
+            let dragging = false, x, y, l, t;
+            el.onmousedown = e => { if(!isEditMode)return; dragging=true; x=e.clientX; y=e.clientY; l=el.offsetLeft; t=el.offsetTop; };
+            window.onmousemove = e => { if(!dragging)return; const dx=e.clientX-x, dy=e.clientY-y; el.style.left=((l+dx)/document.getElementById("gameWrapper").offsetWidth*100)+"%"; el.style.top=((t+dy)/document.getElementById("gameWrapper").offsetHeight*100)+"%"; };
+            window.onmouseup = () => dragging=false;
+            el.ontouchstart = e => { if(!isEditMode)return; dragging=true; x=e.touches[0].clientX; y=e.touches[0].clientY; l=el.offsetLeft; t=el.offsetTop; };
+            el.ontouchmove = e => { if(!dragging)return; e.preventDefault(); const dx=e.touches[0].clientX-x, dy=e.touches[0].clientY-y; el.style.left=((l+dx)/document.getElementById("gameWrapper").offsetWidth*100)+"%"; el.style.top=((t+dy)/document.getElementById("gameWrapper").offsetHeight*100)+"%"; };
+            el.ontouchend = () => dragging=false;
+            el.onclick = () => { if(isEditMode) openBoxDesignModal(el.getAttribute('data-type')); };
+        });
+    }
+
+    function openBgSelector() {
+        const c = document.getElementById("bgGridContainer"); c.innerHTML = "";
+        for (let i = 1; i <= 20; i++) {
+            const img = document.createElement("img"); img.src = `Background/bg${i}.jpg`; img.className = "bg-thumb";
+            img.onerror = function() { this.style.display = "none"; };
+            img.onclick = function() { boards[currentBoardIdx].design.bgImage = this.src; saveAll(); renderBoardUI(); closeModal("bgSelectModal"); };
+            c.appendChild(img);
+        }
+        document.getElementById("bgSelectModal").style.display = "flex";
+    }
+    let currentEditType = null;
+    function openBoxDesignModal(type) {
+        currentEditType = type; const d = boards[currentBoardIdx].design;
+        document.getElementById("ed-box-font").value = d[type + 'Font']; document.getElementById("ed-box-color").value = d[type + 'Color'];
+        document.getElementById("ed-box-size").value = d[type + 'Size'] * 10; document.getElementById("ed-box-weight").value = d[type + 'Weight'];
+        document.getElementById("ed-box-stroke").value = d[type + 'Stroke'] === "transparent" ? "#ffffff" : d[type + 'Stroke'];
+        document.getElementById("ed-box-stroke-w").value = d[type + 'StrokeWidth'] * 10;
+        document.getElementById("previewText").innerText = (type === 'p') ? boards[currentBoardIdx].settings.price : (type === 't') ? boards[currentBoardIdx].settings.top : boards[currentBoardIdx].settings.bottom;
+        previewBoxDesign(); document.getElementById("boxDesignModal").style.display = "flex";
+    }
+    function previewBoxDesign() {
+        const p = document.getElementById("previewText").style;
+        p.fontFamily = document.getElementById("ed-box-font").value; p.color = document.getElementById("ed-box-color").value;
+        p.fontSize = (document.getElementById("ed-box-size").value / 10) + 'rem'; p.fontWeight = document.getElementById("ed-box-weight").value;
+        p.webkitTextStroke = (document.getElementById("ed-box-stroke-w").value / 10) + 'px ' + document.getElementById("ed-box-stroke").value;
+    }
+    function saveBoxDesign() {
+        const t = currentEditType; const d = boards[currentBoardIdx].design;
+        d[t + 'Font'] = document.getElementById("ed-box-font").value; d[t + 'Color'] = document.getElementById("ed-box-color").value;
+        d[t + 'Size'] = document.getElementById("ed-box-size").value / 10; d[t + 'Weight'] = document.getElementById("ed-box-weight").value;
+        d[t + 'Stroke'] = document.getElementById("ed-box-stroke").value; d[t + 'StrokeWidth'] = document.getElementById("ed-box-stroke-w").value / 10;
+        saveAll(); applyDesign(d); closeModal('boxDesignModal');
+    }
+    function openGridDesignModal() {
+        const d = boards[currentBoardIdx].design;
+        document.getElementById("ed-bg1").value = d.bg1; document.getElementById("ed-bg2").value = d.bg2;
+        document.getElementById("ed-border").value = d.border; document.getElementById("ed-border-w").value = d.borderWidth;
+        document.getElementById("ed-shadow").value = d.shadow; document.getElementById("ed-shadow-dark").value = d.shadowDark; document.getElementById("ed-shadow-light").value = d.shadowLight;
+        document.getElementById("ed-grid-shape").value = d.gridShape;
+        document.getElementById("ed-label-bg").value = d.labelBg; document.getElementById("ed-label-text").value = d.labelText;
+        document.getElementById("ed-label-border").value = d.labelBorder; document.getElementById("ed-label-shape").value = d.labelShape;
+        document.getElementById("ed-label-scale").value = d.labelScale * 10;
+        document.getElementById("ed-grid-font").value = d.gridFont; document.getElementById("ed-grid-color").value = d.gridColor;
+        document.getElementById("ed-grid-size").value = d.gridSize * 10; document.getElementById("ed-grid-weight").value = d.gridWeight;
+        document.getElementById("ed-grid-stroke").value = d.gridStroke === "transparent" ? "#ffffff" : d.gridStroke;
+        document.getElementById("ed-grid-stroke-w").value = d.gridStrokeWidth * 10;
+        document.getElementById("gridDesignModal").style.display = "flex"; previewGridDesign();
+    }
+    function previewGridDesign() {
+        const cfg = { ...boards[currentBoardIdx].design };
+        cfg.bg1 = document.getElementById("ed-bg1").value; cfg.bg2 = document.getElementById("ed-bg2").value;
+        cfg.border = document.getElementById("ed-border").value; cfg.borderWidth = document.getElementById("ed-border-w").value;
+        cfg.shadow = document.getElementById("ed-shadow").value; cfg.shadowDark = document.getElementById("ed-shadow-dark").value; cfg.shadowLight = document.getElementById("ed-shadow-light").value;
+        cfg.gridShape = document.getElementById("ed-grid-shape").value;
+        cfg.labelBg = document.getElementById("ed-label-bg").value; cfg.labelText = document.getElementById("ed-label-text").value;
+        cfg.labelBorder = document.getElementById("ed-label-border").value; cfg.labelShape = document.getElementById("ed-label-shape").value;
+        cfg.labelScale = document.getElementById("ed-label-scale").value / 10;
+        cfg.gridFont = document.getElementById("ed-grid-font").value; cfg.gridColor = document.getElementById("ed-grid-color").value;
+        cfg.gridSize = document.getElementById("ed-grid-size").value / 10; cfg.gridWeight = document.getElementById("ed-grid-weight").value;
+        cfg.gridStroke = document.getElementById("ed-grid-stroke").value; cfg.gridStrokeWidth = document.getElementById("ed-grid-stroke-w").value / 10;
+        applyDesign(cfg);
+    }
+    function saveGridDesign() {
+        const d = boards[currentBoardIdx].design;
+        d.bg1 = document.getElementById("ed-bg1").value; d.bg2 = document.getElementById("ed-bg2").value;
+        d.border = document.getElementById("ed-border").value; d.borderWidth = document.getElementById("ed-border-w").value;
+        d.shadow = document.getElementById("ed-shadow").value; d.shadowDark = document.getElementById("ed-shadow-dark").value; d.shadowLight = document.getElementById("ed-shadow-light").value;
+        d.gridShape = document.getElementById("ed-grid-shape").value;
+        d.labelBg = document.getElementById("ed-label-bg").value; d.labelText = document.getElementById("ed-label-text").value;
+        d.labelBorder = document.getElementById("ed-label-border").value; d.labelShape = document.getElementById("ed-label-shape").value;
+        d.labelScale = document.getElementById("ed-label-scale").value / 10;
+        d.gridFont = document.getElementById("ed-grid-font").value; d.gridColor = document.getElementById("ed-grid-color").value;
+        d.gridSize = document.getElementById("ed-grid-size").value / 10; d.gridWeight = document.getElementById("ed-grid-weight").value;
+        d.gridStroke = document.getElementById("ed-grid-stroke").value; d.gridStrokeWidth = document.getElementById("ed-grid-stroke-w").value / 10;
+        saveAll(); closeModal('gridDesignModal');
+    }
+
+    checkLoginStatus();
 </script>
 
 </body>
