@@ -8,19 +8,17 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" type="image/png" href="icon.png">
     
-    <title>มหาเฮง 99 - Ultimate Pro V13 (Final Production)</title>
+    <title>มหาเฮง 99 - Ultimate Pro V14 (True Device Lock)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Charmonman:wght@400;700&family=Fahkwang:wght@400;600;700&family=Itim&family=Kanit:wght@300;400;600;900&family=KoHo:wght@400;600;700&family=Mali:wght@400;600;700&family=Pattaya&family=Prompt:wght@400;600;900&family=Sriracha&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* --- ค่า Default --- */
             --grid-bg-1: #ffffff; --grid-bg-2: #f0f0f0; --grid-border-color: rgba(0,0,0,0.1); --grid-border-width: 1px; --grid-shape: 12px;
             --grid-shadow-dist: 3px; --grid-shadow-blur: 6px; --grid-shadow-dark: #a3a3a3; --grid-shadow-light: #ffffff;
             --grid-font-family: 'Kanit', sans-serif; --grid-text-color: #333333; --grid-font-size: 1.6rem; --grid-font-weight: 900;
             --grid-text-stroke-color: transparent; --grid-text-stroke-width: 0px;
             --label-bg: #ff4757; --label-text: #ffffff; --label-border: transparent; --label-shape: 5px; --label-scale: 1;
-            /* Floating Boxes */
             --p-font: 'Mali', sans-serif; --p-color: #333; --p-size: 1.8rem; --p-weight: 900; --p-stroke: transparent; --p-stroke-w: 0px;
             --t-font: 'Mali', sans-serif; --t-color: #333; --t-size: 1.8rem; --t-weight: 900; --t-stroke: transparent; --t-stroke-w: 0px;
             --b-font: 'Mali', sans-serif; --b-color: #333; --b-size: 1.8rem; --b-weight: 900; --b-stroke: transparent; --b-stroke-w: 0px;
@@ -53,8 +51,7 @@
         .nav-add { background: #2ed573; } .nav-del { background: #ff4757; width: 30px; height: 30px; font-size: 0.9rem; margin-left: 10px; }
         
         .wrapper { position: relative; width: 100%; max-width: 800px; aspect-ratio: 1 / 1.25; background: #fff url('bg.jpg') no-repeat center top/contain; background-size: 100% 100%; margin-top: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border-radius: 20px; overflow: hidden; touch-action: pan-y; transition: background-image 0.3s ease; }
-        .floating-item { position: absolute; width: 28%; text-align: center; z-index: 80; cursor: grab; user-select: none; }
-        .floating-item:active { cursor: grabbing; }
+        .floating-item { position: absolute; width: 28%; text-align: center; z-index: 80; cursor: grab; }
         .floating-item input { width: 100%; border: none; background: transparent; text-align: center; outline: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); pointer-events: auto; }
         
         #box-price input { font-family: var(--p-font); color: var(--p-color); font-size: var(--p-size); font-weight: var(--p-weight); -webkit-text-stroke: var(--p-stroke-w) var(--p-stroke); }
@@ -89,11 +86,10 @@
         .admin-btn { padding: 12px; border: none; border-radius: 50px; font-family: 'Kanit'; font-weight: 700; cursor: pointer; flex: 1; min-width: 100px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .admin-btn:active { transform: scale(0.95); }
 
-        /* Modals & UI Elements */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-box { background: white; width: 90%; max-width: 380px; padding: 25px; border-radius: 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
         .modal-input { width: 100%; padding: 14px; margin: 8px 0; border: 2px solid #f1f2f6; border-radius: 12px; font-family: 'Kanit'; outline: none; text-align: center; box-sizing: border-box; font-size: 1.1rem; }
-        
+
         .editor-section { background: #f9f9f9; padding: 15px; border-radius: 15px; margin-bottom: 15px; border: 1px solid #eee; text-align:left; }
         .editor-head { font-size: 1rem; font-weight: bold; margin-bottom: 10px; color:#555; border-bottom:1px solid #ddd; padding-bottom:5px; }
         .control-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
@@ -107,7 +103,11 @@
         .bg-thumb { width: 100%; aspect-ratio: 1/1.25; object-fit: cover; border-radius: 8px; border: 2px solid #eee; cursor: pointer; transition: 0.2s; }
         .bg-thumb:hover, .bg-thumb.active { border-color: #b84cff; transform: scale(1.05); }
 
-        @media (max-width: 600px) { .num .val { font-size: 1.1rem; } .floating-item input { font-size: 1.4rem; } .grid { gap: 4px; } }
+        @media (max-width: 600px) {
+            .num .val { font-size: 1.1rem; }
+            .floating-item input { font-size: 1.4rem; }
+            .grid { gap: 4px; }
+        }
     </style>
 </head>
 <body>
@@ -160,23 +160,41 @@
 
     <div class="wrapper" id="gameWrapper">
         <div class="edit-hint">👆 ลากเพื่อย้ายตำแหน่ง | แตะเพื่อแก้ไขสี/ฟอนต์</div>
-        <div id="box-price" class="floating-item" style="top:15%; left:5%;" data-type="p"><input type="text" id="pricePerTicket" value="40" onchange="saveGameSettings()"></div>
-        <div id="box-top" class="floating-item" style="top:15%; left:38%;" data-type="t"><input type="text" id="prizeTop" value="1500" onchange="saveGameSettings()"></div>
-        <div id="box-bot" class="floating-item" style="top:15%; left:70%;" data-type="b"><input type="text" id="prizeBottom" value="1500" onchange="saveGameSettings()"></div>
-        <div class="date-container"><span id="dateDisplay">งวดวันที่</span><input type="date" id="lottoDate"></div>
+        
+        <div id="box-price" class="floating-item" style="top:15%; left:5%;" data-type="p">
+            <input type="text" id="pricePerTicket" value="40" onchange="saveGameSettings()">
+        </div>
+        <div id="box-top" class="floating-item" style="top:15%; left:38%;" data-type="t">
+            <input type="text" id="prizeTop" value="1500" onchange="saveGameSettings()">
+        </div>
+        <div id="box-bot" class="floating-item" style="top:15%; left:70%;" data-type="b">
+            <input type="text" id="prizeBottom" value="1500" onchange="saveGameSettings()">
+        </div>
+
+        <div class="date-container">
+            <span id="dateDisplay">งวดวันที่</span>
+            <input type="date" id="lottoDate">
+        </div>
         <div class="grid" id="grid"></div>
     </div>
 
     <div class="admin-section">
         <div style="font-weight: 900; font-size: 1.4rem; margin-bottom: 15px;">📊 จัดการ & สรุปยอด (แผงปัจจุบัน)</div>
         <input type="text" id="filterInput" class="filter-input" placeholder="🔍 ค้นหาเบอร์/ชื่อ..." onkeyup="updateAdminTable()">
+        
         <div class="table-container">
-            <table><thead><tr><th>เบอร์</th><th>ชื่อ</th><th>ราคา</th><th>วัน/เวลา</th></tr></thead><tbody id="adminTableBody"></tbody><tfoot><tr style="background:#f8f9fa; font-weight: 900;"><td colspan="2" style="text-align:right;">รวม:</td><td id="totalSum" style="color:#ff4757; font-size:1.2rem;">0</td><td></td></tr></tfoot></table>
+            <table>
+                <thead><tr><th>เบอร์</th><th>ชื่อ</th><th>ราคา</th><th>วัน/เวลา</th></tr></thead>
+                <tbody id="adminTableBody"></tbody>
+                <tfoot><tr style="background:#f8f9fa; font-weight: 900;"><td colspan="2" style="text-align:right;">รวม:</td><td id="totalSum" style="color:#ff4757; font-size:1.2rem;">0</td><td></td></tr></tfoot>
+            </table>
         </div>
+        
         <div class="btn-group">
             <button class="admin-btn" style="background:#f1f2f6; color:#333;" onclick="logoutApp()">ออกจากระบบ / เปลี่ยน Token</button>
             <button class="admin-btn" style="background:#ff4757; color:white;" onclick="resetBoard()">ล้างแผงนี้</button>
             <button class="admin-btn" style="background:#2f3542; color:white;" onclick="window.print()">พิมพ์</button>
+            
             <button class="admin-btn" style="background: linear-gradient(45deg, #FF6B6B, #4D96FF); color:white;" onclick="openBgSelector()">🖼️ พื้นหลัง</button>
             <button class="admin-btn" style="background: linear-gradient(45deg, #4D96FF, #6BCB77); color:white;" onclick="openGridDesignModal()">🎨 ธีมตาราง</button>
             <button class="admin-btn" id="btnToggleEdit" style="background: linear-gradient(45deg, #FF9F43, #FF6B6B); color:white;" onclick="toggleEditMode()">🔧 จัดวาง</button>
@@ -261,23 +279,32 @@
 </div>
 
 <script>
-    // --- Login & Trial Logic (Updated URL) ---
+    // --- Login & Trial Logic (FIXED LOGOUT & DEVICE LOCK) ---
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbymbOZtjXqlFoeFUfOHzqHaHMNm9d625evuhZgrscQqw96f9I55rrOH9ekCF3imbhCv-g/exec";
     const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
     const loginScreen = document.getElementById("login-screen");
     const mainContent = document.getElementById("main-content");
     const loginMsg = document.getElementById("login-msg");
 
+    // Fingerprint Device ID (Persistent Lock)
     function getDeviceId() {
         let id = localStorage.getItem("lotto_device_unique_id");
         if (!id) {
-            id = 'DEV-' + fp.replace(/\s+/g, '') + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+            // Create a unique ID using screen, navigator properties + random part
+            const raw = navigator.userAgent + screen.width + screen.height + new Date().getTimezoneOffset();
+            let hash = 0;
+            for (let i = 0; i < raw.length; i++) {
+                const char = raw.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            id = 'DEV-' + Math.abs(hash) + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
             localStorage.setItem("lotto_device_unique_id", id);
         }
         return id;
     }
 
-    function checkLoginStatus() {
+    async function checkLoginStatus() {
         const token = localStorage.getItem("saved_lotto_token");
         const deviceId = getDeviceId();
         const trialInfo = document.getElementById("trial-info");
@@ -286,36 +313,33 @@
         if (token) {
             verifyToken(token);
         } else {
-            // Check trial status from server
-            fetch(`${SCRIPT_URL}?action=checkTrial&deviceId=${deviceId}`)
-                .then(r => r.json())
-                .then(result => {
-                    loginScreen.style.display = "flex";
-                    if (result.status === "exists") {
-                        const expDate = new Date(result.expDate);
-                        const now = new Date();
-                        if (now > expDate) {
-                            loginMsg.innerText = "หมดเวลาทดลองเล่นแล้ว! กรุณาใส่ Token จริง";
-                            trialBtn.style.display = "none";
-                        } else {
-                            const daysLeft = Math.ceil((expDate - now) / (1000 * 60 * 60 * 24));
-                            trialInfo.style.display = "block";
-                            trialInfo.innerText = `สถานะ: กำลังทดลองใช้งาน (เหลือ ${daysLeft} วัน)`;
-                            
-                            trialBtn.innerText = `เข้าใช้งานต่อ (${daysLeft} วัน)`;
-                            trialBtn.onclick = enterApp; 
-                            trialBtn.classList.remove("btn-trial");
-                            trialBtn.classList.add("btn-login"); 
-                        }
+            // Fetch trial status from server
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=checkTrial&deviceId=${deviceId}`);
+                const result = await response.json();
+                loginScreen.style.display = "flex";
+
+                if (result.status === "exists") {
+                    const expDate = new Date(result.expDate);
+                    const now = new Date();
+                    if (now > expDate) {
+                        loginMsg.innerText = "หมดเวลาทดลองเล่นแล้ว! กรุณาใส่ Token จริง";
+                        trialBtn.style.display = "none";
                     } else {
-                         // New user or trial not started
-                         loginScreen.style.display = "flex";
+                        const daysLeft = Math.ceil((expDate - now) / (1000 * 60 * 60 * 24));
+                        trialInfo.style.display = "block";
+                        trialInfo.innerText = `สถานะ: กำลังทดลองใช้งาน (เหลือ ${daysLeft} วัน)`;
+                        trialBtn.innerText = `เข้าใช้งานต่อ (${daysLeft} วัน)`;
+                        trialBtn.onclick = enterApp; 
+                        trialBtn.classList.remove("btn-trial");
+                        trialBtn.classList.add("btn-login"); 
                     }
-                })
-                .catch(() => {
-                    loginScreen.style.display = "flex";
-                    loginMsg.innerText = "เชื่อมต่อเน็ตไม่ได้";
-                });
+                }
+            } catch (err) {
+                // If offline or error, show basic login
+                loginScreen.style.display = "flex";
+                loginMsg.innerText = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้";
+            }
         }
     }
 
@@ -343,7 +367,7 @@
         });
     }
 
-    function startTrial() {
+    async function startTrial() {
         const deviceId = getDeviceId();
         const expDate = new Date();
         expDate.setDate(expDate.getDate() + 3);
@@ -351,15 +375,14 @@
         
         loginMsg.innerText = "กำลังลงทะเบียน...";
         
-        fetch(`${SCRIPT_URL}?action=startTrial&deviceId=${deviceId}&expDate=${expStr}`)
-            .then(r => r.json())
-            .then(result => {
-                if (result.status === "ok") {
-                    alert("เริ่มทดลองใช้งานฟรี 3 วัน!");
-                    location.reload();
-                }
-            })
-            .catch(() => alert("ลงทะเบียนไม่สำเร็จ"));
+        try {
+            const response = await fetch(`${SCRIPT_URL}?action=startTrial&deviceId=${deviceId}&expDate=${expStr}`);
+            const result = await response.json();
+            if (result.status === "ok") {
+                alert("เริ่มทดลองใช้งานฟรี 3 วัน!");
+                location.reload();
+            }
+        } catch (err) { alert("ลงทะเบียนไม่สำเร็จ"); }
     }
 
     function enterApp() {
@@ -470,8 +493,10 @@
         document.getElementById("totalSum").innerText = total.toLocaleString();
     }
 
-    function resetBoard() { if(confirm("ล้างข้อมูลในแผงนี้ทั้งหมด?")) { boards[currentBoardIdx].data = {}; saveAll(); renderGrid(); updateAdminTable(); } }
-    function addNewBoard() { boards.push({ id: Date.now(), name: "แผงที่ "+(boards.length+1), data: {}, settings: {price:"40", top:"1500", bottom:"1500"}, design: defaultDesign }); currentBoardIdx = boards.length-1; saveAll(); renderBoardUI(); }
+    function addNewBoard() {
+        boards.push({ id: Date.now(), name: "แผงที่ "+(boards.length+1), data: {}, settings: {price:"40", top:"1500", bottom:"1500"}, design: defaultDesign });
+        currentBoardIdx = boards.length-1; saveAll(); renderBoardUI();
+    }
     function deleteCurrentBoard() { if(boards.length>1 && confirm("ลบแผงนี้?")){ boards.splice(currentBoardIdx,1); currentBoardIdx=Math.max(0, currentBoardIdx-1); saveAll(); renderBoardUI(); } }
     function renameBoard() { const n = prompt("ชื่อแผงใหม่:", boards[currentBoardIdx].name); if(n){ boards[currentBoardIdx].name=n; saveAll(); renderBoardUI(); } }
     function prevBoard() { if(currentBoardIdx>0){ currentBoardIdx--; renderBoardUI(); } }
@@ -489,6 +514,7 @@
         s.bottom = document.getElementById("prizeBottom").value;
         saveAll();
     }
+    function resetBoard() { if(confirm("ล้างข้อมูลในแผงนี้ทั้งหมด?")) { boards[currentBoardIdx].data = {}; saveAll(); renderGrid(); updateAdminTable(); } }
 
     function applyDesign(c) {
         const r = document.documentElement.style;
