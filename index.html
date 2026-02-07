@@ -8,7 +8,7 @@
     <link rel="apple-touch-icon" href="icon.png">
     <link rel="icon" type="image/png" href="icon.png">
     
-    <title>มหาเฮง 99 - Ultimate Pro V12 (Independent Boards)</title>
+    <title>มหาเฮง 99 - Ultimate Pro V13 (Final Production)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Charmonman:wght@400;700&family=Fahkwang:wght@400;600;700&family=Itim&family=Kanit:wght@300;400;600;900&family=KoHo:wght@400;600;700&family=Mali:wght@400;600;700&family=Pattaya&family=Prompt:wght@400;600;900&family=Sriracha&display=swap" rel="stylesheet">
 
@@ -35,24 +35,27 @@
         .app-title { font-size: 2rem; font-weight: 900; background: linear-gradient(45deg, #FF6B6B, #4D96FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
         .trial-status { font-size: 0.9rem; color: #ff4757; font-weight: bold; margin-bottom: 10px; display: block; background: #fff0f0; padding: 5px; border-radius: 5px; }
         .feature-list { text-align: left; margin: 20px 0; font-size: 0.85rem; color: #555; background: #f8f9fa; padding: 15px; border-radius: 10px; line-height: 1.6; }
-        .contact-box { background: #e3f2fd; padding: 12px; border-radius: 10px; margin-bottom: 15px; font-size: 0.85rem; color: #1565c0; }
-        .login-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 50px; text-align: center; font-family: 'Kanit'; font-size: 1.1rem; margin-bottom: 10px; box-sizing: border-box; outline: none; }
+        .contact-box { background: #e3f2fd; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; color: #1565c0; text-align: center; border: 1px solid #90caf9; }
+        .contact-row { margin-bottom: 5px; font-weight: bold; }
+        .login-input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 50px; text-align: center; font-family: 'Kanit'; font-size: 1.1rem; outline: none; transition: 0.3s; margin-bottom: 10px; box-sizing: border-box; }
+        .login-input:focus { border-color: #4D96FF; }
         .btn-main { width: 100%; padding: 12px; border: none; border-radius: 50px; font-weight: bold; font-size: 1rem; cursor: pointer; margin-bottom: 10px; font-family: 'Kanit'; transition: 0.2s; }
-        .btn-login { background: #4D96FF; color: white; }
-        .btn-trial { background: #2ed573; color: white; }
-        
+        .btn-login { background: #4D96FF; color: white; box-shadow: 0 4px 15px rgba(77, 150, 255, 0.3); }
+        .btn-trial { background: #2ed573; color: white; box-shadow: 0 4px 15px rgba(46, 213, 115, 0.3); }
+        .btn-main:active { transform: scale(0.95); }
+
         /* Main App */
         #main-content { display: none; width: 100%; flex-direction: column; align-items: center; }
-        .board-nav { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; box-sizing: border-box; background: white; border-radius: 20px; margin-top: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .nav-btn { background: #b84cff; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .board-nav { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; box-sizing: border-box; background: rgba(255,255,255,0.8); border-radius: 20px; margin-top: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .nav-btn { background: #b84cff; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; transition: 0.2s; }
+        .nav-btn:active { transform: scale(0.9); }
         .nav-info { font-weight: 900; font-size: 1.2rem; color: #333; cursor: pointer; border-bottom: 2px dashed #ccc; }
         .nav-add { background: #2ed573; } .nav-del { background: #ff4757; width: 30px; height: 30px; font-size: 0.9rem; margin-left: 10px; }
         
         .wrapper { position: relative; width: 100%; max-width: 800px; aspect-ratio: 1 / 1.25; background: #fff url('bg.jpg') no-repeat center top/contain; background-size: 100% 100%; margin-top: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border-radius: 20px; overflow: hidden; touch-action: pan-y; transition: background-image 0.3s ease; }
-        
         .floating-item { position: absolute; width: 28%; text-align: center; z-index: 80; cursor: grab; user-select: none; }
         .floating-item:active { cursor: grabbing; }
-        .floating-item input { width: 100%; border: none; background: transparent; text-align: center; outline: none; pointer-events: auto; }
+        .floating-item input { width: 100%; border: none; background: transparent; text-align: center; outline: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); pointer-events: auto; }
         
         #box-price input { font-family: var(--p-font); color: var(--p-color); font-size: var(--p-size); font-weight: var(--p-weight); -webkit-text-stroke: var(--p-stroke-w) var(--p-stroke); }
         #box-top input { font-family: var(--t-font); color: var(--t-color); font-size: var(--t-size); font-weight: var(--t-weight); -webkit-text-stroke: var(--t-stroke-w) var(--t-stroke); }
@@ -84,7 +87,9 @@
         td { border-bottom: 1px solid #f1f2f6; padding: 12px; font-size: 0.95rem; white-space: nowrap; }
         .btn-group { display: flex; gap: 10px; margin-top: 25px; flex-wrap: wrap; }
         .admin-btn { padding: 12px; border: none; border-radius: 50px; font-family: 'Kanit'; font-weight: 700; cursor: pointer; flex: 1; min-width: 100px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        
+        .admin-btn:active { transform: scale(0.95); }
+
+        /* Modals & UI Elements */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-box { background: white; width: 90%; max-width: 380px; padding: 25px; border-radius: 25px; text-align: center; box-shadow: 0 25px 60px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
         .modal-input { width: 100%; padding: 14px; margin: 8px 0; border: 2px solid #f1f2f6; border-radius: 12px; font-family: 'Kanit'; outline: none; text-align: center; box-sizing: border-box; font-size: 1.1rem; }
@@ -128,8 +133,9 @@
 
         <div class="contact-box">
             <b>📞 ติดต่อผู้พัฒนา / ซื้อ Token ถาวร</b><br>
-            โทร: 093-281-5229 | Line: @boss0932815229<br>
-            FB: Rachan Taksin
+            <div class="contact-row"><span>📱 โทร: 093-281-5229</span></div>
+            <div class="contact-row"><span>💬 Line: @boss0932815229</span></div>
+            <div class="contact-row"><span>💙 FB: Rachan Taksin</span></div>
         </div>
 
         <input type="text" id="tokenInput" class="login-input" placeholder="กรอก Token เพื่อเข้าใช้งาน">
@@ -187,18 +193,21 @@
         <button onclick="closeModal('bookingModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:15px;">ยกเลิก</button>
     </div>
 </div>
+
 <div id="bgSelectModal" class="modal-overlay">
     <div class="modal-box" style="max-width:450px;">
-        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px;">เลือกพื้นหลัง</div>
+        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; color:#b84cff;">🖼️ เลือกพื้นหลัง</div>
         <div class="bg-grid" id="bgGridContainer"></div>
         <button onclick="closeModal('bgSelectModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:20px;">ปิด</button>
     </div>
 </div>
+
 <div id="gridDesignModal" class="modal-overlay">
     <div class="modal-box" style="max-width: 400px; max-height: 85vh;">
+        <div style="font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; color:#4D96FF;">🎨 ปรับแต่งตาราง</div>
         <div class="preview-box">
-            <div style="text-align:center;"><div style="font-size:0.8rem; color:#888;">ปกติ</div><div class="num" style="width:70px; height:70px;"><span class="val">00</span></div></div>
-            <div style="text-align:center;"><div style="font-size:0.8rem; color:#888;">จองแล้ว</div><div class="num booked" style="width:70px; height:70px;"><span class="val">99</span><span class="label">จองแล้ว</span></div></div>
+            <div style="text-align:center;"><div style="font-size:0.8rem; color:#888; margin-bottom:5px;">ปกติ</div><div class="num" style="width:70px; height:70px;"><span class="val">00</span></div></div>
+            <div style="text-align:center;"><div style="font-size:0.8rem; color:#888; margin-bottom:5px;">จองแล้ว</div><div class="num booked" style="width:70px; height:70px;"><span class="val">99</span><span class="label">จองแล้ว</span></div></div>
         </div>
         <div style="overflow-y:auto; max-height: 50vh;">
             <div class="editor-section">
@@ -234,6 +243,7 @@
         <button onclick="closeModal('gridDesignModal')" style="background:none; border:none; color:#bbb; cursor:pointer; margin-top:10px;">ปิด</button>
     </div>
 </div>
+
 <div id="boxDesignModal" class="modal-overlay">
     <div class="modal-box">
         <div class="preview-box"><span id="previewText">1500</span></div>
@@ -251,39 +261,61 @@
 </div>
 
 <script>
-    // --- Login & Trial Logic ---
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxFUl12KSlond4-TRofHaTgcQhDBjtBNdW4u4qf0Acsn8FqQv1XfCA9qMlGxKBRRoVqgQ/exec";
+    // --- Login & Trial Logic (Updated URL) ---
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbymbOZtjXqlFoeFUfOHzqHaHMNm9d625evuhZgrscQqw96f9I55rrOH9ekCF3imbhCv-g/exec";
     const fp = window.screen.width + "x" + window.screen.height + "_" + navigator.platform;
     const loginScreen = document.getElementById("login-screen");
     const mainContent = document.getElementById("main-content");
     const loginMsg = document.getElementById("login-msg");
 
+    function getDeviceId() {
+        let id = localStorage.getItem("lotto_device_unique_id");
+        if (!id) {
+            id = 'DEV-' + fp.replace(/\s+/g, '') + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+            localStorage.setItem("lotto_device_unique_id", id);
+        }
+        return id;
+    }
+
     function checkLoginStatus() {
         const token = localStorage.getItem("saved_lotto_token");
-        const trialExp = localStorage.getItem("trial_exp_date");
+        const deviceId = getDeviceId();
         const trialInfo = document.getElementById("trial-info");
         const trialBtn = document.getElementById("trialBtn");
 
         if (token) {
             verifyToken(token);
         } else {
-            loginScreen.style.display = "flex";
-            if (trialExp) {
-                const expDate = new Date(trialExp);
-                const now = new Date();
-                if (now > expDate) {
-                    loginMsg.innerText = "หมดเวลาทดลองเล่นแล้ว! กรุณาใส่ Token จริง";
-                    trialBtn.style.display = "none";
-                } else {
-                    const daysLeft = Math.ceil((expDate - now) / (1000 * 60 * 60 * 24));
-                    trialInfo.style.display = "block";
-                    trialInfo.innerText = `สถานะ: กำลังทดลองใช้งาน (เหลือ ${daysLeft} วัน)`;
-                    trialBtn.innerText = `เข้าใช้งานต่อ (${daysLeft} วัน)`;
-                    trialBtn.onclick = enterApp; 
-                    trialBtn.classList.remove("btn-trial");
-                    trialBtn.classList.add("btn-login"); 
-                }
-            }
+            // Check trial status from server
+            fetch(`${SCRIPT_URL}?action=checkTrial&deviceId=${deviceId}`)
+                .then(r => r.json())
+                .then(result => {
+                    loginScreen.style.display = "flex";
+                    if (result.status === "exists") {
+                        const expDate = new Date(result.expDate);
+                        const now = new Date();
+                        if (now > expDate) {
+                            loginMsg.innerText = "หมดเวลาทดลองเล่นแล้ว! กรุณาใส่ Token จริง";
+                            trialBtn.style.display = "none";
+                        } else {
+                            const daysLeft = Math.ceil((expDate - now) / (1000 * 60 * 60 * 24));
+                            trialInfo.style.display = "block";
+                            trialInfo.innerText = `สถานะ: กำลังทดลองใช้งาน (เหลือ ${daysLeft} วัน)`;
+                            
+                            trialBtn.innerText = `เข้าใช้งานต่อ (${daysLeft} วัน)`;
+                            trialBtn.onclick = enterApp; 
+                            trialBtn.classList.remove("btn-trial");
+                            trialBtn.classList.add("btn-login"); 
+                        }
+                    } else {
+                         // New user or trial not started
+                         loginScreen.style.display = "flex";
+                    }
+                })
+                .catch(() => {
+                    loginScreen.style.display = "flex";
+                    loginMsg.innerText = "เชื่อมต่อเน็ตไม่ได้";
+                });
         }
     }
 
@@ -295,8 +327,7 @@
                 location.reload(); 
             }
         }).catch(()=>{
-            // enterApp(); // Uncomment for offline testing
-            loginMsg.innerText = "เชื่อมต่อเน็ตไม่ได้";
+             loginMsg.innerText = "เชื่อมต่อเน็ตไม่ได้";
         });
     }
 
@@ -307,18 +338,28 @@
         fetch(`${SCRIPT_URL}?action=check&token=${t}&fp=${fp}`).then(r=>r.json()).then(d=>{
             if(d.status==="ok") {
                 localStorage.setItem("saved_lotto_token", t);
-                localStorage.removeItem("trial_exp_date");
                 location.reload();
             } else { loginMsg.innerText = "Token ผิดพลาด!"; }
         });
     }
 
     function startTrial() {
+        const deviceId = getDeviceId();
         const expDate = new Date();
         expDate.setDate(expDate.getDate() + 3);
-        localStorage.setItem("trial_exp_date", expDate.toISOString());
-        alert("เริ่มทดลองใช้งานฟรี 3 วัน!");
-        location.reload();
+        const expStr = expDate.toISOString();
+        
+        loginMsg.innerText = "กำลังลงทะเบียน...";
+        
+        fetch(`${SCRIPT_URL}?action=startTrial&deviceId=${deviceId}&expDate=${expStr}`)
+            .then(r => r.json())
+            .then(result => {
+                if (result.status === "ok") {
+                    alert("เริ่มทดลองใช้งานฟรี 3 วัน!");
+                    location.reload();
+                }
+            })
+            .catch(() => alert("ลงทะเบียนไม่สำเร็จ"));
     }
 
     function enterApp() {
