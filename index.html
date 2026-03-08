@@ -517,6 +517,10 @@
         <button onclick="openSellerInfoModal()" style="background: #4D96FF; color: white; border: none; border-radius: 10px; padding: 0 15px; font-family: 'Kanit'; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
             👤 User
         </button>
+        
+        <div id="userStatusDisplay" style="font-size: 0.85rem; padding: 0 10px; border-radius: 10px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); white-space: nowrap; display: flex; align-items: center; justify-content: center;">
+            ⏳ ตรวจสอบสถานะ...
+        </div>
     </div>
     <div class="wrapper" id="gameWrapper">
         <div class="edit-hint">👆 ลาก/ขยายด้วยสองนิ้ว | แตะเพื่อแก้ไข</div>
@@ -878,6 +882,7 @@ function toggleDisplayMode() {
                     trialBtn.onclick = enterApp; 
                     trialBtn.classList.remove("btn-trial");
                     trialBtn.classList.add("btn-login"); 
+                    localStorage.setItem("trial_days_left", daysLeft);
                 }
             } else {
                 trialBtn.disabled = false;
@@ -2422,6 +2427,89 @@ let groupedAll = {};
 function closeSummaryModal() {
     document.getElementById('summaryModal').style.display = 'none';
 }
+// =======================================================
+// --- ระบบดึงสถานะ Token หรือ วันทดลองใช้ มาแสดงบนแผง ---
+// =======================================================
+// =======================================================
+// --- ระบบดึงสถานะ Token หรือ วันทดลองใช้ มาแสดงบนแผง ---
+// =======================================================
+async function showUserStatusOnBoard() {
+    const token = localStorage.getItem("saved_lotto_token");
+    const statusBox = document.getElementById("userStatusDisplay");
+    
+    if (!statusBox) return;
+
+    if (!token) {
+        // กรณี: ทดลองใช้งาน
+        let trialDays = localStorage.getItem("trial_days_left") || "?"; 
+        statusBox.innerHTML = `<span style="color: #ff9f43; font-weight: bold;">ทดลองใช้ ${trialDays} วัน</span>`;
+        statusBox.style.background = "#fff";
+        statusBox.style.border = "1px solid #ff9f43";
+        statusBox.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
+        statusBox.style.transform = "none";
+        
+    } else {
+        const checkApiUrl = "https://script.google.com/macros/s/AKfycby0Jvl6tEERMOQOl478A_k8222Inz2afMraoTK1Pf0Lv_rO9B2YuPypqvbsCpLC6_NYgQ/exec"; 
+        
+        try {
+            const response = await fetch(checkApiUrl + "?token=" + token);
+            const data = await response.json();
+            
+            if (data.status === "success") {
+                let textMsg = String(data.remainingDays).trim();
+                let textLower = textMsg.toLowerCase();
+                
+                // --- เพิ่มส่วนนี้: สกัดเอาเฉพาะ "ตัวเลข" ออกมาจากข้อความ ---
+                let numMatch = textMsg.match(/\d+/); // ดึงตัวเลขจากข้อความ เช่น "(30 วัน)" จะได้ "30"
+                let daysCount = numMatch ? parseInt(numMatch[0], 10) : 999; 
+                
+                // กรณี 1: เป็น VIP
+                if (textLower.includes("vip ถาวร")) {
+                    statusBox.innerHTML = `<span style="color: #fff; font-weight: bold;">${textMsg}</span>`;
+                    statusBox.style.background = "#2ed573"; 
+                    statusBox.style.border = "1px solid #26de81";
+                    statusBox.style.boxShadow = "0 4px 0 #20bf6b, 0 4px 10px rgba(0,0,0,0.2)";
+                    statusBox.style.transform = "translateY(-2px)";
+                
+                // กรณี 2: ถ้านับตัวเลขแล้วน้อยกว่าหรือเท่ากับ 3 (1, 2, 3 หรือ 0) ให้เป็นสีแดงเตือน
+                } else if (daysCount <= 3) {
+                    statusBox.innerHTML = `<span style="color: #fff; font-weight: bold;">${textMsg}</span>`;
+                    statusBox.style.background = "#ff4757"; 
+                    statusBox.style.border = "1px solid #ff4757";
+                    statusBox.style.boxShadow = "0 2px 5px rgba(0,0,0,0.2)";
+                    statusBox.style.transform = "none";
+                
+                // กรณี 3: วันใช้งานปกติ (เช่น 30 วัน, 15 วัน, 13 วัน)
+                } else {
+                    statusBox.innerHTML = `<span style="color: #000; font-weight: bold;">${textMsg}</span>`;
+                    statusBox.style.background = "#fff"; 
+                    statusBox.style.border = "1px solid #2ed573"; 
+                    statusBox.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
+                    statusBox.style.transform = "none";
+                }
+
+            } else {
+                statusBox.innerHTML = `<span style="color: #fff; font-weight: bold;">❌ Token ไม่ถูกต้อง</span>`;
+                statusBox.style.background = "#ff4757";
+                statusBox.style.border = "1px solid #ff4757";
+                statusBox.style.boxShadow = "none";
+                statusBox.style.transform = "none";
+            }
+        } catch (error) {
+            statusBox.innerHTML = `<span style="color: #747d8c; font-weight: bold;">ออฟไลน์ / ตรวจสอบไม่ได้</span>`;
+            statusBox.style.background = "#f1f2f6";
+            statusBox.style.border = "1px solid #ccc";
+            statusBox.style.boxShadow = "none";
+            statusBox.style.transform = "none";
+        }
+    }
+}
+
+// สั่งให้โค้ดทำงานหน่วงเวลา 1 วินาทีหลังจากโหลดเข้าหน้าแผงแล้ว
+setTimeout(showUserStatusOnBoard, 1000);
+
+// สั่งให้ฟังก์ชันทำงานหลังจากเข้าหน้าแผง (หน่วงเวลา 1.5 วินาทีให้แผงโหลดเสร็จก่อน)
+setTimeout(showUserStatusOnBoard, 1500);
 </script>
 <div id="cardSliderOverlay" class="card-slider-overlay">
     <div class="card-slider-container">
@@ -2494,7 +2582,8 @@ function closeSummaryModal() {
                 </div>
             </div>
         </div>
-        </body>
+        
+    </body>
 </html>
 </body>
 </html>
