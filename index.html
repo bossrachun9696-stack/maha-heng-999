@@ -462,6 +462,144 @@
     font-family: 'Kanit', sans-serif;
     user-select: none; /* ป้องกันไม่ให้คลุมดำข้อความลายน้ำได้ */
 }
+/* --- ส่วนจัดการกลุ่มปุ่มด้านล่าง (แก้ไขให้เป็นตาราง Grid 2 คอลัมน์) --- */
+.btn-group { 
+    display: grid !important; 
+    grid-template-columns: repeat(2, 1fr); /* แบ่งเป็น 2 ช่องเท่าๆ กัน */
+    gap: 12px !important; /* ระยะห่างระหว่างปุ่ม */
+    margin-top: 25px; 
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* --- สไตล์ของปุ่มให้ดูทันสมัยและขนาดเท่ากัน --- */
+.admin-btn { 
+    width: 100%;
+    padding: 15px 10px; 
+    border: none; 
+    border-radius: 15px; /* ปรับให้เป็นทรงกล่องมนๆ ดูน่ากด */
+    font-family: 'Kanit', sans-serif; 
+    font-weight: 700; 
+    font-size: 1rem;
+    cursor: pointer; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+    transition: transform 0.2s ease, box-shadow 0.2s ease; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.admin-btn:active { 
+    transform: scale(0.95); 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+}
+
+/* --- ตัวเลือกเสริม: หากต้องการให้ปุ่มไหนยาวเต็มบรรทัด (เช่น ออกจากระบบ) --- */
+/* ให้เพิ่ม class="full-width" เข้าไปที่ปุ่มนั้นใน HTML */
+.btn-group .full-width {
+    grid-column: span 2;
+}
+/* --- ส่วนที่เพิ่มใหม่: ทำให้ปุ่ม "จัดวาง/บันทึก" มีเอฟเฟกต์ยุบตัว --- */
+#btnToggleEdit {
+        transition: all 0.2s ease !important;
+        position: relative !important;
+        top: 0;
+}
+
+    /* เมื่อเอามือไปแตะหรือกด (Active) ให้ปุ่มยุบลง 3px */
+#btnToggleEdit:active {
+        top: 3px !important;
+        filter: brightness(1.1);
+}
+/* --- ส่วนที่เพิ่มใหม่: ตกแต่งหน้าต่างประกาศโหมดมืดและรูปภาพพอดีช่อง --- */
+
+/* 1. ปรับพื้นหลังของ Modal ให้เป็นสีเข้ม */
+#announceDetailModal .modal-box {
+    background-color: #1a1a1a !important; /* สีดำเข้ม */
+    color: #ffffff !important;           /* ปรับตัวหนังสือเป็นสีขาวเพื่อให้เห็นชัด */
+    border: 1px solid #333;
+}
+
+/* 2. ปรับหัวข้อและเนื้อหาให้เข้ากับพื้นหลังเข้ม */
+#detailTitle {
+    color: #ffffff !important;
+    font-family: 'Kanit', sans-serif;
+}
+
+#detailContent {
+    color: #cccccc !important;
+    font-family: 'Prompt', sans-serif;
+}
+
+/* 3. จัดการรูปภาพให้พอดีช่องและสวยงาม */
+#detailImages {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+    width: 100%;
+    align-items: center;
+}
+
+#detailImages img {
+    max-width: 100% !important;  /* ✅ รูปจะไม่กว้างเกินช่องแม่ */
+    height: auto !important;     /* ✅ สัดส่วนรูปไม่เบี้ยว */
+    border-radius: 12px;         /* ขอบมน */
+    border: 2px solid #333;      /* ขอบรูปให้ตัดกับพื้นหลัง */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    display: block;
+}
+
+/* 4. ปรับปุ่ม "ย้อนกลับ" ให้ดูเด่นขึ้นบนพื้นหลังเข้ม */
+#announceDetailModal button {
+    background: #b84cff !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 4px 0 #8e3acc !important;
+    padding: 12px !important;
+    font-family: 'Kanit', sans-serif;
+}
+.notif-badge-style {
+    position: absolute;
+    top: -8px;          /* ปรับตำแหน่งขึ้น */
+    right: -8px;        /* ปรับตำแหน่งไปทางขวา */
+    background: #ff4757; /* สีแดงสด */
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: none;       /* เริ่มต้นให้ซ่อนไว้ */
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    border: 2px solid white; /* ขอบขาวให้ดูเด่นขึ้น */
+    z-index: 100;
+    font-family: 'Kanit', sans-serif;
+}
+/* สไตล์วงกลมแจ้งเตือน (Badge) */
+.notif-badge-style {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4757; /* สีแดงสด */
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: none;       /* ซ่อนไว้ก่อน ถ้าไม่มีเลขจะไม่โชว์ */
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white; /* ขอบขาวให้ดูเด่น */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 10;
+    font-family: 'Kanit', sans-serif;
+}
     </style>
 </head>
 <body>
@@ -499,18 +637,23 @@
 </div>
 <div id="main-content">
     <div id="watermark-overlay" class="watermark-overlay"></div>
-    <div class="board-nav">
+   <div class="board-nav">
         <button class="nav-btn" onclick="prevBoard()">❮</button>
         <div style="display:flex; align-items:center;">
             <span id="boardNameDisplay" class="nav-info" onclick="renameBoard()">แผงที่ 1</span>
             <button class="nav-btn nav-del" onclick="deleteCurrentBoard()" id="btnDeleteBoard">🗑️</button>
         </div>
-        <div style="display:flex; gap:5px;">
+        <div style="display:flex; gap:5px; align-items:center;">
             <button class="nav-btn nav-add" onclick="addNewBoard()">+</button>
             <button class="nav-btn" onclick="nextBoard()">❯</button>
+            
+            <button class="nav-btn notif-btn" style="background: #f1c40f; border: 1px solid #e1b12c; border-radius: 8px; position: relative; cursor: pointer; padding: 5px 10px; display: flex; align-items: center; justify-content: center; width: 45px; height: 40px;" onclick="toggleNotifModal()">
+                🔔    
+               <span id="notifBadge" style="position: absolute; top: -8px; right: -8px; background: #ff4757; color: white; font-size: 11px; font-weight: bold; border-radius: 50%; min-width: 20px; height: 20px; display: none; justify-content: center; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); border: 2px solid white; z-index: 10;">0</span>
+            </button>
         </div>
     </div>
-    
+
     <div class="board-search-container" style="display: flex; gap: 8px;">
         <select id="boardSelectorJump" class="board-select" onchange="jumpToBoard()" style="flex: 1;">
         </select>
@@ -558,7 +701,7 @@
         <div class="table-container">
             <table>
                 <thead>
-                    <tr><th>เบอร์</th><th>ชื่อ</th><th>รูป</th><th>ราคา</th><th>สถานะจ่าย</th><th>วัน/เวลา</th></tr>
+                    <tr><th>เบอร์</th><th>ชื่อ</th><th>ที่อยู่/ลิ้งค์</th><th>รูป</th><th>ราคา</th><th>สถานะจ่าย</th><th>วัน/เวลา</th></tr>
                 </thead>
                 <tbody id="adminTableBody"></tbody>
                 <tfoot>
@@ -571,20 +714,291 @@
             </table>
         </div>
         <div class="btn-group">
-            <button class="admin-btn" style="background:#f1f2f6; color:#333;" onclick="logoutApp()">ออกจากระบบ / เปลี่ยน Token</button>
-            <button class="admin-btn" style="background:#ff4757; color:white;" onclick="resetBoard()">ล้างแผงนี้</button>
-            <button class="admin-btn" style="background:#2f3542; color:white;" onclick="window.print()">พิมพ์</button>
-            <button class="admin-btn" style="background: linear-gradient(45deg, #1abc9c, #2ed573); color:white;" onclick="openCardSlider()">💕 สรุปลูกค้า</button>
-            <button class="admin-btn" style="background: linear-gradient(45deg, #FF6B6B, #4D96FF); color:white;" onclick="openBgSelector()">🖼️ พื้นหลัง</button>
-            <button class="admin-btn" style="background: linear-gradient(45deg, #4D96FF, #6BCB77); color:white;" onclick="openGridDesignModal()">🎨 ธีมตาราง</button>
-            <button class="admin-btn" id="btnToggleEdit" style="background: linear-gradient(45deg, #FF9F43, #FF6B6B); color:white;" onclick="toggleEditMode()">🔧 จัดวาง</button>
-            <button id="btnFilterNum" class="admin-btn" style="background: #3498db; color: white;" onclick="toggleFilterBooked()">🔍 ซ่อนเลขจองแล้ว</button>
-            <button id="btnToggleMode" class="admin-btn" style="background: #2ecc71; color: white;" onclick="toggleDisplayMode()">🔠 เปลี่ยนเป็นโหมด (10-19)</button>
-           <button class="nav-btn" onclick="openSummaryModal()" style="background: #ff9f43; width: auto; padding: 0 15px; border-radius: 20px; font-size: 1rem; margin-left: 10px; font-family: 'Kanit';">📊 สรุปยอด</button> 
+    <style>
+    /* ตั้งค่ากล่องคลุมปุ่มให้เรียงตัวสวยงาม */
+    .admin-tools-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 15px;
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        margin-bottom: 20px;
+    }
+
+    /* สไตล์ปุ่มแบบยุคใหม่ (Modern UI) */
+    .modern-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 12px; /* ขอบโค้งมน */
+        font-size: 0.95rem;
+        font-family: 'Prompt', 'Kanit', sans-serif;
+        font-weight: 500;
+        cursor: pointer;
+        color: white;
+        white-space: nowrap;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* เอฟเฟกต์ตอนนำเมาส์ไปชี้ */
+    .modern-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+        filter: brightness(1.08);
+    }
+
+    /* เอฟเฟกต์ตอนกดคลิก */
+    .modern-btn:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    /* ปุ่มเฉพาะแบบต่างๆ (คุมสี) */
+    .btn-logout { background: #f1f2f6; color: #ff4757; box-shadow: none; border: 1px solid #dfe4ea; }
+    .btn-logout:hover { background: #ff4757; color: white; }
+    .btn-backup { background: linear-gradient(135deg, #f39c12, #e67e22); }
+    .btn-clear { background: linear-gradient(135deg, #ff4757, #ff6b81); }
+    .btn-print { background: linear-gradient(135deg, #2f3542, #57606f); }
+    .btn-customer { background: linear-gradient(135deg, #1abc9c, #2ed573); }
+    .btn-bg { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
+    .btn-theme { background: linear-gradient(135deg, #0984e3, #74b9ff); }
+    .btn-layout { background: linear-gradient(135deg, #e15f41, #f19066); }
+    .btn-filter { background: linear-gradient(135deg, #3498db, #2980b9); }
+    .btn-mode { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+    .btn-summary { background: linear-gradient(135deg, #fbc531, #e1b12c); color: #333; }
+</style>
+
+<style>
+    /* คลุมทั้งหมด - ลด Margin ลงเพื่อให้กระชับ */
+    .center-wrapper {
+        display: block !important;
+        width: 100% !important;
+        margin: 10px 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+   /* กล่องหลัก - ปรับให้กว้าง 100% ของหน้าจอ */
+    .admin-dashboard {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 8px; 
+        width: 100% !important; /* กว้างสุดขอบจอ */
+        max-width: 100% !important; /* ปลดล็อกความกว้างสูงสุด */
+        margin: 0 !important;
+        padding: 0 4px; /* เว้นช่องว่างจากขอบโทรศัพท์แค่เล็กน้อย */
+        font-family: 'Kanit', sans-serif;
+        box-sizing: border-box;
+    }
+
+    /* กล่องหมวดหมู่ - ลด Padding ลงให้ดูเพรียว */
+    .menu-section {
+        background: rgba(15, 20, 30, 0.95); 
+        border-radius: 10px;
+        padding: 12px 8px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); 
+        border: 1px solid rgba(0, 210, 255, 0.15); 
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(8px);
+    }
+
+    .section-system {
+        grid-column: span 2; 
+        background: rgba(30, 15, 15, 0.9) !important; 
+        border: 1px solid rgba(255, 71, 87, 0.3) !important;
+        padding: 8px !important;
+    }
+
+    /* หัวข้อหมวดหมู่ - ขนาดเล็กลง */
+    .section-title {
+        font-size: 0.9rem;
+        color: #00d2ff; 
+        margin-bottom: 10px;
+        font-weight: 700;
+        text-align: left;
+        padding-left: 6px;
+        border-left: 4px solid #00d2ff;
+        text-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+    }
+
+    .btn-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .btn-grid-mini {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    /* สไตล์ปุ่ม - ปรับความสูงลงจาก 52px เหลือ 42px */
+    .modern-btn {
+        box-sizing: border-box;
+        height: 42px; 
+        padding: 0 5px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        font-family: 'Kanit', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        transition: all 0.2s ease;
+        width: 100%;
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .modern-btn:active {
+        transform: scale(0.97);
+    }
+
+    /* ปุ่มสำรองข้อมูล - ปรับความสูงลงและลดเงานูนให้พอดีกับขนาดใหม่ */
+    .btn-save-neon {
+        background: linear-gradient(180deg, #2ed573 0%, #26af5a 100%) !important;
+        border: none !important;
+        box-shadow: 0 3px 0 #1e8449, 0 4px 12px rgba(46, 213, 115, 0.3) !important;
+        color: #fff !important;
+        height: 44px !important;
+        position: relative;
+        top: 0;
+    }
+
+    .btn-save-neon:active {
+        top: 2px !important;
+        box-shadow: 0 1px 0 #1e8449, 0 2px 6px rgba(46, 213, 115, 0.2) !important;
+    }
+
+    /* ปุ่มสรุปยอด - ปรับขนาดลงให้สมดุล */
+    .btn-summary {
+        background: linear-gradient(135deg, #ff9f43, #ff6b6b) !important;
+        box-shadow: 0 3px 10px rgba(255, 159, 67, 0.3) !important;
+        border: none !important;
+        font-size: 0.95rem !important;
+        height: 46px !important;
+    }
+
+    .btn-blue { background: linear-gradient(135deg, #4D96FF, #00d2ff) !important; border: none !important; }
+    .btn-red { background: linear-gradient(135deg, #ff4757, #ff6b6b) !important; border: none !important; }
+    .btn-dark { background: rgba(255, 255, 255, 0.1) !important; color: #ced4da !important; }
+/* สไตล์วงกลมแจ้งเตือนสำหรับปุ่มในเมนู */
+.notif-badge-style {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ff4757; /* สีแดงสด */
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: none; /* ซ่อนไว้ก่อน ถ้าไม่มีเลขจะไม้โชว์ */
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white; /* ขอบขาวให้ดูเด่น */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+</style>
+
+<div class="center-wrapper">
+    <div class="admin-dashboard">
+
+        <div class="menu-section">
+            <div class="section-title">📊 สรุปข้อมูล</div>
+            <div class="btn-stack">
+                <button class="modern-btn btn-summary" onclick="openSummaryModal()">📊 สรุปยอด</button>
+                <button class="modern-btn btn-blue" onclick="openCardSlider()">👤 ลูกค้า</button>
+                <button class="modern-btn btn-save-neon" onclick="openBackupModal()">💾 สำรองข้อมูล</button>
+            </div>
         </div>
+
+        <div class="menu-section">
+            <div class="section-title">🎨 ปรับแต่งแผง</div>
+            <div class="btn-stack">
+                <div class="btn-grid-mini">
+                    <button class="modern-btn btn-dark" style="border: 1px solid #FF6B6B;" onclick="openBgSelector()">🖼️ พื้นหลัง</button>
+                    <button class="modern-btn btn-dark" style="border: 1px solid #4D96FF;" onclick="openGridDesignModal()">🎨 ธีม</button>
+                </div>
+                <div class="btn-grid-mini">
+                    <button id="btnToggleEdit" class="modern-btn btn-dark" style="border: 1px solid #FF9F43;" onclick="toggleEditMode()">🔧 จัดวาง</button>
+                    <button id="btnFilterNum" class="modern-btn btn-dark" style="border: 1px solid #3498db;" onclick="toggleFilterBooked()">🔍 ซ่อนหมายเลข</button>
+                </div>
+                <button id="btnToggleMode" class="modern-btn btn-blue" onclick="toggleDisplayMode()">🔠 โหมด 10-19</button>
+            </div>
+        </div>
+
+        <div class="menu-section section-system">
+            <div class="btn-grid-mini">
+                <button class="modern-btn btn-red" onclick="resetBoard()">🗑️ ล้างแผง</button>
+                <button class="modern-btn" style="background: #1e272e;" onclick="logoutApp()">🚪 ออกระบบ</button>
+            </div>
+        </div>
+
     </div>
 </div>
 
+</script>
+<input type="file" id="importBackupFile" accept=".json" style="display: none;" onchange="importBackupData(event)">
+
+<div id="backupModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    
+    <div style="background: white; padding: 25px 25px; border-radius: 20px; text-align: center; width: 85%; max-width: 340px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); font-family: 'Prompt', sans-serif; animation: fadeIn 0.3s ease;">
+        
+        <div style="font-size: 2.5rem; margin-bottom: 5px;">💾</div>
+        <h3 style="margin: 0 0 15px 0; color: #2f3542; font-weight: 600;">จัดการข้อมูลแผง</h3>
+        
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px dashed #ced6e0;">
+            <p style="margin: 0 0 10px 0; font-size: 0.85rem; color: #7f8fa6; font-weight: 600;">📋 คัดลอกไปแผงอื่น (ไม่ต้องโหลดไฟล์)</p>
+            
+            <button class="modern-btn" onclick="copyBoardData()" style="width: 100%; margin-bottom: 10px; background: linear-gradient(135deg, #9b59b6, #8e44ad); font-size: 1rem; padding: 10px;">
+                📑 คัดลอกจัดวาง (Copy)
+            </button>
+            
+            <button class="modern-btn" onclick="pasteBoardData()" style="width: 100%; background: linear-gradient(135deg, #e67e22, #d35400); font-size: 1rem; padding: 10px;">
+                📝 วางข้อมูล (Paste)
+            </button>
+        </div>
+
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed #ced6e0;">
+            <p style="margin: 0 0 10px 0; font-size: 0.85rem; color: #7f8fa6; font-weight: 600;">📁 สำรองเป็นไฟล์ (.json)</p>
+            
+            <button class="modern-btn" onclick="exportBackupData(); closeBackupModal();" style="width: 100%; margin-bottom: 10px; background: #3498db; font-size: 1rem; padding: 10px;">
+                📤 บันทึกไฟล์ (Backup)
+            </button>
+            
+            <button class="modern-btn" onclick="document.getElementById('importBackupFile').click(); closeBackupModal();" style="width: 100%; background: #2ecc71; font-size: 1rem; padding: 10px;">
+                📥 โหลดไฟล์ (Restore)
+            </button>
+        </div>
+        
+        <button class="modern-btn" onclick="closeBackupModal()" style="width: 100%; background: #f1f2f6; color: #ff4757; box-shadow: none;">
+            ❌ ปิดหน้าต่าง
+        </button>
+        
+    </div>
+</div>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px) scale(0.95); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+</style>
 <div id="bookingModal" class="modal-overlay">
     <div class="modal-box">
         <div style="font-size: 1.6rem; font-weight: 900; margin-bottom: 15px;">จัดการซื้อ <span id="modalNum" style="color:#8400db;"></span></div>
@@ -596,8 +1010,9 @@
 </div>
         <input type="text" id="inputName" class="modal-input" placeholder="ชื่อลูกค้า">
         <input type="text" id="inputPrice" class="modal-input" placeholder="ราคา">
+       <input type="text" id="inputUrl" class="modal-input" placeholder="📍 ใส่ที่อยู่ หรือ ลิ้ง URL (ถ้ามี)">
         
-        <label for="bookingImage" style="display: block; background: #e3f2fd; color: #1565c0; padding: 12px; border-radius: 10px; cursor: pointer; text-align: center; font-weight: bold; margin-top: 10px; border: 1px dashed #90caf9;">
+       <label for="bookingImage" style="display: block; background: #e3f2fd; color: #1565c0; padding: 12px; border-radius: 10px; cursor: pointer; text-align: center; font-weight: bold; margin-top: 10px; border: 1px dashed #90caf9;">
             📷 แนบรูป (สลิป/ลูกค้า)
         </label>
         <input type="file" id="bookingImage" accept="image/*" style="display:none;" onchange="handleBookingImage(event)">
@@ -762,15 +1177,23 @@
     <div class="modal-box">
 <h3 style="margin-top: 0; color: #4D96FF; display: flex; justify-content: space-between; align-items: center;">
     <span>👤 User / รับเงิน</span>
-    <div style="display: flex; align-items: center; gap: 5px;">
+    <div style="display: flex; align-items: center;">
         <span id="tokenDisplay" style="font-size: 0.85rem; color: #666; font-weight: normal; background: #f1f2f6; padding: 4px 10px; border-radius: 20px 0 0 20px; border: 1px solid #ddd; border-right: none;">
             Token: -
         </span>
+        
         <span onclick="copyToken()" 
-              style="font-size: 0.75rem; color: #ffffff; /* เปลี่ยนจาก #fff เป็น #000 */ background: #4D96FF; padding: 5px 10px; border-radius: 0 20px 20px 0; border: 1px solid #4D96FF; cursor: pointer; font-weight: bold; transition: 0.2s;"
+              style="font-size: 0.75rem; color: #ffffff; background: #4D96FF; padding: 5px 10px; border: 1px solid #4D96FF; border-right: 1px solid rgba(255,255,255,0.3); cursor: pointer; font-weight: bold; transition: 0.2s;"
               onmouseover="this.style.background='#2e7dff'" 
               onmouseout="this.style.background='#4D96FF'">
             คัดลอก
+        </span>
+
+        <span onclick="moveToken()" 
+              style="font-size: 0.75rem; color: #ffffff; background: #ff4757; padding: 5px 10px; border-radius: 0 20px 20px 0; border: 1px solid #ff4757; cursor: pointer; font-weight: bold; transition: 0.2s;"
+              onmouseover="this.style.background='#ff2e3d'" 
+              onmouseout="this.style.background='#ff4757'">
+            ย้าย
         </span>
     </div>
 </h3>
@@ -1158,37 +1581,47 @@ function toggleDisplayMode() {
         }
     }
 
-    function handleBookingImage(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                const MAX_WIDTH = 600;
-                const MAX_HEIGHT = 600;
-                let width = img.width;
-                let height = img.height;
+  function handleBookingImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // 🟢 ปรับขนาดให้กว้างขึ้นเป็น 600px (รูปแคปหน้าจอจะอ่านง่าย ชัดเจน)
+            // 🟢 ปรับความสูงเป็น 800px เพื่อรองรับสลิปที่เป็นแนวยาว
+            const MAX_WIDTH = 600;  
+            const MAX_HEIGHT = 800; 
+            
+            let width = img.width;
+            let height = img.height;
 
-                if (width > height) {
-                    if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                } else {
-                    if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                }
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(img, 0, 0, width, height);
-                
-                tempBookingImage = canvas.toDataURL('image/jpeg', 0.8);
-                document.getElementById("bImgSrc").src = tempBookingImage;
-                document.getElementById("bookingImagePreview").style.display = "block";
-            };
-            img.src = e.target.result;
+            // คำนวณรักษาสัดส่วนรูปภาพ
+            if (width > height) {
+                if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+            } else {
+                if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+            }
+            
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            // 🟢 คงคุณภาพไว้ที่ 0.6 (60%) เพื่อให้ไฟล์ยังเล็กและเซฟลงความจำเครื่องได้เยอะๆ
+            tempBookingImage = canvas.toDataURL('image/jpeg', 0.6); 
+            
+            // แสดงผลรูป
+            document.getElementById("bImgSrc").src = tempBookingImage;
+            document.getElementById("bookingImagePreview").style.display = "block";
         };
-        reader.readAsDataURL(file);
-    }
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
 
 function renderGrid() {
     const g = document.getElementById("grid");
@@ -1270,7 +1703,6 @@ function renderGrid() {
             d.style.display = "flex";
             visibleCount++;
         }
-
 // ระบบคลิก
         d.onclick = () => {
             const wrapper = document.getElementById("gameWrapper");
@@ -1278,10 +1710,22 @@ function renderGrid() {
 
             if(!d.classList.contains("booked")){
                 if (typeof currentNum !== 'undefined') currentNum = n;
-                if (typeof tempBookingImage !== 'undefined') tempBookingImage = null;
                 
-                const preview = document.getElementById("bookingImagePreview");
-                if(preview) preview.style.display = "none";
+                // 🌟🌟🌟 [เริ่ม] ส่วนที่แก้ไขเพื่อล้างค่ารูปภาพก่อนเปิดหน้าต่าง 🌟🌟🌟
+                if (typeof tempBookingImage !== 'undefined') tempBookingImage = null; // ล้างตัวแปร
+                
+                // 1. ล้างช่องเลือกไฟล์
+                const fileInput = document.getElementById("bookingImageInput"); 
+                if (fileInput) fileInput.value = "";
+                
+                // 2. ล้างรูปภาพที่แสดงค้างอยู่
+                const previewImg = document.getElementById("bImgSrc");
+                if (previewImg) previewImg.src = "";
+                
+                // 3. ซ่อนกล่องพรีวิว
+                const previewBox = document.getElementById("bookingImagePreview");
+                if (previewBox) previewBox.style.display = "none";
+                // 🌟🌟🌟 [จบ] ส่วนที่แก้ไขเพื่อล้างค่ารูปภาพ 🌟🌟🌟
                 
                 const modal = document.getElementById("bookModal") || document.getElementById("bookingModal");
                 const title = document.getElementById("modalTitle") || document.getElementById("modalNumDisplay");
@@ -1361,19 +1805,56 @@ function renderGrid() {
         }
     }
 }
-        function confirmBooking() {
-        const name = document.getElementById("inputName").value.trim() || "ไม่ระบุ";
-        const price = document.getElementById("inputPrice").value.trim();
-        const now = new Date();
-        const dateStr = `${now.getDate().toString().padStart(2,'0')}/${(now.getMonth()+1).toString().padStart(2,'0')}/${(now.getFullYear()+543).toString().slice(-2)}`;
-        const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
-        
-        boards[currentBoardIdx].data[currentNum] = { 
-            name, price, datetime: `${dateStr} ${timeStr}`, image: tempBookingImage, isPaid: false 
-        };
-        
-        saveAll(); renderGrid(); updateAdminTable(); closeModal('bookingModal');
+function confirmBooking() {
+    const name = document.getElementById("inputName").value.trim() || "ไม่ระบุ";
+    const price = document.getElementById("inputPrice").value.trim();
+    
+    // ดึงข้อมูล URL จากช่องกรอก
+    const inputUrl = document.getElementById("inputUrl") ? document.getElementById("inputUrl").value.trim() : ""; 
+
+    const now = new Date();
+    const dateStr = `${now.getDate().toString().padStart(2,'0')}/${(now.getMonth()+1).toString().padStart(2,'0')}/${(now.getFullYear()+543).toString().slice(-2)}`;
+    const timeStr = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+    
+    // บันทึกลงระบบ
+    boards[currentBoardIdx].data[currentNum] = { 
+        name, 
+        price, 
+        url: inputUrl,  
+        datetime: `${dateStr} ${timeStr}`, 
+        image: tempBookingImage, // เซฟรูปจากตัวแปรนี้
+        isPaid: false 
+    };
+    
+    // 🟢 ล้างช่องลิ้งก์ให้ "ว่างเปล่า" ทันทีหลังกดบันทึก
+    if (document.getElementById("inputUrl")) {
+        document.getElementById("inputUrl").value = "";
     }
+
+    // 🌟 [ส่วนที่แก้ไข] ล้างค่ารูปภาพทั้งหมด เพื่อเตรียมพร้อมสำหรับซื้อเบอร์ถัดไป
+    tempBookingImage = null; // 1. ล้างค่าในตัวแปร
+    
+    // 2. ล้างช่องกดเลือกไฟล์ 
+    // (หมายเหตุ: ถ้าใน HTML คุณใช้ id ช่องเลือกไฟล์ชื่ออื่น ให้เปลี่ยน "bookingImageInput" เป็นชื่อของคุณ)
+    let fileInput = document.getElementById("bookingImageInput"); 
+    if (fileInput) {
+        fileInput.value = "";
+    }
+    
+    // 3. ซ่อนและเคลียร์รูปที่พรีวิวโชว์อยู่ (แก้ ID ให้ตรงกับหน้า HTML ของคุณแล้ว)
+    if (document.getElementById("bImgSrc")) {
+        document.getElementById("bImgSrc").src = "";
+    }
+    if (document.getElementById("bookingImagePreview")) {
+        document.getElementById("bookingImagePreview").style.display = "none";
+    }
+    
+    // บันทึกและอัปเดตหน้าจอ
+    saveAll(); 
+    renderGrid(); 
+    updateAdminTable(); 
+    closeModal('bookingModal'); 
+}
 
     function viewImage(src) {
         document.getElementById('fullImageViewer').src = src;
@@ -1389,43 +1870,50 @@ function renderGrid() {
         }
     }
 
-    function updateAdminTable() {
-        const body = document.getElementById("adminTableBody"); body.innerHTML = "";
-        let total = 0;
-        const data = boards[currentBoardIdx].data;
-        const key = document.getElementById("filterInput").value.toLowerCase();
-        const payFilter = document.getElementById("payFilterStatus").value;
+  function updateAdminTable() {
+    const body = document.getElementById("adminTableBody"); 
+    body.innerHTML = "";
+    let total = 0;
+    const data = boards[currentBoardIdx].data;
+    const key = document.getElementById("filterInput").value.toLowerCase();
+    const payFilter = document.getElementById("payFilterStatus").value;
 
-        Object.keys(data).sort().forEach(n => {
-            const item = data[n];
-            const isPaid = item.isPaid || false;
+    Object.keys(data).sort().forEach(n => {
+        const item = data[n];
+        const isPaid = item.isPaid || false;
+        
+        if (payFilter === "paid" && !isPaid) return;
+        if (payFilter === "unpaid" && isPaid) return;
+
+        if(n.includes(key) || item.name.toLowerCase().includes(key)){
+            total += parseFloat(item.price.replace(/,/g,'')) || 0;
             
-            if (payFilter === "paid" && !isPaid) return;
-            if (payFilter === "unpaid" && isPaid) return;
+            const imgHtml = item.image 
+                ? `<img src="${item.image}" style="width:35px; height:35px; object-fit:cover; border-radius:5px; cursor:pointer; border:1px solid #ddd;" onclick="viewImage('${item.image}')">` 
+                : '<span style="color:#ccc;">-</span>';
+            
+            const checkedStr = isPaid ? "checked" : "";
 
-            if(n.includes(key) || item.name.toLowerCase().includes(key)){
-                total += parseFloat(item.price.replace(/,/g,'')) || 0;
-                
-                const imgHtml = item.image 
-                    ? `<img src="${item.image}" style="width:35px; height:35px; object-fit:cover; border-radius:5px; cursor:pointer; border:1px solid #ddd;" onclick="viewImage('${item.image}')">` 
-                    : '<span style="color:#ccc;">-</span>';
-                
-                const checkedStr = isPaid ? "checked" : "";
+            // --- ส่วนที่เพิ่มเข้ามาใหม่: สร้างปุ่มลิงก์ URL ---
+            const urlLinkBtn = item.url && item.url.trim() !== "" 
+                ? `<a href="${item.url}" target="_blank" style="display:inline-block; background: #4D96FF; color: white; padding: 4px 8px; border-radius: 5px; text-decoration: none; font-size: 0.8rem; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">📍 ที่อยู่</a>` 
+                : '<span style="color:#ccc;">-</span>';
+            // ------------------------------------------
 
-                body.innerHTML += `<tr>
-                    <td>${n}</td>
-                    <td>${item.name}</td>
-                    <td>${imgHtml}</td>
-                    <td>${item.price}</td>
-                    <td><input type="checkbox" class="pay-checkbox" ${checkedStr} onchange="togglePayStatus('${n}')"></td>
-                    <td>${item.datetime}</td>
-                </tr>`;
-            }
-        });
-        document.getElementById("totalSum").innerText = total.toLocaleString();
-        renderBoardSelector(); 
-    }
-
+            // แทรก ${urlLinkBtn} ต่อจากชื่อลูกค้า
+            body.innerHTML += `<tr>
+                <td>${n}</td>
+                <td>${item.name}</td>
+                <td>${urlLinkBtn}</td> <td>${imgHtml}</td>
+                <td>${item.price}</td>
+                <td><input type="checkbox" class="pay-checkbox" ${checkedStr} onchange="togglePayStatus('${n}')"></td>
+                <td>${item.datetime}</td>
+            </tr>`;
+        }
+    });
+    document.getElementById("totalSum").innerText = total.toLocaleString();
+    renderBoardSelector(); 
+}
     function openDetailedSummary() {
         const data = boards[currentBoardIdx].data;
         const summary = {};
@@ -1528,23 +2016,7 @@ function renderGrid() {
     let initialDist = 0; 
     let initialWidth = 0, initialHeight = 0; 
 
-    function toggleEditMode() {
-        isEditMode = !isEditMode;
-        const wrapper = document.getElementById("gameWrapper");
-        const btn = document.getElementById("btnToggleEdit");
-        const addBtn = document.querySelector(".add-box-btn");
-        
-        if (isEditMode) { 
-            wrapper.classList.add("edit-mode"); 
-            btn.innerHTML = "💾 บันทึก"; btn.style.background = "#2ed573"; 
-            addBtn.style.display = "block";
-        } else { 
-            wrapper.classList.remove("edit-mode"); 
-            btn.innerHTML = "🔧 จัดวาง"; btn.style.background = "linear-gradient(45deg, #FF9F43, #FF6B6B)"; 
-            addBtn.style.display = "none";
-            savePositions(); 
-        }
-    }
+    
     
     function savePositions() {
         const d = boards[currentBoardIdx].design;
@@ -1689,58 +2161,62 @@ function renderGrid() {
     }
 
     function uploadCustomBg(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        
-        const btnLabel = document.querySelector('label[for="customBgUpload"]');
-        const oldText = btnLabel.innerHTML;
-        btnLabel.innerHTML = "⏳ กำลังประมวลผล...";
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    const btnLabel = document.querySelector('label[for="customBgUpload"]');
+    const oldText = btnLabel.innerHTML;
+    btnLabel.innerHTML = "⏳ กำลังประมวลผล...";
 
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // 🟢 [ส่วนที่แก้ไข] ลดขนาดภาพพื้นหลังลง เพื่อประหยัดพื้นที่ความจำ
+            const MAX_WIDTH = 800;  // เดิม 1200
+            const MAX_HEIGHT = 1000; // เดิม 1600
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+                if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+            } else {
+                if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            try {
+                // 🟢 [ส่วนที่แก้ไข] ลดคุณภาพลงเหลือ 0.5 (50%) ภาพพื้นหลังไม่จำเป็นต้องชัดเป๊ะก็สวยได้ครับ
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.5); 
                 
-                const MAX_WIDTH = 1200;
-                const MAX_HEIGHT = 1600;
-                let width = img.width;
-                let height = img.height;
-
-                if (width > height) {
-                    if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                } else {
-                    if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                }
-
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(img, 0, 0, width, height);
-                
-                try {
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-                    boards[currentBoardIdx].design.bgImage = dataUrl;
-                    saveAll(); 
-                    renderBoardUI();
-                    btnLabel.innerHTML = "✅ อัพโหลดสำเร็จ!";
-                    setTimeout(() => btnLabel.innerHTML = oldText, 2000);
-                } catch(err) {
-                    alert("รูปภาพอาจมีขนาดใหญ่เกินไป ทำให้ไม่สามารถบันทึกได้");
-                    btnLabel.innerHTML = oldText;
-                }
-            };
-            img.src = e.target.result;
+                boards[currentBoardIdx].design.bgImage = dataUrl;
+                saveAll(); 
+                renderBoardUI();
+                btnLabel.innerHTML = "✅ อัพโหลดสำเร็จ!";
+                setTimeout(() => btnLabel.innerHTML = oldText, 2000);
+            } catch(err) {
+                // 🟢 [ส่วนที่แก้ไข] แจ้งเตือนให้ชัดเจนขึ้นเมื่อความจำเต็มจริงๆ
+                alert("❌ ขนาดภาพใหญ่เกินไป หรือความจำระบบเต็ม!\nกรุณาล้างรูปสลิปแผงเก่าๆ ทิ้งก่อนครับ");
+                btnLabel.innerHTML = oldText;
+            }
         };
-        reader.readAsDataURL(file);
-    }
+        img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+}
 
-    function changeBgSize() {
-        const size = document.getElementById("ed-bg-size").value;
-        boards[currentBoardIdx].design.bgSize = size;
-        saveAll();
-        renderBoardUI();
-    }
+function changeBgSize() {
+    const size = document.getElementById("ed-bg-size").value;
+    boards[currentBoardIdx].design.bgSize = size;
+    saveAll();
+    renderBoardUI();
+}
 
     function openBgSelector() {
         document.getElementById("ed-bg-size").value = boards[currentBoardIdx].design.bgSize || "100% 100%";
@@ -1932,22 +2408,30 @@ function renderGrid() {
     // เปิดหน้าต่างข้อมูลผู้ขาย
 function openSellerInfoModal() {
     const board = boards[currentBoardIdx];
-    // ถ้ายังไม่มีชุดข้อมูลนี้ ให้สร้างค่าเริ่มต้น
+
+    // ถ้ายังไม่มี ให้สร้างค่าเริ่มต้น
     if (!board.sellerInfo) {
-        board.sellerInfo = { text: "", color: "#333333", image: "" };
+        board.sellerInfo = { text: "", color: "#333333", hasImage: false };
     }
-    
+
     const info = board.sellerInfo;
+
+    // ===== ข้อความ =====
     const txtArea = document.getElementById("sellerText");
     txtArea.value = info.text || "";
     txtArea.style.color = info.color || "#333333";
+
     document.getElementById("sellerTextColor").value = info.color || "#333333";
-    
+
+    // ===== รูป =====
     const preview = document.getElementById("sellerImgPreview");
     const removeBtn = document.getElementById("btnRemoveSellerImg");
-    
-    if (info.image) {
-        preview.src = info.image;
+
+    // ⭐ ดึงรูปจาก localStorage แทน
+    const imgData = localStorage.getItem("seller_image_" + currentBoardIdx);
+
+    if (imgData) {
+        preview.src = imgData;
         preview.style.display = "block";
         removeBtn.style.display = "block";
     } else {
@@ -1955,30 +2439,156 @@ function openSellerInfoModal() {
         preview.style.display = "none";
         removeBtn.style.display = "none";
     }
-    
-    document.getElementById("sellerImgUpload").value = ""; 
+
+    // เคลียร์ input file (ปกติ)
+    document.getElementById("sellerImgUpload").value = "";
+
+    // เปิด modal
     document.getElementById("sellerModal").style.display = "flex";
 }
 
+// ===============================
 // ปิดหน้าต่าง
+// ===============================
 function closeSellerInfoModal() {
     document.getElementById("sellerModal").style.display = "none";
 }
 
-// ฟังก์ชันแปลงรูปที่อัพโหลดขึ้นมาแสดงพรีวิว
+// ===============================
+// อัปโหลด + บีบรูป
+// ===============================
 document.getElementById("sellerImgUpload").addEventListener("change", function(e) {
     const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+        const img = new Image();
+
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // ⭐ ลดขนาดให้เล็กลง (ช่วยไม่ให้เต็ม)
+            const MAX_WIDTH = 300;
+            const MAX_HEIGHT = 300;
+
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }
+            } else {
+                if (height > MAX_HEIGHT) {
+                    width *= MAX_HEIGHT / height;
+                    height = MAX_HEIGHT;
+                }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // ⭐ บีบคุณภาพ (ลดลงอีกกันเต็ม)
+            const compressed = canvas.toDataURL('image/jpeg', 0.5);
+
             const preview = document.getElementById("sellerImgPreview");
-            preview.src = event.target.result;
+            preview.src = compressed;
             preview.style.display = "block";
+
             document.getElementById("btnRemoveSellerImg").style.display = "block";
         };
-        reader.readAsDataURL(file);
-    }
+
+        img.src = event.target.result;
+    };
+
+    reader.readAsDataURL(file);
 });
+
+// ===============================
+// ลบรูป
+// ===============================
+function removeSellerImg() {
+    const preview = document.getElementById("sellerImgPreview");
+
+    preview.src = "";
+    preview.style.display = "none";
+
+    document.getElementById("btnRemoveSellerImg").style.display = "none";
+    document.getElementById("sellerImgUpload").value = "";
+
+    // ⭐ ลบออกจาก localStorage ด้วย (สำคัญ)
+    localStorage.removeItem("seller_image_" + currentBoardIdx);
+
+    // อัปเดตสถานะ
+    if (boards[currentBoardIdx].sellerInfo) {
+        boards[currentBoardIdx].sellerInfo.hasImage = false;
+    }
+
+    localStorage.setItem("boards", JSON.stringify(boards));
+}
+
+// ===============================
+// บันทึกข้อมูล
+// ===============================
+function saveSellerInfo() {
+    const board = boards[currentBoardIdx];
+    if (!board.sellerInfo) board.sellerInfo = {};
+    
+    // ข้อความ + สี
+    board.sellerInfo.text = document.getElementById("sellerText").value;
+    board.sellerInfo.color = document.getElementById("sellerTextColor").value;
+
+    const previewSrc = document.getElementById("sellerImgPreview").src;
+
+    if (previewSrc && previewSrc.startsWith("data:image")) {
+        try {
+            // ⭐ เช็คขนาด (กันมือถือพัง)
+            const sizeKB = Math.round((previewSrc.length * 3) / 4 / 1024);
+
+            if (sizeKB > 300) {
+                alert("รูปใหญ่เกินไป (" + sizeKB + "KB)\nกรุณาเลือกรูปเล็กลง");
+                return;
+            }
+
+            // ⭐ เก็บรูปแยก
+            localStorage.setItem("seller_image_" + currentBoardIdx, previewSrc);
+
+            board.sellerInfo.hasImage = true;
+
+        } catch (e) {
+            alert("บันทึกรูปไม่สำเร็จ (ข้อมูลอาจเต็ม)");
+            console.error(e);
+            return;
+        }
+    } else {
+        localStorage.removeItem("seller_image_" + currentBoardIdx);
+        board.sellerInfo.hasImage = false;
+    }
+
+    // ⭐ เซฟ boards (ไม่มีรูป → เบา)
+    try {
+        localStorage.setItem("boards", JSON.stringify(boards));
+    } catch (e) {
+        alert("บันทึกไม่สำเร็จ (ข้อมูลใหญ่เกินไป)");
+        console.error(e);
+        return;
+    }
+
+    // ใช้ระบบเดิม
+    if (typeof saveGameSettings === "function") {
+        saveGameSettings();
+    }
+
+    closeSellerInfoModal();
+
+    console.log("บันทึกสำเร็จ");
+}
 
 // กดลบรูปทิ้ง
 function removeSellerImg() {
@@ -1988,23 +2598,33 @@ function removeSellerImg() {
     document.getElementById("sellerImgUpload").value = "";
 }
 
-// ฟังก์ชันบันทึกข้อมูล (จะถูกดึงไปเก็บรวมกับการเซฟแผง)
 function saveSellerInfo() {
     const board = boards[currentBoardIdx];
     if (!board.sellerInfo) board.sellerInfo = {};
     
+    // ข้อความ + สี
     board.sellerInfo.text = document.getElementById("sellerText").value;
     board.sellerInfo.color = document.getElementById("sellerTextColor").value;
-    
+
     const previewSrc = document.getElementById("sellerImgPreview").src;
+
     if (previewSrc && previewSrc.startsWith("data:image")) {
-        board.sellerInfo.image = previewSrc;
+        // ⭐ แยกเก็บรูป (ไม่เก็บใน boards แล้ว)
+        localStorage.setItem("seller_image_" + currentBoardIdx, previewSrc);
+
+        board.sellerInfo.hasImage = true;
     } else {
-        board.sellerInfo.image = "";
+        localStorage.removeItem("seller_image_" + currentBoardIdx);
+        board.sellerInfo.hasImage = false;
     }
-    
-    saveGameSettings(); // บันทึกข้อมูลลงในระบบ (ใช้ฟังก์ชันเดิมที่มีอยู่)
+
+    // ⭐ เซฟ boards (ไม่มีรูปแล้ว → ไม่เต็ม)
+    localStorage.setItem("boards", JSON.stringify(boards));
+
+    saveGameSettings();
     closeSellerInfoModal();
+
+    console.log("บันทึกสำเร็จ");
 }
 // =========================================================
 // เริ่มต้น JavaScript: ระบบ Card Slider สรุปลูกค้า
@@ -2043,12 +2663,14 @@ function openCardSlider() {
         if (bookingInfo && bookingInfo.name && bookingInfo.name.trim() !== "") {
             let name = bookingInfo.name;
             
+            // --- เพิ่ม url: '' เข้าไปในโครงสร้างเริ่มต้น ---
             if (!customersData[name]) {
                 customersData[name] = {
                     name: name,
                     numbers: [],
                     image: bookingInfo.image || '', 
-                    totalPrice: 0
+                    totalPrice: 0,
+                    url: '' // เพิ่มบรรทัดนี้เพื่อเตรียมเก็บที่อยู่ URL
                 };
             }
             
@@ -2066,6 +2688,11 @@ function openCardSlider() {
             
             if (bookingInfo.image) {
                 customersData[name].image = bookingInfo.image;
+            }
+
+            // --- เพิ่มเงื่อนไขดึงข้อมูล URL ของลูกค้ามาเก็บไว้ ---
+            if (bookingInfo.url && bookingInfo.url.trim() !== "") {
+                customersData[name].url = bookingInfo.url;
             }
         }
     }
@@ -2111,13 +2738,38 @@ function renderSlider() {
             ? `<img src="${cust.image}" class="customer-img">` 
             : `<div class="customer-img" style="display:flex; justify-content:center; align-items:center; font-size:3rem; color:#ccc;">👤</div>`;
             
+        // --- 🟢 ปรับโค้ดส่วนนี้: สร้างปุ่ม URL แบบวางซ้อน (Absolute) บนรูป ---
+        const urlLinkBtn = cust.url && cust.url.trim() !== "" 
+            ? `<a href="${cust.url}" target="_blank" style="
+                position: absolute; 
+                top: 5px; 
+                right: 1px; 
+                background: #ff4757; 
+                color: white; 
+                padding: 4px 10px; 
+                border-radius: 20px; 
+                text-decoration: none; 
+                font-size: 0.8rem; 
+                font-weight: bold; 
+                box-shadow: 0 2px 5px rgba(0,0,0,0.3); 
+                z-index: 5;
+                transition: transform 0.2s;
+            " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">📍 โหลดที่อยู่ </a>` 
+            : '';
+        // --------------------------------------------------
+
         // วนลูปเบอร์ที่ซื้อมาทำเป็นป้ายสวยๆ
         const numbersHtml = cust.numbers.map(n => `<span class="number-badge">${n}</span>`).join(" ");
 
+        // --- 🟢 ปรับโครงสร้าง HTML เพื่อให้ปุ่ม URL ซ้อนบนรูป ---
+        // 1. หุ้มส่วนรูปและปุ่มด้วย <div> ที่มี style="position:relative;"
+        // 2. ลบปุ่ม URL ออกจากส่วนชื่อ (ให้เหลือแค่ ${cust.name})
         card.innerHTML = `
-            ${imgDisplay}
-            <div class="customer-name">${cust.name}</div>
-            <div class="customer-numbers">
+            <div style="position: relative; display: inline-block; width: 100%; text-align: center;">
+                ${imgDisplay}
+                ${urlLinkBtn}  </div>
+            
+            <div class="customer-name">${cust.name}</div> <div class="customer-numbers">
                 <div style="font-size:0.8rem; color:#666; margin-bottom:5px;">เบอร์ที่ซื้อ:</div>
                 ${numbersHtml}
             </div>
@@ -2138,7 +2790,6 @@ function renderSlider() {
 function renderSellerInfo(board) {
     const sellerContainer = document.getElementById("sellerSectionDisplay");
     
-    // ดึงข้อมูลผู้ขาย
     let sellerImage = "";
     let sellerName = "ไม่ระบุชื่อผู้ขาย";
     let sellerColor = "#333";
@@ -2147,6 +2798,20 @@ function renderSellerInfo(board) {
         sellerImage = board.sellerInfo.image || "";
         sellerName = board.sellerInfo.text || "ไม่ระบุชื่อผู้ขาย";
         sellerColor = board.sellerInfo.color || "#333";
+    }
+
+    // ⭐ เพิ่มตรงนี้ (สำคัญมาก)
+    if (!sellerImage) {
+        const oldImg = localStorage.getItem("seller_image_" + currentBoardIdx);
+        if (oldImg) {
+            sellerImage = oldImg;
+
+            // 🔁 ย้ายเข้า board อัตโนมัติ
+            if (!board.sellerInfo) board.sellerInfo = {};
+            board.sellerInfo.image = oldImg;
+
+            saveBoards();
+        }
     }
 
     const imgDisplay = sellerImage 
@@ -2566,6 +3231,318 @@ function copyToken() {
         });
     }
 }
+// ฟังก์ชันสำหรับ "สำรองข้อมูล" (Export)
+function exportBackupData() {
+    // 1. ดึงข้อมูลทั้งหมดที่มีใน LocalStorage
+    let dataToBackup = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        dataToBackup[key] = localStorage.getItem(key);
+    }
+
+    // ตรวจสอบว่ามีข้อมูลหรือไม่
+    if(Object.keys(dataToBackup).length === 0) {
+        alert("ยังไม่มีข้อมูลให้สำรองครับ!");
+        return;
+    }
+
+    // 2. แปลงข้อมูลเป็นรูปแบบ JSON String
+    let dataStr = JSON.stringify(dataToBackup);
+    let dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
+    // 3. สร้างชื่อไฟล์อัตโนมัติ (ใส่วันที่)
+    let date = new Date();
+    let dateString = date.toISOString().split('T')[0]; // ได้ฟอร์แมต YYYY-MM-DD
+    let fileName = 'Lotto_Backup_' + dateString + '.json';
+
+    // 4. สั่งให้เว็บบราวเซอร์ดาวน์โหลดไฟล์
+    let linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', fileName);
+    document.body.appendChild(linkElement);
+    linkElement.click();
+    document.body.removeChild(linkElement);
+}
+
+// ฟังก์ชันสำหรับ "กู้คืนข้อมูล" (Import)
+function importBackupData(event) {
+    let file = event.target.files[0];
+    if (!file) return;
+
+    let reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            // 1. อ่านไฟล์ JSON ที่อัปโหลดเข้ามา
+            let importedData = JSON.parse(e.target.result);
+            
+            // 2. ถามเพื่อความแน่ใจก่อนเขียนทับข้อมูลเดิม
+            if(confirm("⚠️ คำเตือน: การกู้คืนจะ 'ลบข้อมูลปัจจุบัน' และแทนที่ด้วยข้อมูลจากไฟล์นี้\n\nคุณแน่ใจหรือไม่ที่จะดำเนินการต่อ?")) {
+                
+                // ล้างข้อมูลเก่าออกก่อน (ถ้าต้องการให้คลีนจริงๆ)
+                // localStorage.clear(); 
+
+                // 3. นำข้อมูลจากไฟล์ไปเซฟลง LocalStorage ใหม่
+                for (let key in importedData) {
+                    localStorage.setItem(key, importedData[key]);
+                }
+                
+                alert("✅ กู้คืนข้อมูลสำเร็จ! ระบบกำลังรีเฟรชหน้าเว็บ...");
+                
+                // 4. รีเฟรชหน้าเว็บเพื่อให้ดึงข้อมูลใหม่มาแสดง
+                location.reload(); 
+            }
+        } catch (error) {
+            alert("❌ ไฟล์ไม่ถูกต้อง หรือ ข้อมูลเสียหาย!");
+        }
+        
+        // ล้างค่า input เพื่อให้สามารถกดเลือกไฟล์เดิมซ้ำได้ในอนาคต
+        document.getElementById('importBackupFile').value = '';
+    };
+    
+    // สั่งให้อ่านไฟล์เป็นข้อความ
+    reader.readAsText(file);
+}
+// ฟังก์ชันเปิด Pop-up
+function openBackupModal() {
+    document.getElementById("backupModal").style.display = "flex";
+}
+
+// ฟังก์ชันปิด Pop-up
+function closeBackupModal() {
+    document.getElementById("backupModal").style.display = "none";
+}
+
+// ถ้าผู้ใช้คลิกพื้นที่สีดำรอบนอก ให้ปิดป็อบอัพ
+window.onclick = function(event) {
+    var modal = document.getElementById("backupModal");
+    if (event.target == modal) {
+        closeBackupModal();
+    }
+}
+// ==========================================
+// ระบบคัดลอกและวางแผง (Copy & Paste Board)
+// ==========================================
+
+// ==========================================
+// ระบบคัดลอกและวางแผง (แก้ไขให้รองรับการเปิดไฟล์ในเครื่อง file://)
+// ==========================================
+
+// ==========================================
+// ระบบคัดลอกและวาง (อัปเดต: ป้องกัน Token หลุด/เด้งออก)
+// ==========================================
+// ฟังก์ชัน "คัดลอกแผง" (เฉพาะการตกแต่ง จัดวาง และผู้รับเงิน)
+async function copyBoardData() {
+    let currentBoard = boards[currentBoardIdx];
+    
+    // คัดลอกเฉพาะการตกแต่ง (ไม่เอาข้อมูลลูกค้า)
+    let dataToCopy = {
+        design: currentBoard.design ? JSON.parse(JSON.stringify(currentBoard.design)) : {},
+        settings: currentBoard.settings ? JSON.parse(JSON.stringify(currentBoard.settings)) : {},
+        customBoxes: currentBoard.customBoxes ? JSON.parse(JSON.stringify(currentBoard.customBoxes)) : [],
+        sellerInfo: currentBoard.sellerInfo ? JSON.parse(JSON.stringify(currentBoard.sellerInfo)) : {}
+    };
+
+    let copyString = JSON.stringify(dataToCopy);
+
+    try {
+        // สั่งให้คัดลอกลงระบบของมือถือ/คอมพิวเตอร์
+        await navigator.clipboard.writeText(copyString);
+        alert("✅ คัดลอกรูปแบบแผงและการตั้งค่าเรียบร้อยแล้ว!\n(นำไปวางในแผงอื่นได้เลย)");
+    } catch (err) {
+        // 💡 แก้ปัญหา: ถ้ามือถือบล็อกการก๊อปปี้อัตโนมัติ จะมีกล่องขึ้นมาให้ก๊อปปี้เอง
+        prompt("⚠️ มือถือไม่สามารถคัดลอกอัตโนมัติได้\nกรุณากดคัดลอก (Copy) โค้ดด้านล่างนี้ด้วยตัวเอง:", copyString);
+    }
+}
+
+// ฟังก์ชัน "วางแผง" (เฉพาะการตกแต่ง)
+async function pasteBoardData() {
+    // 💡 แก้ปัญหา: บังคับให้ขึ้น "กล่องข้อความ" เสมอ เพื่อให้ใช้ในมือถือได้ 100%
+    let copiedStr = prompt("📥 กรุณาวาง (Paste) โค้ดรูปแบบแผงที่คัดลอกมา ลงในช่องด้านล่างนี้:");
+    
+    // ถ้าผู้ใช้กดยกเลิก หรือไม่ได้วางอะไร ให้หยุดการทำงาน
+    if (!copiedStr || copiedStr.trim() === "") {
+        return; 
+    }
+
+    try {
+        let parsedData = JSON.parse(copiedStr);
+        let currentBoard = boards[currentBoardIdx];
+
+        // นำเฉพาะส่วนตกแต่งและการตั้งค่ามาเขียนทับแผงปัจจุบัน (ไม่ทับข้อมูลลูกค้า)
+        if (parsedData.design) currentBoard.design = parsedData.design;
+        if (parsedData.settings) currentBoard.settings = parsedData.settings;
+        if (parsedData.customBoxes) currentBoard.customBoxes = parsedData.customBoxes;
+        if (parsedData.sellerInfo) currentBoard.sellerInfo = parsedData.sellerInfo;
+
+        // บันทึกและรีเฟรชหน้าจอ
+        if (typeof saveAll === "function") saveAll();
+        if (typeof renderBoardUI === "function") renderBoardUI();
+        if (typeof renderGrid === "function") renderGrid();
+        if (typeof renderCustomBoxes === "function") renderCustomBoxes();
+        
+        alert("✅ วางรูปแบบการตกแต่งแผงสำเร็จ!");
+    } catch (error) {
+        alert("❌ ข้อมูลที่วางไม่ถูกต้อง หรือคัดลอกมาไม่ครบ กรุณาลองใหม่!");
+    }
+}
+// ==========================================
+// ระบบการแจ้งเตือน & เชื่อม Google Sheets
+// ==========================================
+
+// 1. นำ URL ของ Web App จาก Google Apps Script มาวางที่นี่
+const NOTIFY_SHEET_URL = "วาง_URL_WEB_APP_ที่ได้จาก_GOOGLE_SHEET_ตรงนี้"; 
+
+function toggleNotifModal() {
+    document.getElementById('notifModal').style.display = 'flex';
+    // ซ่อนตัวเลขสีแดงเมื่อกดเปิดอ่าน
+    document.getElementById('notifBadge').style.display = 'none';
+}
+
+
+async function fetchNotifications() {
+    if(!NOTIFY_SHEET_URL || NOTIFY_SHEET_URL.includes("วาง_URL")) return;
+    
+    try {
+        let response = await fetch(NOTIFY_SHEET_URL);
+        let data = await response.json();
+        
+        let adminHtml = '';
+        let privateHtml = '';
+        let notifCount = 0;
+        
+        // ตรงนี้ให้กำหนดชื่อของผู้ใช้แอปนี้ เพื่อดึงเฉพาะข้อความของคนนี้ (เช่น "User1")
+        // หากมีระบบล็อกอิน สามารถเปลี่ยนเป็นตัวแปรชื่อผู้ใช้ได้
+        let currentUser = "User1"; 
+
+        data.forEach(msg => {
+            if(msg.type === 'admin') {
+                adminHtml += `<div style="padding:10px; background:#e3f2fd; border-radius:8px; margin-bottom:8px; border-left:4px solid #4D96FF; font-size:0.9rem;">
+                    <div style="font-size: 0.75rem; color: #888; margin-bottom: 3px;">${msg.date}</div>
+                    <b>[ประกาศ]</b> ${msg.text}
+                </div>`;
+                notifCount++;
+            } else if (msg.type === 'private' && msg.target === currentUser) {
+                privateHtml += `<div style="padding:10px; background:#fff0f0; border-radius:8px; margin-bottom:8px; border-left:4px solid #ff4757; font-size:0.9rem;">
+                    <div style="font-size: 0.75rem; color: #888; margin-bottom: 3px;">${msg.date}</div>
+                    <b>[ส่วนตัว]</b> ${msg.text}
+                </div>`;
+                notifCount++;
+            }
+        });
+
+        document.getElementById('notif-admin-content').innerHTML = adminHtml || `<div style="text-align:center; color:#999; padding: 20px;">ไม่มีประกาศจากแอดมิน</div>`;
+        document.getElementById('notif-private-content').innerHTML = privateHtml || `<div style="text-align:center; color:#999; padding: 20px;">ไม่มีข้อความส่วนตัว</div>`;
+        
+        // อัปเดตตัวเลขแจ้งเตือนที่กระดิ่ง
+        if(notifCount > 0) {
+            let badge = document.getElementById('notifBadge');
+            badge.innerText = notifCount;
+            badge.style.display = 'block';
+        }
+    } catch (error) {
+        console.error("ดึงข้อมูลแจ้งเตือนไม่สำเร็จ:", error);
+    }
+}
+
+// สั่งให้ดึงข้อมูลอัตโนมัติเมื่อเปิดหน้าเว็บ
+window.addEventListener('DOMContentLoaded', () => {
+    fetchNotifications();
+    // ดึงข้อมูลใหม่ทุกๆ 1 นาที (60000 มิลลิวินาที)
+    setInterval(fetchNotifications, 60000); 
+});
+function toggleEditMode() {
+    // 1. สลับสถานะโหมดแก้ไข
+    isEditMode = !isEditMode;
+    
+    // 2. อ้างอิง Element ต่างๆ
+    const wrapper = document.getElementById("gameWrapper"); // เช็คว่า id ตรงกับที่ครอบแผงหรือไม่
+    const btn = document.getElementById("btnToggleEdit");
+    const addBtn = document.querySelector(".add-box-btn");
+    
+    if (isEditMode) { 
+        // --- เมื่ออยู่ในโหมด: จัดวาง (ปุ่มกลายเป็นสีเขียว บันทึก) ---
+        if(wrapper) wrapper.classList.add("edit-mode"); 
+        
+        btn.innerHTML = "💾 บันทึก"; 
+        
+        // ใช้ .style เพื่อบังคับเปลี่ยนสี (ชนะ CSS !important)
+        btn.style.setProperty('background', 'linear-gradient(180deg, #2ed573 0%, #26af5a 100%)', 'important');
+        btn.style.setProperty('border', 'none', 'important');
+        btn.style.setProperty('box-shadow', '0 4px 0 #1e8449, 0 6px 20px rgba(46, 213, 115, 0.4)', 'important');
+        btn.style.color = "#ffffff";
+        
+        if(addBtn) addBtn.style.display = "block";
+
+    } else { 
+        // --- เมื่อกด: บันทึก (กลับเป็นสีมืดปกติ) ---
+        if(wrapper) wrapper.classList.remove("edit-mode"); 
+        
+        btn.innerHTML = "🔧 จัดวาง"; 
+        
+        // คืนค่าสีเดิมตามสไตล์ btn-dark ของคุณ
+        btn.style.setProperty('background', 'rgba(47, 53, 66, 0.8)', 'important');
+        btn.style.setProperty('border', '1px solid #FF9F43', 'important');
+        btn.style.setProperty('box-shadow', 'none', 'important');
+        btn.style.color = "#ced4da";
+        
+        if(addBtn) addBtn.style.display = "none";
+        
+        // เรียกฟังก์ชันบันทึกข้อมูล (ถ้ามี)
+        if (typeof savePositions === "function") {
+            savePositions(); 
+        }
+    }
+}
+function moveToken() {
+    // 1. ดึงรหัส Token จากหน้าจอ
+    let tokenDisplay = document.getElementById('tokenDisplay');
+    if (!tokenDisplay) {
+        alert("ไม่พบข้อมูล Token");
+        return;
+    }
+    
+    let fullText = tokenDisplay.innerText;
+    let tokenOnly = fullText.replace("Token: ", "").trim();
+
+    if (!tokenOnly || tokenOnly === "-" || tokenOnly === "") {
+        alert("ไม่พบรหัสโทเคนในระบบ");
+        return;
+    }
+
+    // 2. แสดงการแจ้งเตือนยืนยัน
+    let confirmMove = confirm("⚠️ คำเตือน: การย้าย token จะทำให้งานและการตั้งค่าทั้งหมดหายไป!\nคุณยืนยันที่จะดำเนินการต่อหรือไม่?");
+    
+    if (confirmMove) {
+        // ลิงก์ Google Apps Script ที่คุณให้มา
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbySpsXsxSK0dCrMU1m7LbRi9huNREww03gRPZtwczL6sUue4iQ9_6Cte8XeSvdpRRGg/exec"; 
+        
+        // 3. ส่งข้อมูลไปยัง Apps Script
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // ใช้ no-cors เพื่อป้องกันปัญหา Cross-Origin
+            body: JSON.stringify({
+                action: 'moveToken',
+                token: tokenOnly,
+                message: "ย้าย token"
+            })
+        })
+        .then(() => {
+            // เนื่องจากใช้ no-cors จะไม่สามารถอ่าน response ได้ แต่คำสั่งจะถูกส่งไปทำงานที่ฝั่ง Sheet แล้ว
+            alert("✅ ส่งคำขอย้าย Token เรียบร้อยแล้ว ระบบจะนำท่านออกจากระบบ");
+            
+            // 4. ลบข้อมูลในเครื่อง (ออกจากระบบ)
+            localStorage.removeItem("saved_lotto_token"); 
+            localStorage.removeItem("trial_days_left");
+            
+            // 5. โหลดหน้าเว็บใหม่เพื่อกลับไปหน้าใส่โทเคน
+            location.reload(); 
+        })
+        .catch(err => {
+            alert("❌ เกิดข้อผิดพลาดในการส่งข้อมูล");
+            console.error(err);
+        });
+    }
+}
 </script>
 <div id="cardSliderOverlay" class="card-slider-overlay">
     <div class="card-slider-container">
@@ -2638,8 +3615,151 @@ function copyToken() {
                 </div>
             </div>
         </div>
+    <div class="modal-overlay" id="notifModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 4500; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
+    <div class="modal-box" style="background: white; width: 90%; max-width: 400px; border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+        <h3 style="margin-top: 0; font-family: 'Kanit'; color: #333;">🔔 การแจ้งเตือน</h3>
+        <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+            <button id="tab-admin" style="flex: 1; padding: 12px; border-radius: 12px; border: none; background: #2f7eee; color: rgb(0, 0, 0); font-weight: bold; cursor: pointer; font-family: 'Kanit'; position: relative;" onclick="switchNotifTab('admin')">
+                📢 ประกาศแอดมิน
+                <span id="adminMenuBadge" class="notif-badge-style">0</span>
+            </button>
+            <button id="tab-private" style="flex: 1; padding: 12px; border-radius: 12px; border: none; background: #27fa5c; color: #333; font-weight: bold; cursor: pointer; font-family: 'Kanit';" onclick="switchNotifTab('private')">
+                📩ข้อความส่วนตัว
+            </button>
+        </div>
+        <div id="notif-private-content" style="text-align: center; color: #999; padding: 20px; display: none; font-family: 'Prompt';">ไม่มีข้อความส่วนตัว</div>
+        <button style="margin-top: 10px; width: 100%; padding: 12px; background: #ff4757; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-family: 'Kanit';" onclick="document.getElementById('notifModal').style.display='none'">ปิดหน้าต่าง</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="announceListModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 5000; justify-content: center; align-items: center;">
+    <div class="modal-box" style="background: #fff; padding: 25px; border-radius: 20px; width: 90%; max-width: 450px; max-height: 85vh; overflow-y: auto; position: relative;">
+        <h2 style="margin-top:0; color: #b84cff; font-family: 'Kanit'; text-align: center;">📢 ประกาศจากแอดมิน</h2>
+        <div style="text-align: left; margin-bottom: 15px;">
+            <h3 style="color: #ff4757; border-bottom: 2px solid #ff4757; padding-bottom: 5px; font-size: 1.1rem; font-family: 'Kanit';">🌟 ประกาศใหม่</h3>
+            <div id="newAnnounceList"></div>
+        </div>
+        <div style="text-align: left;">
+            <h3 style="color: #555; border-bottom: 2px solid #ccc; padding-bottom: 5px; font-size: 1.1rem; font-family: 'Kanit';">📜 ประกาศที่ผ่านมา</h3>
+            <div id="oldAnnounceList"></div>
+        </div>
+        <button style="margin-top: 25px; background: #333; color: white; border: none; padding: 12px; border-radius: 12px; cursor: pointer; width: 100%; font-family: 'Kanit';" onclick="document.getElementById('announceListModal').style.display='none'">ปิดหน้าต่าง</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="announceDetailModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 6000; justify-content: center; align-items: center;">
+    <div class="modal-box" style="background: #1a1a1a; padding: 25px; border-radius: 20px; width: 90%; max-width: 500px; max-height: 90vh; overflow-y: auto; text-align: center; border: 1px solid #333;">
+        <h2 id="detailTitle" style="margin-top:0; color: #fff; font-size: 1.4rem; font-family: 'Kanit';">หัวข้อประกาศ</h2>
+        <div id="detailContent" style="text-align: left; font-size: 1.1rem; color: #ccc; margin-bottom: 20px; white-space: pre-line; font-family: 'Prompt';"></div>
+        <div id="detailImages" style="display: flex; flex-direction: column; gap: 15px; align-items: center; width: 100%;"></div>
+        <button style="margin-top: 25px; background: #b84cff; color: white; border: none; padding: 15px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: bold; font-family: 'Kanit';" onclick="document.getElementById('announceDetailModal').style.display='none'">ย้อนกลับ</button>
+    </div>
+</div>
+
+<script>
+const SCRIPT_URL_ANNOUNCE = 'https://script.google.com/macros/s/AKfycbxz6qKBDudsQbjHPyauaPeyG1tmzD0k_uauEazUigyypq0B9edNk6wou-5wiMv1Aa8D_A/exec';
+let announcementsData = [];
+
+function switchNotifTab(tab) {
+    if (tab === 'admin') {
+        document.getElementById('notifModal').style.display = 'none'; // ปิดหน้าต่างเลือกทันที
+        openAnnounceList(); 
+    } else {
+        document.getElementById('tab-private').style.background = '#4D96FF';
+        document.getElementById('tab-private').style.color = 'white';
+        document.getElementById('tab-admin').style.background = '#f1f2f6';
+        document.getElementById('tab-admin').style.color = '#333';
+        document.getElementById('notif-private-content').style.display = 'block';
+    }
+}
+
+async function fetchAnnouncements() {
+    try {
+        const response = await fetch(SCRIPT_URL_ANNOUNCE);
+        const data = await response.json();
+        if (data.error) return;
+        announcementsData = data;
+        renderAnnouncements();
+    } catch (error) { console.error("Error fetching announcements:", error); }
+}
+
+function renderAnnouncements() {
+    const mainBadge = document.getElementById('notifBadge');      // กระดิ่งหน้าหลัก
+    const menuBadge = document.getElementById('adminMenuBadge');  // ปุ่มในเมนู
+    const newContainer = document.getElementById('newAnnounceList');
+    const oldContainer = document.getElementById('oldAnnounceList');
+    
+    if (!newContainer || !oldContainer) return;
+    newContainer.innerHTML = ''; oldContainer.innerHTML = '';
+
+    let readItems = JSON.parse(localStorage.getItem('readAnnouncements')) || [];
+    let unreadCount = 0;
+
+    announcementsData.forEach(item => {
+        let isRead = readItems.includes(item.id);
+        let itemHtml = document.createElement('div');
+        itemHtml.style = `padding:12px; border-bottom:1px solid #eee; cursor:pointer; background:${isRead ? '#fff' : '#fff0f0'}; border-radius:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;`;
         
-    </body>
-</html>
-</body>
-</html>
+        if (item.status === 'new') {
+            itemHtml.innerHTML = `<span style="font-family:'Prompt';">${item.title}</span> ${isRead ? '' : '<span style="color:#ff4757; font-size:10px; font-weight:bold;">🆕 ใหม่</span>'}`;
+            if (!isRead) unreadCount++;
+            newContainer.appendChild(itemHtml);
+        } else {
+            itemHtml.innerHTML = `<span style="color:#777; font-family:'Prompt';">${item.title}</span>`;
+            oldContainer.appendChild(itemHtml);
+        }
+        itemHtml.onclick = () => openDetail(item);
+    });
+
+    // อัปเดต Badge ทั้ง 2 จุด
+    [mainBadge, menuBadge].forEach(b => {
+        if (b) {
+            b.innerText = unreadCount;
+            b.style.display = unreadCount > 0 ? 'flex' : 'none';
+        }
+    });
+}
+
+function openAnnounceList() {
+    document.getElementById('announceListModal').style.display = 'flex';
+}
+
+function openDetail(item) {
+    let readItems = JSON.parse(localStorage.getItem('readAnnouncements')) || [];
+    if (!readItems.includes(item.id)) {
+        readItems.push(item.id);
+        localStorage.setItem('readAnnouncements', JSON.stringify(readItems));
+        renderAnnouncements(); 
+    }
+    document.getElementById('detailTitle').innerText = item.title;
+    document.getElementById('detailContent').innerText = item.detail;
+    
+    const imgDiv = document.getElementById('detailImages');
+    imgDiv.innerHTML = ''; 
+    if (item.images && item.images.length > 0) {
+        item.images.forEach(url => {
+            let img = document.createElement('img');
+            img.src = url;
+            img.style = "max-width:100%; height:auto; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.5); border:1px solid #333;";
+            imgDiv.appendChild(img);
+        });
+    }
+    document.getElementById('announceDetailModal').style.display = 'flex';
+}
+
+window.addEventListener('DOMContentLoaded', fetchAnnouncements);
+</script>
+
+<style>
+.notif-badge-style {
+    position: absolute;
+    top: -5px; right: -5px;
+    background: #ff4757; color: white;
+    font-size: 10px; font-weight: bold;
+    min-width: 18px; height: 18px;
+    border-radius: 50%; display: none;
+    justify-content: center; align-items: center;
+    border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 10; font-family: 'Kanit', sans-serif;
+}
+</style>
